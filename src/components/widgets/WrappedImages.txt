@@ -1,0 +1,324 @@
+import { getFittedHeight } from "../utils/app_utils";
+import { HEIGHT, WIDTH } from "../utils/asset_utils";
+import useWindowSize from "../utils/screensize";
+import ImageOrVideoWidget from "./ImageOrVideoWidget";
+
+export default function WrappedImages({
+  images,
+  onEdit,
+  padding = 40,
+  height,
+  curve = 0,
+}: {
+  images: Array<any>;
+  onEdit?: Function;
+  padding: number;
+  height: number;
+  curve?: number;
+}) {
+  const screenSize = useWindowSize();
+
+  function useVertical() {
+    let child1 = images[0];
+    return child1[WIDTH] > child1[HEIGHT];
+  }
+
+  function screenWidth() {
+    return screenSize.width / 2;
+  }
+  function screenHeight() {
+    return screenSize.height / 2;
+  }
+
+  function BuildChildren() {
+    let child1 = images[0];
+    let size = images.length;
+    let sw = screenWidth() - padding;
+    let sh = height ?? screenHeight() / 2.5;
+
+    if (size == 1) {
+      var w = child1[WIDTH] ?? screenWidth();
+      var h = child1[HEIGHT] ?? screenHeight() / 2.5;
+      let width = Number(w);
+      let height = Number(h);
+      let h1 = getFittedHeight(screenSize, width, height, { padding: padding });
+      if (height != null) {
+        h1 = Math.min(h1, height!);
+      }
+      return (
+        <div
+          style={{
+            width: width,
+            height: h1,
+          }}
+        >
+          {" "}
+          {
+            <ImageOrVideoWidget images={images} index={0} fit={"contain"} />
+          }{" "}
+        </div>
+      );
+    }
+
+    if (size == 2) {
+      if (useVertical()) {
+        return (
+          <div
+            style={{
+              height: sh,
+              width: sw,
+            }}
+          >
+            {" "}
+            {
+              <div className="w-full h-full flex flex-col">
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={0} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={1} />
+                </div>
+              </div>
+            }{" "}
+          </div>
+        );
+      }
+      return (
+        <div
+          style={{
+            width: sw,
+            height: sh,
+          }}
+        >
+          {" "}
+          {
+            <div className="w-full h-full flex flex-row gap-[2px]">
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={0} />
+              </div>
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={1} />
+              </div>
+            </div>
+          }{" "}
+        </div>
+      );
+    }
+
+    if (size == 3) {
+      if (useVertical()) {
+        return (
+          <div
+            className=""
+            style={{
+              width: sw,
+              height: sh,
+            }}
+          >
+            {" "}
+            {
+              <div className="w-full h-full flex-col gap-2">
+                <div
+                  className="w-full"
+                  style={{
+                    height: sh / 2,
+                  }}
+                >
+                  <ImageOrVideoWidget images={images} index={0} />
+                </div>
+                <div className="w-full h-full flex-1 flex flex-row gap-[2px]">
+                  <div className="w-full h-full flex-1">
+                    <ImageOrVideoWidget images={images} index={1} />
+                  </div>
+                  <div className="w-full h-full flex-1">
+                    <ImageOrVideoWidget images={images} index={2} />
+                  </div>
+                </div>
+              </div>
+            }{" "}
+          </div>
+        );
+      }
+
+      return (
+        <div
+          className=""
+          style={{
+            width: sw,
+            height: sh,
+          }}
+        >
+          {" "}
+          {
+            <div className="w-full h-full flex-row">
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={0} />
+              </div>
+              <div className="w-full h-full flex-1 flex flex-col gap-[2px]">
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={1} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={2} />
+                </div>
+              </div>
+            </div>
+          }{" "}
+        </div>
+      );
+    }
+
+    if (size == 4) {
+      if (useVertical()) {
+        return (
+          <div
+            className=""
+            style={{
+              width: sw,
+              height: sh,
+            }}
+          >
+            {" "}
+            {
+              <div className="w-full h-full flex-col">
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={0} />
+                </div>
+                <div className="w-full h-full flex-1 flex flex-row gap-[2px]">
+                  <div className="w-full h-full flex-1">
+                    <ImageOrVideoWidget images={images} index={1} />
+                  </div>
+                  <div className="w-full h-full flex-1">
+                    <ImageOrVideoWidget images={images} index={2} />
+                  </div>
+                  <div className="w-full h-full flex-1">
+                    <ImageOrVideoWidget images={images} index={3} />
+                  </div>
+                </div>
+              </div>
+            }{" "}
+          </div>
+        );
+      }
+
+      return (
+        <div
+          className=""
+          style={{
+            width: sw,
+            height: sh,
+          }}
+        >
+          {" "}
+          {
+            <div className="w-full h-full flex-row">
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={0} />
+              </div>
+              <div className="w-full h-full flex-1 flex flex-col gap-[2px]">
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={1} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={2} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={3} />
+                </div>
+              </div>
+            </div>
+          }{" "}
+        </div>
+      );
+    }
+
+    // if(size==5){
+
+    if (useVertical()) {
+      return (
+        <div
+          className=""
+          style={{
+            width: sw,
+            height: sh,
+          }}
+        >
+          {" "}
+          {
+            <div className="w-full h-full flex-col">
+              <div className="w-full h-full flex-1 flex flex-row gap-[2px]">
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={0} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={1} />
+                </div>
+              </div>
+              <div className="w-full h-full flex-1 flex flex-row gap-[2px]">
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={2} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={4} />
+                </div>
+                <div className="w-full h-full flex-1">
+                  <ImageOrVideoWidget images={images} index={4} />
+                </div>
+              </div>
+            </div>
+          }{" "}
+        </div>
+      );
+    }
+
+    return (
+      <div
+        className=""
+        style={{
+          width: sw,
+          height: sh,
+        }}
+      >
+        {" "}
+        {
+          <div className="w-full h-full flex-row">
+            <div className="w-full h-full flex-1 flex flex-col gap-[2px]">
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={0} />
+              </div>
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={1} />
+              </div>
+            </div>
+            <div className="w-full h-full flex-1 flex flex-col gap-[2px]">
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={2} />
+              </div>
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={4} />
+              </div>
+              <div className="w-full h-full flex-1">
+                <ImageOrVideoWidget images={images} index={4} />
+              </div>
+            </div>
+          </div>
+        }{" "}
+      </div>
+    );
+  }
+
+  function Page() {
+    return (
+      <div
+        className="w-full overflow-cli"
+        style={{
+          borderRadius: curve,
+        }}
+      >
+        <BuildChildren />
+      </div>
+    );
+  }
+
+  return <Page />;
+}

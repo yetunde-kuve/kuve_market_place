@@ -1,0 +1,253 @@
+import { useEffect, useState } from "react";
+import { GetIcon, delay } from "@/components/utils/app_utils";
+// @ts-ignore
+import { useUtils } from "@/context/UtilsContext";
+import { LoadingWidget, YMargin } from "@/components/utils/widget_utils";
+import useWindowSize from "@/components/utils/screensize";
+import InputField from "./InputField";
+import { states_data } from "../utils/asset_utils";
+
+export default function SelectState({
+  canSelectAll = false,
+  onDismiss,
+}: {
+  canSelectAll?: boolean;
+  onDismiss: Function;
+}) {
+  const { showPopup } = useUtils();
+
+  const size = useWindowSize();
+
+  const [searchKey, setSearchKey] = useState(0);
+  const [showUI, setShowUI] = useState<boolean>(false);
+  const [triggerSet, setTriggerSet] = useState<boolean>(false);
+
+  const [search, setSearch] = useState("");
+  const [modal, setModal] = useState(false);
+  const [items, setItems] = useState([]) as any;
+  const [allItems, setAllItems] = useState(states_data);
+  const [selectedState, setSelectedState] = useState("") as any;
+  const [selectedRegion, setSelectedRegion] = useState("") as any;
+
+  useEffect(() => {
+    handleTrigger();
+  });
+
+  async function handleTrigger() {
+    if (triggerSet) return;
+    setTriggerSet(true);
+    reload("");
+    await delay(100);
+    setShowUI(true);
+  }
+
+  async function dismiss(item?: any) {
+    setShowUI(false);
+    await delay(500);
+    onDismiss(item);
+  }
+
+  function reload(search: string) {
+    search = search.toLowerCase().trim();
+    let list = [];
+    for (let index in allItems) {
+      let map = allItems[index];
+      let stateName = map["state"];
+      let localNames = map["cities"];
+
+      if (
+        search.length == 0 ||
+        (search.length != 0 &&
+          (stateName.toLowerCase().includes(search) ||
+            localNames.toString().toLowerCase().includes(search)))
+      ) {
+        list.push({
+          state: stateName,
+          cities: localNames,
+        });
+      }
+    }
+    setItems(list);
+  }
+
+  return (
+    <>
+      <div
+        className="fixed w-screen h-screen top-0 bottom-0 left-0 
+      right-0 z-30 flex items-center justify-center"
+      >
+        <div
+          className="absolute z-30 w-screen h-screen top-0 right-0 left-0 bottom-0  bg-black bg-opacity-50 backdrop-blur-sm duration-500"
+          onClick={() => {
+            dismiss();
+          }}
+          style={{
+            opacity: `${showUI ? 0.9 : 0}`,
+          }}
+        />
+        <div
+          className="z-40 w-5/6 md:w-1/2 lg:w-1/3
+          
+           mx-3 sm:mx-6 py-[15px] md:py-6 
+                    flex flex-col 
+                    justify-start items-end
+                    bg-white shadow-xl duration-500 absolute"
+          style={{
+            width:
+              modal && size.width < 768
+                ? "100%"
+                : size.width < 768
+                ? "83%"
+                : size.width < 976
+                ? "50%"
+                : "33%",
+
+            borderBottomRightRadius: modal && size.width < 768 ? 0 : 12,
+            borderBottomLeftRadius: modal && size.width < 768 ? 0 : 12,
+            borderTopRightRadius: 12,
+            borderTopLeftRadius: 12,
+            bottom: modal && size.width < 768 ? 0 : undefined,
+            marginBottom: `${showUI ? "0px" : `-1000px`}`,
+            opacity: `${showUI ? 1 : 0}`,
+          }}
+        >
+          {/* <img src="/img/icon2.png" className="h-10 w-10 z-0 absolute opacity-10" /> */}
+
+          <div className="w-full h-full justify-center items-start flex flex-col relative">
+            {
+              <div className="w-full flex flex-row pl-[10px] pr-[20px] md:pl-4 md:pr-8 mb-5 items-center justify-center gap-[10px]">
+                <button
+                  className="flex items-center justify-center bg-white
+              border-[1px] border-opacity-5 border-black
+              rounded-full shadow-sm w-[40px] h-[40px]"
+                  onClick={() => {
+                    dismiss();
+                  }}
+                >
+                  <GetIcon color="black" icon="arrow_backward" size={20} />
+                </button>
+                <h1
+                  className="z-10 sm:text-lg font-semibold 
+                 text-black text-start flex flex-1"
+                >
+                  {"Select Region"}
+                </h1>
+                {canSelectAll && (
+                  <button
+                    className="gap-2 px-[10px] rounded-[5px] 
+                        shadow-sm bg-white py-[4px] flex flex-row 
+                        w-fit items-center border-[1px] border-black border-opacity-10"
+                    onClick={() => {
+                      dismiss(["", ""]);
+                    }}
+                  >
+                    <GetIcon color="app_color" icon="flag" size={14} />
+                    <h1 className="text-[14px]">{`Nationwide`}</h1>
+                  </button>
+                )}
+              </div>
+            }
+
+            <div className="w-full px-[20px] md:px-8 mb-[20px]">
+              <InputField
+                key={`search${searchKey}`}
+                id="Search"
+                hint="Search"
+                name="Search"
+                iconClass="fa-solid fa-magnifying-glass"
+                value={search}
+                onChanged={(text: any) => {
+                  setSearch(text);
+                  reload(text);
+                }}
+                child={
+                  <>
+                    {search.length != 0 && (
+                      <button
+                        className="w-[30px] h-[30px] rounded-full"
+                        onClick={() => {
+                          setSearch("");
+                          setSearchKey(searchKey + 1);
+                          reload("");
+                        }}
+                      >
+                        <GetIcon color="red0" size={25} icon="clear" />
+                      </button>
+                    )}
+                  </>
+                }
+              />
+            </div>
+
+            <ol className="w-full max-h-[400px] items-center justify-center overflow-y-auto">
+              {items.map((item: any, index: number) => (
+                <li
+                  key={`${index}${item}`}
+                  className="py-3 px-[20px] md:px-8 w-full border-solid border-slate-200 cursor-pointer 
+                   duration-500  bg-white flex flex-col"
+                  onClick={() => {
+                    if (selectedState == item["state"]) {
+                      setSelectedState("");
+                    } else {
+                      setSelectedState(item["state"]);
+                    }
+                  }}
+                  style={{
+                    backgroundColor:
+                      selectedState == item["state"]
+                        ? "var(--default_white)"
+                        : "white",
+                  }}
+                >
+                  <div className="flex flex-row items-center">
+                    <h1 className="flex-1 text-md hover:font-semibold">{`${item["state"]}`}</h1>
+                    <GetIcon
+                      icon={
+                        selectedState == item["state"]
+                          ? "arrow_drop_up"
+                          : "arrow_drop_down"
+                      }
+                      color="app_color"
+                      size={30}
+                    />
+                  </div>
+                  {item["state"] == selectedState && (
+                    <>
+                      {canSelectAll && (
+                        <button
+                          className="gap-2 px-[10px] rounded-[5px] 
+                        shadow-sm bg-white py-[4px] flex flex-row 
+                        w-fit mb-[10px] mt-[10px] items-center border-[1px] border-black border-opacity-10"
+                          onClick={() => {
+                            dismiss([item["state"], ""]);
+                          }}
+                        >
+                          <GetIcon color="app_color" icon="place" size={14} />
+                          <h1 className="text-[14px]">{`All ${item["state"]}`}</h1>
+                        </button>
+                      )}
+                      <div className="w-full flex flex-col ">
+                        {item["cities"].map((city: any, index: number) => (
+                          <button
+                            key={`${city}${item}`}
+                            className="w-full hover:font-semibold 
+                          text-[13px] text-start py-[7px]"
+                            onClick={() => {
+                              dismiss([item["state"], city]);
+                            }}
+                          >
+                            {`${city}`}
+                          </button>
+                        ))}
+                      </div>
+                    </>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}

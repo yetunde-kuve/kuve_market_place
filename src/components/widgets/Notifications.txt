@@ -1,0 +1,150 @@
+import { useUtils } from "@/context/UtilsContext";
+import FloatingPage, { FloatingPageItem } from "./FloatingPage";
+import { HttpUtil } from "../utils/http_utils";
+import { useState } from "react";
+import { GetIcon, getError, getId, onClick } from "../utils/app_utils";
+import { UserModel } from "../models/usermodel";
+import { useAuth } from "@/context/AuthContext";
+import Image from "next/image";
+import UserImageView from "./UserImageView";
+import { YMargin } from "../utils/widget_utils";
+import InputField from "./InputField";
+import { validateInput } from "../utils/validator";
+import { NotifyModel } from "../models/notifymodel";
+import NotifyItemMain from "./NotifyItemMain";
+
+export default function Notifications({ onDismiss }: { onDismiss: Function }) {
+  const { apiCaller, showPopup, successDialog } = useUtils();
+  const [loadingNew, setLoadingNew] = useState(false);
+  const [loadingOld, setLoadingOld] = useState(false);
+  const [justAdded, setJustAdded] = useState([]) as any;
+  const [itemList, setItemList] = useState<Array<any>>([]);
+  const [newTimeInMilli, setNewTimeInMilli] = useState(null) as any;
+  const [oldTimeInMilli, setOldTimeInMilli] = useState(null) as any;
+  const { userModel } = useAuth();
+
+  async function loadItems({ isNew = false }: { isNew?: boolean } = {}) {
+    // setSetupError(null);
+    if (isNew) setLoadingNew(true);
+    if (!isNew) setLoadingOld(true);
+    setJustAdded([]);
+
+    if (isNew) {
+      setOldTimeInMilli(null);
+    }
+    let payload = {} as any;
+
+    if (oldTimeInMilli != null && !isNew) {
+      payload["oldTimeInMilli"] = oldTimeInMilli;
+    }
+
+    try {
+      let response = await (apiCaller() as HttpUtil).performApiCall(
+        "user/getNotifications",
+        null,
+        {
+          handleError: false,
+          silently: true,
+          data: payload,
+        }
+      );
+      if (isNew) setLoadingNew(false);
+      if (!isNew) setLoadingOld(false);
+      if (typeof response == "string") {
+        // if (!setup) setSetupError(`${response}`);
+        console.log(response);
+        return response;
+      }
+
+      let newTime = newTimeInMilli;
+      let oldTime = oldTimeInMilli;
+      let list = Array.from(isNew ? [] : itemList);
+      let ids = Array.from(justAdded);
+      let responseList = response;
+      let meta = response["metaData"] ?? {};
+
+      for (let index in responseList) {
+        let exist = false;
+        let model = new NotifyModel({ items: responseList[index] });
+        let itemIndex = list.findIndex((e) => e.getId() == model.getId());
+
+        if (itemIndex == -1) {
+          let time = model.getTime();
+          newTime = Math.max(time, newTime ?? 0);
+          oldTime = Math.min(time, oldTime ?? Number.MAX_SAFE_INTEGER);
+          list.push(model);
+
+          if (userModel().getInt("lastReadNotifyTime") < model.getTime()) {
+            ids.push(model.getId());
+          }
+        }
+      }
+
+      setJustAdded(ids);
+
+      setItemList(list);
+
+      // setSetup(true);
+      if (oldTime != null) {
+        setOldTimeInMilli(oldTime);
+        // setLastOldTime(oldTime);
+      }
+      if (newTime != null) {
+        setNewTimeInMilli(newTime);
+        // setLastNewTime(newTime);
+      }
+
+      return true;
+      // if (isNew) setSearchMeta(meta);
+      // setCachedHomeData(
+      //   new CachedItem({
+      //     listItem: list,
+      //     newTime: newTime,
+      //     oldTime: oldTime,
+      //     scrollPosition: scroll,
+      //     metaData: {
+      //       promoList: promo ?? promoList,
+      //       searchMeta: meta,
+      //     },
+      //   })
+      // );
+      // printOut(`Got a total of ${response.length} items`);
+      // if (newTime != null)
+      //   printOut(`Newest time is ${newTime} - ${new Date(newTime!)}`);
+      // if (oldTime != null)
+      //   printOut(`Oldest time is ${oldTime} - ${new Date(oldTime!)}`);
+    } catch (err) {
+      if (isNew) setLoadingNew(false);
+      if (!isNew) setLoadingOld(false);
+      return getError(err);
+    }
+  }
+
+  return (
+    <FloatingPage
+      loadItems={loadItems}
+      pageItem={
+        new FloatingPageItem({
+          pageTitle: "Notifications",
+          childBuilder: (dismiss: onClick) => {
+            return (
+              <div className="w-full flex flex-col px-[10px] md:px-[30px]">
+                {itemList.map((item: NotifyModel, index: number) => (
+                  <NotifyItemMain
+                    key={`${item.getId()}${index}`}
+                    model={item}
+                  />
+                ))}
+
+                <YMargin height={40} />
+              </div>
+            );
+          },
+          onDismiss: (item: any) => {
+            onDismiss(item);
+          },
+        })
+      }
+    />
+  );
+}
