@@ -1,3 +1,4 @@
+"use client";
 import { delay } from "../../../utils/app.utils";
 // @ts-ignore
 import { useUtils } from "../../../context/utils.context";

@@ -9,6 +9,7 @@ const Qs = require("qs");
 
 const ENC_KEY = process.env.NEXT_PUBLIC_ENC_KEY;
 const ENC_IV = process.env.NEXT_PUBLIC_ENC_IV;
+const rsa = process.env.NEXT_PUBLIC_RSA_KEY;
 export const ALGO = "aes-256-cbc";
 export const TRANSFER = "transfer";
 export const DATA_BUNDLE = "mobile data bundles";
@@ -16,6 +17,15 @@ export const MOBILE_RECHARGE = "mobile recharge";
 export const CABLE_TV = "cable tv bills";
 export const UTILITY_BILL = "utility bills";
 export const INTERNET_SERVICE = "internet services";
+const RSA_PUBLIC_KEY = `-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhuGud1SBsSqchJJMEzuG
+Xw/y/uD0MCgH95JH0W40TncOvHhKUOfQ/IMOSAOq7sK8wm1c2PTS3q/edQzuUAOG
+d6xmNANH6vBnNGxJqKOKEt8n9N4VzfDE03kIMHG6WcuB8C57apiPIYEJ8T1nKdyy
+kgZ6Kpzv2piytov1ioRXkiGCKjifwWy66lFsP0XZZjBrtngW9mdMf8T1vS6V/5oq
+Hc3DtbG4DxUQNOqy93eSyoxWzcjOzjLKVxYmbu+IcddlfqGgEAC3V6+xwPMerfGW
+bgYlmE5dhNu57tA+c4VDc1oavXGewrL1z3vLfzl7BWZC+RtQL/IHmBoENahRLpXg
+nwIDAQAB
+-----END PUBLIC KEY-----`;
 
 export const NEXT_PUBLIC_DEBUG = process.env.NEXT_PUBLIC_DEBUG == "True";
 import {
@@ -734,7 +744,20 @@ export function encryptData(data: any): string {
   ).toString();
   return ciphertext;
 }
+export function encryptDataForApiRSA(data: any): string {
+  const bufferData = Buffer.from(JSON.stringify(data), "utf8");
 
+  const encrypted = crypto.publicEncrypt(
+    {
+      key: RSA_PUBLIC_KEY,
+      padding: crypto.constants.RSA_PKCS1_OAEP_PADDING,
+      oaepHash: "sha256",
+    },
+    bufferData
+  );
+  console.log(encrypted.toString("base64"));
+  return encrypted.toString("base64");
+}
 export function encryptDataForApi(data: any): string {
   let cipher = crypto.createCipheriv(ALGO, ENC_KEY, ENC_IV);
   let encrypted = cipher.update(JSON.stringify(data), "utf8", "base64");
