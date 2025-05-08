@@ -12,7 +12,7 @@ export default function ThemeProvider({
 
   useEffect(() => {
     const bodyElement = document.body; // <body> element
-    const lightModeBackgroundColor = "#ffffff"; // Light theme background
+    const lightModeBackgroundColor = "#F7F7F9"; // Light theme background
     const darkModeBackgroundColor = "#0f172a"; // Dark theme background
     if (theme === "dark") {
       bodyElement.style.backgroundColor = darkModeBackgroundColor;

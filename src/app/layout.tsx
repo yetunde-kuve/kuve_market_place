@@ -11,6 +11,9 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Kuve | Kuve",
   description: "Kuve",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({
