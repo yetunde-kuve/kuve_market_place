@@ -1,3 +1,4 @@
+"use client";
 import { YMargin } from "../../../utils/widget.utils";
 import { useEffect, useState } from "react";
 import { GetIcon, delay } from "../../../utils/app.utils";
