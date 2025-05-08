@@ -1,25 +1,88 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
- 
-    // Or if using `src` directory:
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
-      fontFamily: {
-        inter: ['Inter', 'sans-serif'],
-        manrope: ['Manrope', 'sans-serif'],
-      },
       colors: {
-        App_Color1: "#141156", 
-        App_Color2:"#5F00DA "
-        
+        // Semantic color tokens
+        primary: {
+          DEFAULT: "#FF9D98",
+          light: "#B47072",
+          dark: "#3B82F6",
+        },
+        secondary: {
+          DEFAULT: "#9333EA",
+          dark: "#8B5CF6",
+        },
+        tertiary: {
+          DEFAULT: "#F59E0B",
+          dark: "#FCD34D",
+        },
+
+        background: {
+          DEFAULT: "#ffffff",
+          dark: "#0f172a",
+          Secondry: {
+            DEFAULT: "#F7F7F9",
+            dark: "#0f172a",
+          },
+          Tertiary: {
+            DEFAULT: "#E6E6EA",
+            dark: "#0f172a",
+          },
+          Tag: {
+            DEFAULT: "#E6E6EA",
+            dark: "#0f172a",
+          },
+          Disabled: {
+            DEFAULT: "#B4B4BF",
+            dark: "#0f172a",
+          },
+        },
+        text: {
+          DEFAULT: "#060619",
+          dark: "#e2e8f0",
+          secondary: {
+            DEFAULT: "#44445F",
+            dark: "#9CA3AF",
+          },
+          Tertiary: {
+            DEFAULT: "#828294",
+            dark: "#9CA3AF",
+          },
+          Disabled: {
+            DEFAULT: "#B4B4BF",
+            dark: "#9CA3AF",
+          },
+        },
+        success: {
+          DEFAULT: "#244B01",
+          light: "#E7F8DA",
+          dark: "#6EE7B7",
+        },
+        error: {
+          DEFAULT: "#EF4444",
+          light: "#FFF4F6",
+          dark: "#F87171",
+        },
+        warning: {
+          DEFAULT: "#FFA722",
+          light: "#FFF9F1",
+          dark: "#FBBF24",
+        },
+        info: {
+          DEFAULT: "#042852",
+          light: "#E6E6EA",
+          dark: "#60A5FA",
+        },
       },
     },
   },
   plugins: [],
-}
+};
