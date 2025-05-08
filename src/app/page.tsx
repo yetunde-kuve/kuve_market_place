@@ -1,8 +1,13 @@
 "use client";
 
+import DropdownList from "@/components/dropDownMenu/dropDownMenu.dropdown.menu";
+import SearchBar from "@/components/serachBar/searchBar.searchBar";
+import SliderButton from "@/components/sliderButton/sliderButton.sliderButton";
 import { useCartStore } from "@/features/cart/store/useCartStore.store";
+import PopularProductCard from "@/features/product/popularProduct/popularPorductCard/popularProductCard.productcard";
 import { useThemeStore } from "@/store/useThemeStore.store";
 import { useState } from "react";
+import { MdLogout, MdSettings } from "react-icons/md";
 
 export default function Login() {
   const theme = useThemeStore((state) => state.theme);
@@ -29,49 +34,5 @@ export default function Login() {
     clearCart();
   };
 
-  return (
-    <div className="flex items-center justify-center w-full h-screen">
-      <div className="w-[400px]">
-        <h1>Shopping Cart</h1>
-        <button
-          onClick={handleAddToCart}
-          className="bg-primary text-text w-full rounded-full  h-[40px]"
-        >
-          Add Item to cart
-        </button>
-
-        <div>
-          {cart.map((item) => (
-            <div key={item.id}>
-              <img src={item.image} width={50} alt="ddhdhd" />
-              <h3>{item.name}</h3>
-              <p>price:{item.price}</p>
-              <p>Quantity:{item.quantity}</p>
-              <button
-                onClick={() => {
-                  handleRemoveFromCart(item.id);
-                }}
-              >
-                Remove
-              </button>
-              <input
-                type="number"
-                value={item.quantity}
-                onChange={(e) => handleUpdateQuantity(item.id, parseInt(e.target.value))}
-              />
-              <button onClick={handleClearCart}>clear cart</button>
-            </div>
-          ))}
-        </div>
-        {/* <button
-        onClick={toggleTheme}
-        className={`p-2 text-white rounded bg-primary dark:bg-primary-dark`}
-      >
-        Switch to {theme === "light" ? "Dark" : "Light"} Mode
-      </button>
-      <h1 className="text-primary dark:text-primary-dark">Hello, World!</h1>
-      <button className="w-full shadow-md dark:bg-background-dark bg-background">jjfjdjdjd</button> */}
-      </div>
-    </div>
-  );
+  return <div className="flex items-center justify-center w-full h-screen"></div>;
 }

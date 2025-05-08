@@ -45,6 +45,13 @@ module.exports = {
             dark: "#0f172a",
           },
         },
+        complementry: {
+          DEFAULT: "#B1E1E0",
+          shad1: "#C8EAE9",
+          shade2: "#F7FCFC",
+          shade3: "#FBFDFD",
+          dark: "#e2e8f0",
+        },
         text: {
           DEFAULT: "#060619",
           dark: "#e2e8f0",
