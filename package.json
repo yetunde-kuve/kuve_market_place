@@ -84,7 +84,8 @@
     "slick-carousel": "^1.8.1",
     "typographic-currency": "^1.1.2",
     "ua-parser-js": "^2.0.2",
-    "use-file-picker": "^2.1.2"
+    "use-file-picker": "^2.1.2",
+    "zustand": "^5.0.4"
   },
   "devDependencies": {
     "@iconify/react": "^5.0.1",
