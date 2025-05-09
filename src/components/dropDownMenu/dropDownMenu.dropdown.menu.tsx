@@ -8,6 +8,7 @@ import {
   ListItemText,
   Paper,
   ClickAwayListener,
+  Popper,
 } from "@mui/material";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import Link from "next/link";
@@ -39,7 +40,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
       <button
-        className="flex h-[36px] justify-between px-[14px] py-[9px] gap-[9px] items-center rounded-full w-fit bg-background-Secondry dark:bg-background-Tertiary-dark"
+        className="flex h-[36px] justify-between px-[14px] py-[9px] gap-[9px] items-center rounded-full w-fit bg-background-Secondary dark:bg-background-Tertiary-dark"
         onClick={handleToggle}
         ref={buttonRef}
       >
@@ -55,55 +56,70 @@ const DropdownList: React.FC<DropdownListProps> = ({
 
       {open && (
         <ClickAwayListener onClickAway={handleClose}>
-          <Paper
-            className="bg-background dark:bg-text-secondary-dark"
-            elevation={3}
-            style={{
-              position: "absolute",
-              top: "100%",
-              left: 0,
-              zIndex: 10,
-              minWidth: buttonRef.current?.offsetWidth,
-              marginTop: 4,
+          <Popper
+            open={open}
+            anchorEl={buttonRef.current}
+            placement="bottom-start"
+            sx={{
+              zIndex: 1301,
             }}
+            disablePortal={false}
+            modifiers={[
+              {
+                name: "offset",
+                options: {
+                  offset: [0, 4],
+                },
+              },
+            ]}
           >
-            {items.map((item, index) => {
-              const { label, icon, href, onClick } = item;
+            <ClickAwayListener onClickAway={handleClose}>
+              <Paper
+                className="bg-background dark:bg-text-secondary-dark"
+                elevation={3}
+                style={{
+                  minWidth: buttonRef.current?.offsetWidth,
+                }}
+              >
+                {items.map((item, index) => {
+                  const { label, icon, href, onClick } = item;
 
-              const content = (
-                <ListItemButton
-                  className="flex items-center gap-2"
-                  onClick={() => {
-                    if (onClick) onClick();
-                    handleClose();
-                  }}
-                >
-                  {icon && (
-                    <span className="text-text dark:text-text-dark">
-                      {icon}
-                    </span>
-                  )}
-                  <ListItemText
-                    className="text-text dark:text-text-dark"
-                    primary={label}
-                  />
-                </ListItemButton>
-              );
+                  const content = (
+                    <ListItemButton
+                      className="flex items-center gap-2"
+                      onClick={() => {
+                        if (onClick) onClick();
+                        handleClose();
+                      }}
+                    >
+                      {icon && (
+                        <span className="text-text dark:text-text-dark">
+                          {icon}
+                        </span>
+                      )}
+                      <ListItemText
+                        className="text-text dark:text-text-dark"
+                        primary={label}
+                      />
+                    </ListItemButton>
+                  );
 
-              return href ? (
-                <Link key={index} href={href} passHref legacyBehavior>
-                  <a
-                    style={{ textDecoration: "none", color: "inherit" }}
-                    onClick={handleClose}
-                  >
-                    {content}
-                  </a>
-                </Link>
-              ) : (
-                <div key={index}>{content}</div>
-              );
-            })}
-          </Paper>
+                  return href ? (
+                    <Link key={index} href={href} passHref legacyBehavior>
+                      <a
+                        style={{ textDecoration: "none", color: "inherit" }}
+                        onClick={handleClose}
+                      >
+                        {content}
+                      </a>
+                    </Link>
+                  ) : (
+                    <div key={index}>{content}</div>
+                  );
+                })}
+              </Paper>
+            </ClickAwayListener>
+          </Popper>
         </ClickAwayListener>
       )}
     </div>

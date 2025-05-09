@@ -9,6 +9,8 @@ import NetworkStatusBackdrop from "../services/network/networkCheck.service";
 import { UIProvider } from "@/context/ui.context";
 import AppLogout from "@/services/logoutinactive/logoutInactive.service";
 import ThemeProvider from "@/store/themeProvider/themeProvider.provider";
+import NavBar from "@/components/navBar/navBar.navBar";
+import Footer from "@/components/footer/footer.footer";
 
 type Props = {
   children: ReactNode;
@@ -23,7 +25,9 @@ export default function Layouts({ children }: Props) {
             <ThemeProvider>
               <NetworkStatusBackdrop>
                 <AppLogout>
+                  <NavBar />
                   <Layout>{children}</Layout>
+                  <Footer />
                 </AppLogout>
               </NetworkStatusBackdrop>
             </ThemeProvider>
