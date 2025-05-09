@@ -12,6 +12,9 @@ import PopularProductCard from "@/features/product/popularProduct/popularPorduct
 import { useThemeStore } from "@/store/useThemeStore.store";
 import { useState } from "react";
 import { MdLogout, MdSettings } from "react-icons/md";
+import TrendingProduct from "@/features/landingPage/trendingProductSection/trendingProduct";
+import UnusedItemSection from "@/features/landingPage/unusedItemSection/unusedItem.section";
+import GrowBusinessSection from "@/features/landingPage/growBusinessSection/growBusiness.section";
 
 export default function Login() {
   const theme = useThemeStore((state) => state.theme);
@@ -43,6 +46,9 @@ export default function Login() {
       <Slider />
       <PopularProductSection />
       <FutureProduct />
+      <TrendingProduct />
+      <UnusedItemSection />
+      <GrowBusinessSection />
     </div>
   );
 }
