@@ -1,6 +1,7 @@
 "use client";
 
 import DropdownList from "@/components/dropDownMenu/dropDownMenu.dropdown.menu";
+import NavBar from "@/components/navBar/navBar.navBar";
 import SearchBar from "@/components/serachBar/searchBar.searchBar";
 import SliderButton from "@/components/sliderButton/sliderButton.sliderButton";
 import { useCartStore } from "@/features/cart/store/useCartStore.store";
