@@ -24,11 +24,15 @@ module.exports = {
           DEFAULT: "#F59E0B",
           dark: "#FCD34D",
         },
+        black: {
+          primary: "#000000",
+          light: "#222222",
+        },
 
         background: {
           DEFAULT: "#ffffff",
           dark: "#0f172a",
-          Secondry: {
+          Secondary: {
             DEFAULT: "#F7F7F9",
             dark: "#0f172a",
           },
@@ -42,6 +46,10 @@ module.exports = {
           },
           Disabled: {
             DEFAULT: "#B4B4BF",
+            dark: "#0f172a",
+          },
+          Disabled2: {
+            DEFAULT: "#F2F2F4",
             dark: "#0f172a",
           },
         },
