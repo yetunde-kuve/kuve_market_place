@@ -9,6 +9,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        poppins: ["var(--font-poppins)", "sans-serif"],
+      },
       colors: {
         // Semantic color tokens
         primary: {
