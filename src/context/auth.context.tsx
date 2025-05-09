@@ -106,7 +106,7 @@ export function AuthProvider({ children }: any) {
   function kickOut({ force = false }: { force?: boolean } = {}) {
     savePage({ force: force });
     logout();
-    router.push("/");
+    // router.push("/"); commented out till login is implemented
     setUserLoaded(false);
     setRoleSet(false);
     setCachedHomeData(null);

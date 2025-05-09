@@ -28,7 +28,7 @@ module.exports = {
         background: {
           DEFAULT: "#ffffff",
           dark: "#0f172a",
-          Secondry: {
+          Secondary: {
             DEFAULT: "#F7F7F9",
             dark: "#0f172a",
           },
@@ -42,6 +42,10 @@ module.exports = {
           },
           Disabled: {
             DEFAULT: "#B4B4BF",
+            dark: "#0f172a",
+          },
+          Disabled2: {
+            DEFAULT: "#F2F2F4",
             dark: "#0f172a",
           },
         },
