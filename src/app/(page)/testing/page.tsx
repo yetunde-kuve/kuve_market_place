@@ -6,6 +6,7 @@ import DropDownMenuDropdownMenu from "@/components/dropDownMenu/dropDownMenu.dro
 import PopularProductCard from "@/features/product/popularProduct/popularPorductCard/popularProductCard.productcard";
 import TrendingProductCardProductCard
     from "@/features/product/trendingProduct/trendingProductCard/trendingProductCard.productCard";
+import ViewAll from "@/components/widgets/ViewAll.widget";
 
 export default function Page() {
     return (
@@ -60,11 +61,9 @@ export default function Page() {
                     <Button fullWidth variant="outline" color="gray">Full Width Button</Button>
                 </div>
             </div>
-            <PopularProductCard />
-
+            <ViewAll />
             <TrendingProductCardProductCard />
             {/*<SearchBar />*/}
-            {/*<DropDownMenuDropdownMenu label={'hjjdhhjd'} items={[{label: 'gfdddgf'}]} />*/}
         </div>
 
     );
