@@ -6,8 +6,8 @@ type trendingProductCardProps = {
     productName?: string;
 };
 const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
-      image = "img/productDefaultimg.png",
-      productName = "Breed Dry Dog Food"
+      image,
+      productName
   }) => {
 
     const [loved, setLoved] = useState<Boolean>(false);
