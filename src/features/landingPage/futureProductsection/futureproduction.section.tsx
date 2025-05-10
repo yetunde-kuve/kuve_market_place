@@ -20,7 +20,7 @@ export default function FutureProduct() {
           <div>
             <CountdownTimer />
           </div>
-          <div className="w-[117px]">
+          <div className="w-[127px]">
             <Button size="medium" color="pink">
               Buy Now
             </Button>
