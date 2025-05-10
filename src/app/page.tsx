@@ -15,6 +15,7 @@ import { MdLogout, MdSettings } from "react-icons/md";
 import TrendingProduct from "@/features/landingPage/trendingProductSection/trendingProduct";
 import UnusedItemSection from "@/features/landingPage/unusedItemSection/unusedItem.section";
 import GrowBusinessSection from "@/features/landingPage/growBusinessSection/growBusiness.section";
+import LandingPageWrapper from "@/layouts/landingPageWrapper/landingPageWrapper.wrapper";
 
 export default function Login() {
   const theme = useThemeStore((state) => state.theme);
@@ -42,13 +43,15 @@ export default function Login() {
   };
 
   return (
-    <div className="flex flex-col lg:gap-[52px] md:gap-[39px] gap-[26px] lg:px-[88px] md:px-[32px] px-4  lg:mt-[200px] md:mt-[200px] mt-[220px]">
-      <Slider />
-      <PopularProductSection />
-      <FutureProduct />
-      <TrendingProduct />
-      <UnusedItemSection />
-      <GrowBusinessSection />
-    </div>
+    <LandingPageWrapper>
+      <div className="flex flex-col lg:gap-[52px] md:gap-[39px] gap-[26px] ">
+        <Slider />
+        <PopularProductSection />
+        <FutureProduct />
+        <TrendingProduct />
+        <UnusedItemSection />
+        <GrowBusinessSection />
+      </div>
+    </LandingPageWrapper>
   );
 }
