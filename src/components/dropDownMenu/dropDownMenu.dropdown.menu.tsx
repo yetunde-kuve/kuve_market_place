@@ -40,7 +40,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
   return (
     <div style={{ position: "relative", display: "inline-block" }}>
       <button
-        className="flex h-[36px] justify-between px-[14px] py-[9px] gap-[9px] items-center rounded-full w-fit bg-background-Secondary dark:bg-background-Tertiary-dark"
+        className="flex h-[36px] justify-between px-[12px] py-[9px] gap-[9px] items-center rounded-full w-fit bg-background-Secondary dark:bg-background-Tertiary-dark"
         onClick={handleToggle}
         ref={buttonRef}
       >
@@ -61,7 +61,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
             anchorEl={buttonRef.current}
             placement="bottom-start"
             sx={{
-              zIndex: 1301,
+              zIndex: 1500,
             }}
             disablePortal={false}
             modifiers={[

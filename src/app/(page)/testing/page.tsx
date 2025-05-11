@@ -7,6 +7,7 @@ import PopularProductCard from "@/features/product/popularProduct/popularPorduct
 import TrendingProductCardProductCard from "@/features/product/trendingProduct/trendingProductCard/trendingProductCard.productCard";
 import ViewAll from "@/components/widgets/ViewAll.widget";
 import SliderButton from "@/components/sliderButton/sliderButton.sliderButton";
+import IconDropdown from "@/components/dropDownIcon/dropDownIcon.component";
 
 export default function Page() {
   return (
@@ -120,6 +121,30 @@ export default function Page() {
         <div className="relative flex flex-wrap gap-4">
           <SliderButton icon={<i className="ri-arrow-right-s-line"></i>} onClick={() => {}} />
         </div>
+      </div>
+      <div className="space-y-4">
+        <h2 className="text-xl font-semibold">Icon Drop Down Options</h2>
+        <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
+          <IconDropdown
+            key={"account_id"}
+            icon={<img src="/img/user.svg" alt="user-icon" className="h-[23px] w-[23px]" />}
+            title="Account"
+            options={[
+              <button
+                key={"signup"}
+                className="w-full mt-[23px] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
+              >
+                Sign Up
+              </button>,
+              <button
+                key={"login"}
+                className="w-full text-[14px] font-[500] h-[40px] mb-[23px] rounded-md border border-primary text-text"
+              >
+                Sign In
+              </button>,
+            ]}
+          />
+        </button>
       </div>
     </div>
   );
