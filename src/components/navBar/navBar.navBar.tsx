@@ -1,10 +1,11 @@
-import { AppBar } from "@mui/material";
+import { AppBar, Divider } from "@mui/material";
 import SearchBar from "../serachBar/searchBar.searchBar";
 import Button from "../widgets/Button.widget";
 import { BsChatSquare } from "react-icons/bs";
 import { IoNotificationsOutline } from "react-icons/io5";
 import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu";
 import { useRef } from "react";
+import IconDropdown from "../dropDownIcon/dropDownIcon.component";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -17,7 +18,6 @@ export default function NavBar() {
     { id: 6, name: "Beauty" },
     { id: 7, name: "Home Improvement" },
     { id: 8, name: "All Categories" },
-    { id: 9, name: "All Categories" },
   ];
 
   return (
@@ -47,7 +47,7 @@ export default function NavBar() {
                 <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
                   <img
                     src="/img/heart.svg"
-                    alt="user-icon"
+                    alt="heart"
                     className="h-[23px] w-[23px]"
                   />
                 </button>
@@ -58,14 +58,37 @@ export default function NavBar() {
                   <IoNotificationsOutline className="text-text" />
                 </button>
                 <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
-                  <img
-                    src="/img/user.svg"
-                    alt="user-icon"
-                    className="h-[23px] w-[23px]"
+                  <IconDropdown
+                    key={"account_id"}
+                    icon={
+                      <img
+                        src="/img/user.svg"
+                        alt="user-icon"
+                        className="h-[23px] w-[23px]"
+                      />
+                    }
+                    title="Account"
+                    options={[
+                      <button
+                        key={"signup"}
+                        className="w-full mt-[23px] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
+                      >
+                        Sign Up
+                      </button>,
+                      <button
+                        key={"login"}
+                        className="w-full text-[14px] font-[500] h-[40px] mb-[23px] rounded-md border border-primary text-text"
+                      >
+                        Sign In
+                      </button>,
+                    ]}
                   />
                 </button>
               </div>
             </div>
+          </div>
+          <div className="lg:mx-[-88px] md:mx-[-30px] mx-[-16px]">
+            <Divider />
           </div>
           <div className="block md:hidden lg:hidden">
             <SearchBar />
@@ -73,7 +96,7 @@ export default function NavBar() {
           <div className="relative">
             <div
               ref={scrollRef}
-              className="flex w-full items-center gap-[7.5px] overflow-x-auto scrollbar-none whitespace-nowrap"
+              className="flex w-full items-center gap-[7px] overflow-x-auto scrollbar-none whitespace-nowrap"
               style={{ paddingBottom: "10px" }}
             >
               {list.map((item) => (

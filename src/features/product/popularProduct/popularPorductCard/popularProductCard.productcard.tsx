@@ -1,9 +1,17 @@
 import Image from "next/image";
+import { Bricolage_Grotesque } from "next/font/google";
+
+const bricolage = Bricolage_Grotesque({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
+});
 type popularPorductCardprops = {
   image?: string;
   title?: string;
   location?: string;
 };
+
 export default function PopularProductCard({
   image = "img/productDefaultimg.png",
   title = "Product One",
@@ -28,7 +36,9 @@ export default function PopularProductCard({
           <img src={image} alt="image" className="object-cover w-full h-full" />
         </div>
         <div>
-          <p className="text-text  text-[12px] font-[700] md:text-[24px]">
+          <p
+            className={`${bricolage.className} text-text  text-[12px] font-[700] md:text-[20px]`}
+          >
             {title}
           </p>
           <p className="text-[7.36px] text-text-secondary font-[400] md:text-[12px]">
