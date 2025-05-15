@@ -66,7 +66,7 @@ const SignUp = () => {
             // Simulating registration
             setTimeout(() => {
                 console.log('Registration attempted with:', data);
-                router.push('/verify');
+                router.push('/auth/verify');
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
@@ -350,16 +350,16 @@ const SignUp = () => {
                                     {isLoading ? 'Creating Account...' : 'Create Account'}
                                 </button>
 
-                                <div className="relative my-4">
-                                    <div className="absolute inset-0 flex items-center">
-                                        <div className="w-full border-t border-gray-300"></div>
-                                    </div>
-                                    <div className="relative flex justify-center text-sm">
-                                      <span className="px-2 bg-white text-gray-500">
-                                        or
-                                      </span>
-                                    </div>
-                                </div>
+                                {/*<div className="relative my-4">*/}
+                                {/*    <div className="absolute inset-0 flex items-center">*/}
+                                {/*        <div className="w-full border-t border-gray-300"></div>*/}
+                                {/*    </div>*/}
+                                {/*    <div className="relative flex justify-center text-sm">*/}
+                                {/*      <span className="px-2 bg-white text-gray-500">*/}
+                                {/*        or*/}
+                                {/*      </span>*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
 
                                 <button
                                     type="button"
@@ -378,7 +378,7 @@ const SignUp = () => {
                                 </button>
                             </form>
 
-                            <p className="text-center mt-5 text-[16px] font-normal text-gray-600">
+                            <p className="text-center my-5 text-[16px] font-normal text-gray-600">
                                 Already have an account?{' '}
                                 <Link href="/auth/login" className="font-medium text-[#3E3E3E] hover:text-blue-500">
                                     Login

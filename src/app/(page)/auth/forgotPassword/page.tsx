@@ -39,8 +39,8 @@ const Page = () => {
 
             // Simulating authentication
             setTimeout(() => {
-                console.log('Login attempted with:', data);
-                router.push('/dashboard');
+                console.log('Password:', data);
+                router.push('/auth/login');
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
