@@ -9,20 +9,20 @@ const Slider = () => {
   const productList = [
     {
       id: 1,
-      title: "Product 1",
-      description: "Description for Product 1",
+      title: "Kuve",
+      description: "Your AI-powered Secure Marketplace",
       image: "/img/watch.svg",
     },
     {
       id: 2,
-      title: "Product 2",
-      description: "Description for Product 2",
+      title: "Kuve",
+      description: "Set Up Your Storefront",
       image: "/img/watch.svg",
     },
     {
       id: 3,
-      title: "Product 3",
-      description: "Description for Product 3",
+      title: "Kuve",
+      description: "List un-use Items On Kuve Today",
       image: "/img/watch.svg",
     },
   ];
@@ -51,7 +51,7 @@ const Slider = () => {
     <div className="relative w-full  lg:h-[316px] md:h-[296px] h-[186px]">
       {/* Slider Background */}
       <div
-        className="absolute top-0 left-0 w-full h-full bg-center bg-cover rounded-2xl bg-text"
+        className="absolute top-0 left-0 w-full h-full bg-center bg-cover shadow-xl rounded-2xl bg-text"
         style={{
           backgroundImage: `url('/path/to/your/slider-background.jpg')`, // Use your background image path here
         }}
@@ -68,8 +68,12 @@ const Slider = () => {
 
         {/* Product Text and Button (Left Side) */}
         <div className="z-10 flex flex-col items-start justify-center p-6 text-white md:pl-20">
+          <p className="lg:text-[24px] font-[600] text-white text-[10px] md:text-[17px]">
+            {" "}
+            {productList[currentIndex].title}
+          </p>
           <h2 className="text-[20px]  md:text-[34px] text-white lg:text-[48px] font-[700]">
-            Your AI-powered Secure Marketplace
+            {productList[currentIndex].description}
           </h2>
 
           <Button size="medium" color="pink">
