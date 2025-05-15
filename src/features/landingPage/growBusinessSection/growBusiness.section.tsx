@@ -1,7 +1,9 @@
 import React from 'react';
 import Button from "@/components/widgets/Button.widget";
+import {useRouter} from "next/navigation";
 
 const GrowBusinessSection = () => {
+    const router = useRouter();
     const features = [
         {
             icon: "/img/editIcon.svg",
@@ -25,6 +27,9 @@ const GrowBusinessSection = () => {
         }
     ];
 
+    const routeToRegister = () => {
+        router.push("/auth/signUp?activity=sell");
+    }
     return (
         <section className="md:py-[48px] md:px-[32px] py-[39px] px-[14px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
             <div>
@@ -65,7 +70,7 @@ const GrowBusinessSection = () => {
                 {/* CTA Button */}
                 <div className="flex justify-center">
                     <div className="w-[145px]">
-                        <Button size="medium" color="pink">
+                        <Button size="medium" color="pink" onClick={routeToRegister}>
                             Join Now!
                         </Button>
                     </div>

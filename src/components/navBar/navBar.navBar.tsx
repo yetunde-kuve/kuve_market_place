@@ -6,9 +6,11 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu";
 import { useRef } from "react";
 import IconDropdown from "../dropDownIcon/dropDownIcon.component";
+import {useRouter} from "next/navigation";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const list = [
     { id: 1, name: "Groceries" },
     { id: 2, name: "Premium Fruits" },
@@ -20,6 +22,11 @@ export default function NavBar() {
     { id: 8, name: "All Categories" },
   ];
 
+  const routeToRegister = () => {
+    router.push("/auth/signUp?activity=sell");
+  }
+
+  // @ts-ignore
   return (
     <div>
       <AppBar
@@ -39,8 +46,8 @@ export default function NavBar() {
             </div>
             <div className="flex items-center gap-4">
               <div className="hidden lg:block md:hidden">
-                <Button color="pink" onClick={() => alert("Button clicked!")}>
-                  List Now
+                <Button color="pink" onClick={routeToRegister}>
+                  Sell Now
                 </Button>
               </div>
               <div className="flex items-center gap-4">
@@ -71,12 +78,14 @@ export default function NavBar() {
                     options={[
                       <button
                         key={"signup"}
+                        onClick={()=>router.push("/auth/signUp")}
                         className="w-full mt-[23px] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
                       >
                         Sign Up
                       </button>,
                       <button
                         key={"login"}
+                        onClick={()=>router.push("/auth/login")}
                         className="w-full text-[14px] font-[500] h-[40px] mb-[23px] rounded-md border border-primary text-text"
                       >
                         Sign In

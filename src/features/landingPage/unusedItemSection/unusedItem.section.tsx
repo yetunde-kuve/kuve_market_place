@@ -1,8 +1,14 @@
 import React from 'react';
 import Button from "@/components/widgets/Button.widget";
 import Image from "next/image";
+import {useRouter} from "next/navigation";
 
 const UnusedItemSection = () => {
+    const router = useRouter()
+
+    const routeToRegister = () => {
+        router.push("/auth/signUp?activity=sell&type=list");
+    }
     return (
         <section className="bg-white md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center">
@@ -14,7 +20,7 @@ const UnusedItemSection = () => {
                         Declutter and make money by listing your items today. Quick, easy, and secure selling with local buyers!
                     </p>
                     <div className="w-[159px]">
-                        <Button size="medium" color="pink">
+                        <Button size="medium" color="pink" onClick={routeToRegister}>
                             List an Item
                         </Button>
                     </div>

@@ -6,6 +6,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
+import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 
 // Define types for our form values
 interface FormValues {
@@ -66,14 +67,15 @@ const Login = () => {
             <div className="topGradient"></div>
 
             <div className="flex min-h-screen">
-                <div className="hidden lg:flex lg:w-1/2 relative p-2">
-                    <Image
-                        src={"/img/auth-banner.png"}
-                        alt="banner"
-                        width={709}
-                        height={940}
-                    />
-                </div>
+                {/*<div className="hidden min-h-[200px] lg:flex lg:w-1/2 relative p-2">*/}
+                    {/*<Image*/}
+                    {/*    src={"/img/auth-banner.png"}*/}
+                    {/*    alt="banner"*/}
+                    {/*    width={709}*/}
+                    {/*    height={40}*/}
+                    {/*/>*/}
+                {/*</div>*/}
+                <AuthBannerBanner />
 
                 {/* Right side - Login Form */}
                 <div className="relative w-full lg:w-1/2 flex flex-col px-4 md:px-8 pt-6">
@@ -215,7 +217,7 @@ const Login = () => {
                                 </button>
                             </form>
 
-                            <p className="text-center mt-12 text-[16px] text-gray-600">
+                            <p className="text-center mt-8 text-[16px] font-normal text-gray-600">
                                 Don't have an account?{' '}
                                 <Link href="/auth/signUp" className="font-medium text-[#3E3E3E] hover:text-blue-500">
                                     Sign Up

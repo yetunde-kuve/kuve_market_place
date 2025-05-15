@@ -6,6 +6,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
+import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
+import Button from "@/components/widgets/Button.widget";
 
 // Define types for our form values
 interface FormValues {
@@ -114,14 +116,7 @@ const Verify = () => {
             <div className="topGradient"></div>
 
             <div className="flex min-h-screen">
-                <div className="hidden lg:flex lg:w-1/2 relative p-2">
-                    <Image
-                        src={"/img/auth-banner.png"}
-                        alt="banner"
-                        width={709}
-                        height={940}
-                    />
-                </div>
+                <AuthBannerBanner/>
                 {/* Right side - Login Form */}
                 <div className="relative w-full lg:w-1/2 flex flex-col px-4 md:px-8 pt-6">
                     <div>
@@ -144,7 +139,7 @@ const Verify = () => {
                                 </div>
                                 <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Verify Email</h2>
                                 <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px h-[48px]">
-                                    Enter OTP sent to your email to verify
+                                    Enter OTP sent to your email to verify<br/>
                                     your account.
                                 </p>
                             </div>
@@ -152,7 +147,7 @@ const Verify = () => {
                             <form onSubmit={handleSubmit(onSubmit)} className="pt-6">
                                 <div>
                                     <div className="flex justify-between items-center mb-2">
-                                        <label htmlFor="otp" className="block text-sm font-medium text-gray-700">
+                                        <label htmlFor="otp" className="block text-[16px] font-normal text-black-light">
                                             Verification Code
                                         </label>
                                         <div className="flex justify-end mt-2">

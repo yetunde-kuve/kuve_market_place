@@ -38,12 +38,12 @@ const Page = () => {
         try {
             // Simulating registration
             setTimeout(() => {
-                console.log('Password Updated', data);
-                router.push('/dashboard');
+                console.log('Email confirmed', data);
+                router.push('/buyerDashboard');
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
-            console.error('Registration failed:', error);
+            console.error('Verification failed:', error);
             setIsLoading(false);
         }
     };
