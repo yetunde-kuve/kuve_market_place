@@ -183,7 +183,7 @@ const SignUp = () => {
                                 </div>
 
                                 <div>
-                                    <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">Password</label>
+                                    <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">Password<span className="text-red-500">*</span></label>
                                     <div className="relative">
                                         <input
                                             id="password"
