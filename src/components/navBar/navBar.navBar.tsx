@@ -6,11 +6,11 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu";
 import { useRef } from "react";
 import IconDropdown from "../dropDownIcon/dropDownIcon.component";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 
 export default function NavBar() {
-  const router = useRouter();
   const scrollRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
   const list = [
     { id: 1, name: "Groceries" },
     { id: 2, name: "Premium Fruits" },
@@ -132,6 +132,11 @@ export default function NavBar() {
     },
   ];
 
+  const routeToRegister = () => {
+    router.push("/auth/signUp?activity=sell");
+  }
+
+  // @ts-ignore
   return (
     <div>
       <AppBar
@@ -151,8 +156,8 @@ export default function NavBar() {
             </div>
             <div className="flex items-center gap-4">
               <div className="hidden lg:block md:hidden">
-                <Button color="pink" onClick={() => alert("Button clicked!")}>
-                  List Now
+                <Button color="pink" onClick={routeToRegister}>
+                  Sell Now
                 </Button>
               </div>
               <div className="flex items-center gap-4">

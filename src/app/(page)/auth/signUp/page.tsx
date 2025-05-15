@@ -1,15 +1,17 @@
 'use client'
 
-import React, {useState} from "react";
-import { useRouter } from "next/navigation";
+import React, {useState, useEffect} from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
+import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 
 // Define types for our form values
 interface FormValues {
-    fullName: string;
+    firstName: string;
+    lastName: string;
     email: string;
     phoneNumber: string;
     password: string;
@@ -20,27 +22,40 @@ interface FormValues {
 
 const SignUp = () => {
     const router = useRouter();
+    const searchParams = useSearchParams();
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-
+    const [showActivityField, setShowActivityField] = useState<boolean>(true);
+    const activityParam = searchParams.get('activity');
     // Initialize react-hook-form
     const {
         register,
         handleSubmit,
         watch,
+        setValue,
         formState: { errors }
     } = useForm<FormValues>({
         defaultValues: {
-            fullName: '',
+            firstName: '',
+            lastName: '',
             email: '',
             phoneNumber: '',
             password: '',
             confirmPassword: '',
-            activity: '',
+            activity: activityParam || '',
             agreeToTerms: false
         }
     });
+
+    // Handle URL parameters on component mount
+    useEffect(() => {
+        // If activity param exists, set the form value and hide the selection
+        if (activityParam) {
+            setValue('activity', activityParam);
+            setShowActivityField(false);
+        }
+    }, [activityParam, setValue]);
 
     const password = watch("password");
 
@@ -51,7 +66,7 @@ const SignUp = () => {
             // Simulating registration
             setTimeout(() => {
                 console.log('Registration attempted with:', data);
-                router.push('/dashboard');
+                router.push('/auth/verify');
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
@@ -75,15 +90,7 @@ const SignUp = () => {
             <div className="topGradient"></div>
 
             <div className="flex min-h-screen">
-                <div className="hidden lg:flex lg:w-1/2 relative p-2">
-                    <Image
-                        src={"/img/auth-banner.png"}
-                        alt="banner"
-                        width={709}
-                        height={940}
-                    />
-                </div>
-
+                <AuthBannerBanner />
                 {/* Right side - Signup Form */}
                 <div className="relative w-full lg:w-1/2 flex flex-col px-4 md:px-8 pt-6">
                     <div>
@@ -112,17 +119,31 @@ const SignUp = () => {
 
                             <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                                 <div>
-                                    <label htmlFor="fullName" className="block mb-1 text-[16px] font-normal text-black-light">Full Name<span className="text-red-500">*</span></label>
+                                    <label htmlFor="firstName" className="block mb-1 text-[16px] font-normal text-black-light">First Name<span className="text-red-500">*</span></label>
                                     <input
-                                        id="fullName"
-                                        placeholder="Enter your full name"
-                                        className={`w-full p-3 border ${errors.fullName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                                        {...register("fullName", {
-                                            required: "Full name is required"
+                                        id="firstName"
+                                        placeholder="Enter your first name"
+                                        className={`w-full p-3 border ${errors.firstName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                        {...register("firstName", {
+                                            required: "First name is required"
                                         })}
                                     />
-                                    {errors.fullName && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.fullName.message}</p>
+                                    {errors.firstName && (
+                                        <p className="mt-1 text-xs text-red-600">{errors.firstName.message}</p>
+                                    )}
+                                </div>
+                                <div>
+                                    <label htmlFor="lastName" className="block mb-1 text-[16px] font-normal text-black-light">Last Name<span className="text-red-500">*</span></label>
+                                    <input
+                                        id="lastName"
+                                        placeholder="Enter your last name"
+                                        className={`w-full p-3 border ${errors.lastName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                        {...register("lastName", {
+                                            required: "Last name is required"
+                                        })}
+                                    />
+                                    {errors.lastName && (
+                                        <p className="mt-1 text-xs text-red-600">{errors.lastName.message}</p>
                                     )}
                                 </div>
 
@@ -164,23 +185,27 @@ const SignUp = () => {
                                     )}
                                 </div>
 
-                                <div>
-                                    <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
-                                    <select
-                                        id="activity"
-                                        className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                                        {...register("activity", {
-                                            required: "Please select an option"
-                                        })}
-                                    >
-                                        <option value="" disabled>Select option</option>
-                                        <option value="sell">Sell</option>
-                                        <option value="buy">Buy</option>
-                                    </select>
-                                    {errors.activity && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
-                                    )}
-                                </div>
+                                {
+                                    showActivityField && (
+                                        <div>
+                                            <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
+                                            <select
+                                                id="activity"
+                                                className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                                                {...register("activity", {
+                                                    required: "Please select an option"
+                                                })}
+                                            >
+                                                <option value="" disabled>Select option</option>
+                                                <option value="sell">Sell</option>
+                                                <option value="buy">Buy</option>
+                                            </select>
+                                            {errors.activity && (
+                                                <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
+                                            )}
+                                        </div>
+                                    )
+                                }
 
                                 <div>
                                     <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">Password<span className="text-red-500">*</span></label>
@@ -193,8 +218,51 @@ const SignUp = () => {
                                             {...register("password", {
                                                 required: "Password is required",
                                                 minLength: {
-                                                    value: 6,
-                                                    message: "Password must be at least 6 characters"
+                                                    value: 8,
+                                                    message: "Password must be at least 8 characters"
+                                                },
+                                                validate: (value) => {
+                                                    const firstName = watch("firstName").toLowerCase();
+                                                    const lastName = watch("lastName").toLowerCase();
+                                                    const email = watch("email").toLowerCase();
+                                                    const nameInEmail = email.split('@')[0].toLowerCase();
+
+                                                    // Check for capital letter
+                                                    if (!/[A-Z]/.test(value)) {
+                                                        return "Password must contain at least one capital letter";
+                                                    }
+
+                                                    // Check for number
+                                                    if (!/[0-9]/.test(value)) {
+                                                        return "Password must contain at least one number";
+                                                    }
+
+                                                    // Check for special character
+                                                    if (!/[!@#$%&*]/.test(value)) {
+                                                        return "Password must contain at least one special character (! @ # $ % & *)";
+                                                    }
+
+                                                    // Check for name in password
+                                                    if (firstName && value.toLowerCase().includes(firstName.toLowerCase())) {
+                                                        return "Password cannot contain your name";
+                                                    }
+
+                                                    if (lastName && value.toLowerCase().includes(lastName.toLowerCase())) {
+                                                        return "Password cannot contain your name";
+                                                    }
+
+                                                    // Check for email in password
+                                                    if (email && (value.toLowerCase().includes(email.toLowerCase()) ||
+                                                        (nameInEmail && value.toLowerCase().includes(nameInEmail)))) {
+                                                        return "Password cannot contain your email address";
+                                                    }
+
+                                                    // Check for repeating characters (3 or more of the same character in a row)
+                                                    if (/(.)\1{2,}/.test(value)) {
+                                                        return "Password cannot contain repeating characters";
+                                                    }
+
+                                                    return true;
                                                 }
                                             })}
                                         />
@@ -310,7 +378,7 @@ const SignUp = () => {
                                 </button>
                             </form>
 
-                            <p className="text-center mt-5 text-[16px] text-gray-600">
+                            <p className="text-center my-5 text-[16px] font-normal text-gray-600">
                                 Already have an account?{' '}
                                 <Link href="/auth/login" className="font-medium text-[#3E3E3E] hover:text-blue-500">
                                     Login

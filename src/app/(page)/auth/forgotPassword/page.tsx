@@ -6,6 +6,7 @@ import {useForm} from "react-hook-form";
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 
 interface FormValues {
     email: string;
@@ -38,8 +39,8 @@ const Page = () => {
 
             // Simulating authentication
             setTimeout(() => {
-                console.log('Login attempted with:', data);
-                router.push('/dashboard');
+                console.log('Password:', data);
+                router.push('/auth/login');
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
@@ -58,14 +59,7 @@ const Page = () => {
             <div className="topGradient"></div>
 
             <div className="flex min-h-screen">
-                <div className="hidden lg:flex lg:w-1/2 relative p-2">
-                    <Image
-                        src={"/img/auth-banner.png"}
-                        alt="banner"
-                        width={709}
-                        height={940}
-                    />
-                </div>
+                <AuthBannerBanner />
 
                 <div className="relative w-full lg:w-1/2 flex flex-col px-4 md:px-8 pt-6">
                     <div>

@@ -2,10 +2,11 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import Link from "next/link";
-import Head from "next/head";
-import { useForm } from "react-hook-form";
+import Image from 'next/image';
+import Link from 'next/link';
+import Head from 'next/head';
+import { useForm } from 'react-hook-form';
+import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 
 // Define types for our form values
 interface FormValues {
@@ -63,12 +64,18 @@ const Login = () => {
         <meta name="description" content="Sign in to your Kuve account" />
       </Head>
 
-      <div className="topGradient"></div>
+            <div className="topGradient"></div>
 
-      <div className="flex min-h-screen">
-        <div className="relative hidden p-2 lg:flex lg:w-1/2">
-          <Image src={"/img/auth-banner.png"} alt="banner" width={709} height={940} />
-        </div>
+            <div className="flex min-h-screen">
+                {/*<div className="hidden min-h-[200px] lg:flex lg:w-1/2 relative p-2">*/}
+                    {/*<Image*/}
+                    {/*    src={"/img/auth-banner.png"}*/}
+                    {/*    alt="banner"*/}
+                    {/*    width={709}*/}
+                    {/*    height={40}*/}
+                    {/*/>*/}
+                {/*</div>*/}
+                <AuthBannerBanner />
 
         {/* Right side - Login Form */}
         <div className="relative flex flex-col w-full px-4 pt-6 lg:w-1/2 md:px-8">
@@ -94,19 +101,17 @@ const Login = () => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center w-full max-w-md mx-auto mt-12">
-            <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
-              <div className="mb-4 text-center">
-                <div className="flex justify-center mb-6">
-                  <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
-                </div>
-                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">
-                  Welcome Back
-                </h2>
-                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px h-[48px]">
-                  Enter your email and password to access your account.
-                </p>
-              </div>
+                    <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-12">
+                        <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+                            <div className="mb-4 text-center">
+                                <div className="flex justify-center mb-6">
+                                    <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
+                                </div>
+                                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Welcome Back</h2>
+                                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px h-[48px]">
+                                    Enter your email and password to access your account.
+                                </p>
+                            </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
@@ -197,27 +202,24 @@ const Login = () => {
                   )}
                 </div>
 
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center">
-                    <input
-                      id="rememberMe"
-                      type="checkbox"
-                      className="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                      {...register("rememberMe")}
-                    />
-                    <label htmlFor="rememberMe" className="block ml-2 text-sm text-gray-700">
-                      Remember me
-                    </label>
-                  </div>
-                  <div>
-                    <Link
-                      href="/forgot-password"
-                      className="text-sm text-gray-600 hover:text-gray-900"
-                    >
-                      Forgot Password
-                    </Link>
-                  </div>
-                </div>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                            <input
+                                id="rememberMe"
+                                type="checkbox"
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                {...register("rememberMe")}
+                            />
+                            <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+                        <div>
+                            <Link href="/auth/forgotPassword" className="text-sm text-gray-600 hover:text-gray-900">
+                                Forgot Password
+                            </Link>
+                        </div>
+                    </div>
 
                 <button
                   type="submit"
@@ -273,21 +275,18 @@ const Login = () => {
                 </button>
               </form>
 
-              <p className="text-center mt-12 text-[16px] text-gray-600">
-                {` Don't have an account?`}
-                <Link
-                  href="/auth/signUp"
-                  className="font-medium text-[#3E3E3E] hover:text-blue-500"
-                >
-                  Sign Up
-                </Link>
-              </p>
+                            <p className="text-center mt-8 text-[16px] font-normal text-gray-600">
+                                {`Don't have an account?`}{' '}
+                                <Link href="/auth/signUp" className="font-medium text-[#3E3E3E] hover:text-blue-500">
+                                    Sign Up
+                                </Link>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Login;
