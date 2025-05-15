@@ -202,24 +202,24 @@ const Login = () => {
                   )}
                 </div>
 
-                                <div className="flex items-center justify-between">
-                                    <div className="flex items-center">
-                                        <input
-                                            id="rememberMe"
-                                            type="checkbox"
-                                            className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                            {...register("rememberMe")}
-                                        />
-                                        <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                                            Remember me
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <Link href="/auth/forgotPassword" className="text-sm text-gray-600 hover:text-gray-900">
-                                            Forgot Password
-                                        </Link>
-                                    </div>
-                                </div>
+                    <div className="flex items-center justify-between">
+                        <div className="flex items-center">
+                            <input
+                                id="rememberMe"
+                                type="checkbox"
+                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                                {...register("rememberMe")}
+                            />
+                            <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                                Remember me
+                            </label>
+                        </div>
+                        <div>
+                            <Link href="/auth/forgotPassword" className="text-sm text-gray-600 hover:text-gray-900">
+                                Forgot Password
+                            </Link>
+                        </div>
+                    </div>
 
                 <button
                   type="submit"
@@ -276,7 +276,7 @@ const Login = () => {
               </form>
 
                             <p className="text-center mt-8 text-[16px] font-normal text-gray-600">
-                                Don't have an account?{' '}
+                                {`Don't have an account?`}{' '}
                                 <Link href="/auth/signUp" className="font-medium text-[#3E3E3E] hover:text-blue-500">
                                     Sign Up
                                 </Link>
