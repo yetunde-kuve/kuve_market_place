@@ -14,6 +14,31 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+.gradientBackground {
+  /*position: fixed;*/
+  top: 0;
+  left: 0;
+  /*width: 1440px;*/
+  height: 511px;
+  background-image: url('/img/GradientMesh_Light.png');
+  background-size: cover;
+  background-position: center;
+  /*display: flex;*/
+  /*justify-content: center;*/
+  /*align-items: center;*/
+}
+
+.topGradient {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 55vh; /* Adjust this value to control how much of the page is covered by the gradient */
+  background-image: url('/img/GradientMesh_Light.png'); /* Replace with your actual gradient background image */
+  background-size: cover;
+  background-position: center top;
+  z-index: 0;
+}
 
 input {
   caret-color: #ff9d98;
