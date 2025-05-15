@@ -29,7 +29,7 @@ module.exports = {
         },
         black: {
           primary: "#000000",
-          light: "#222222",
+          light: "#121212",
         },
 
         background: {
@@ -78,6 +78,11 @@ module.exports = {
             DEFAULT: "#B4B4BF",
             dark: "#9CA3AF",
           },
+        },
+        blue: {
+          DEFAULT: "#212844",
+          light: "#000222",
+          dark: "#6EE7B7",
         },
         success: {
           DEFAULT: "#244B01",
