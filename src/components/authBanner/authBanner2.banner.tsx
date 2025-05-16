@@ -1,9 +1,9 @@
 import React from "react";
 import Image from "next/image";
 
-const AuthBannerBanner = () => {
+const AuthBannerBanner2 = () => {
   return (
-    <div className="hidden lg:flex lg:w-1/2 relative w-[709px] text-white m-3">
+    <div className="hidden lg:flex lg:w-full relative w-[709px] text-white m-3">
       <div className="absolute inset-0">
         <Image
           src="/img/banner-bg.png"
@@ -26,7 +26,7 @@ const AuthBannerBanner = () => {
             />
           </div>
         </div>
-        <h1 className="text-6xl font-normal mb-6">
+        <h1 className="mb-6 text-6xl font-normal">
           Get
           <br />
           Everything
@@ -42,4 +42,4 @@ const AuthBannerBanner = () => {
   );
 };
 
-export default AuthBannerBanner;
+export default AuthBannerBanner2;

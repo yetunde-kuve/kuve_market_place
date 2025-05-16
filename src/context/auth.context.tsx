@@ -1,26 +1,16 @@
 import React, { useContext, useState, useEffect, useRef } from "react";
 import axios, { AxiosError } from "axios";
 import { useUtils } from "./utils.context";
-import {
-  delay,
-  extractLink,
-  getFromLocal,
-  isLinkRestricted,
-  printOut,
-  reLogin,
-  resumePage,
-  savePage,
-  saveToLocal,
-} from "../utils/app.utils";
 
 import { usePathname, useRouter } from "next/navigation";
 // import { UserModel } from "../components/models/usermodel";
 // import { SettingsModel } from "../components/models/settingsmodel";
-import { AccessItem } from "../components/widgets/dialogs/accessCode.dialog";
+import { AccessItem } from "@/components/widgets/dialogs/accessCode.dialog";
 // import TimeAgo from "javascript-time-ago";
 // import { NotifyModel } from "../components/models/notifymodel";
 import { useCached } from "./cached.context";
 import { RiTokenSwapFill } from "react-icons/ri";
+import { getFromLocal, isLinkRestricted, savePage } from "@/utils/app.utils";
 
 // import en from 'javascript-time-ago/locale/en';
 
@@ -106,7 +96,7 @@ export function AuthProvider({ children }: any) {
   function kickOut({ force = false }: { force?: boolean } = {}) {
     savePage({ force: force });
     logout();
-    // router.push("/"); commented out till login is implemented
+    router.push("/");
     setUserLoaded(false);
     setRoleSet(false);
     setCachedHomeData(null);

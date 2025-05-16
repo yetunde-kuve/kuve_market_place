@@ -1047,6 +1047,8 @@ export function isLinkRestricted(path: string): boolean {
   if (path.includes("/onboarding")) return false;
   if (path.includes("/pages/card-tokenization")) return false;
   if (path.includes("/confirmbankpayment")) return false;
+  if (path.includes("/auth")) return false;
+  if (path.includes("/dasboard")) return false;
 
   //  console.log(``)
 
