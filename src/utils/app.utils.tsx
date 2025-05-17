@@ -1036,7 +1036,16 @@ export function getFittedWidth(
 
   return fittedWidth;
 }
+export const isValidEmail = (email: string) => {
+  // Basic regex for email validation
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
 
+export const isValidNigerianPhone = (phone: string) => {
+  return (
+    /^0\d{10}$/.test(phone) || /^234[1-9]\d{9}$/.test(phone) // starts with 0 or 234 but not 2340
+  );
+};
 export function isLinkRestricted(path: string): boolean {
   // console.log("this is the path", path);
 
