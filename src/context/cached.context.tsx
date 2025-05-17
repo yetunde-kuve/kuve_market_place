@@ -9,6 +9,9 @@ export function useCached(): any {
 export function CachedProvider({ children }: any) {
   const [onboardingModel, setOnboardingModel] = useState<any>({});
   const [onboardingStepper, setOnboardingStepper] = useState(0);
+  const [submitHandler, setSubmitHandler] = useState<() => boolean>(
+    () => () => true
+  );
 
   const [resetpasswordModel, setResetPasswordModel] = useState<any>({});
   const [cachedHomeData, setCachedHomeData] = useState<null | CachedItem>(null);
@@ -38,6 +41,7 @@ export function CachedProvider({ children }: any) {
   const [cachedGb, setCachedGb] = useState("");
   const [cacheNiara, setCacheNaira] = useState("");
   const [showConvertModal, setShowConvertModal] = useState(true);
+  const [totalSteps, setTotalSteps] = useState<number>(0);
 
   // const [cachedHomeList, setCachedHomeList] = useState(null) as any;
   // const [homeScroll, setHomeScroll] = useState(0) as any;
@@ -46,6 +50,10 @@ export function CachedProvider({ children }: any) {
   // const [lastItem, setLastItem] = useState() as any;
   // const [lastPostData, setLastPostData] = useState(null) as any;
   const value = {
+    totalSteps,
+    setTotalSteps,
+    submitHandler,
+    setSubmitHandler,
     onboardingStepper,
     setOnboardingStepper,
     onboardingModel,
