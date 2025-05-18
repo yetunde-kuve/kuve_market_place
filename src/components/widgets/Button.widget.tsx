@@ -27,7 +27,7 @@ export default function Button({
        ...props
    }: ButtonProps): ReactElement {
     // Base button styles
-    const baseStyles = "font-medium rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2";
+    const baseStyles = "font-medium rounded-full transition-all duration-200";
 
     // Color variants
     const colorStyles = {
