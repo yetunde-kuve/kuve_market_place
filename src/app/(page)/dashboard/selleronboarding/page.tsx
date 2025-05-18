@@ -7,6 +7,8 @@ import Logo from "../../../../../public/img/logo.svg";
 import { useCached } from "@/context/cached.context";
 import BusinessInfomation from "./StepperComponent/busnessInfo.component";
 import BusinessMoreInformation from "./StepperComponent/businesMoreinfo.component";
+import StorefrontSetup from "@/app/(page)/dashboard/selleronboarding/StepperComponent/storeFrontSetup.component";
+import StoreOperatingTime from "@/app/(page)/dashboard/selleronboarding/StepperComponent/storeOperatingTime.component";
 
 type StepType = {
   label: string;
@@ -33,13 +35,13 @@ const stepContent: Record<number, StepType> = {
     label: "Set Up Your Storefront",
     sub: "Tell us more about your business",
     icon: "icon",
-    component: "Fourth Component",
+    component: <StorefrontSetup />,
   },
   3: {
     label: "Store Operating Time",
     sub: "What days in a week does your store operate?",
     icon: "icon",
-    component: "Fivth Component",
+    component: <StoreOperatingTime />,
   },
 };
 
@@ -78,7 +80,7 @@ export default function SellerOnboarding() {
       <div className="grid w-full h-full lg:grid-cols-2 grid-1">
         <AuthBannerBanner2 />
         <div className="relative flex flex-col h-screen overflow-y-auto ">
-          <div className="flex gap-[40px] lg:gap-[55px] relative flex-col items-center justify-center flex-grow lg:pb-[88px] lg:pt-[88px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px] ">
+          <div className="flex gap-[40px] lg:gap-[55px] relative flex-col items-center justify-center flex-grow lg:pb-[60px] lg:pt-[60px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px] ">
             <div className="absolute top-0 items-center justify-between hidden w-full px-4 py-3 lg:flex ">
               <>
                 <p className="text-[14px] font-[700] text-[#808287]">
@@ -93,9 +95,9 @@ export default function SellerOnboarding() {
                       alert("Last stepper");
                     }
                   }}
-                  className="text-[14px] font-[700] text-[#212844]"
+                  className="text-[20px] font-[700] text-[#212844]"
                 >
-                  Skip
+                  SKIP
                 </button>
               </>
             </div>
@@ -143,7 +145,7 @@ export default function SellerOnboarding() {
 
             <div className="flex flex-col gap-[12px]  justify-center items-center  md:bg-white lg:bg-transparent md:p-[50px] lg:p-4 md:rounded-[20px] lg:rounded-none md:shadow-md lg:shadow-none">
               <Image src={Logo} width={141} height={31} alt="kuve logo" />
-              <p className="lg:text-[48px]  text-[#121212] md:text-[40px] text-[32px] font-[500] lg:w-[70%] text-center leading-[0.93]">
+              <p className="lg:text-[48px]  text-[#121212] md:text-[40px] text-[32px] font-[500] lg:w-[406px] lg:pt-10 text-center leading-[0.93]">
                 {" "}
                 {stepContent[onboardingStepper].label}
               </p>
