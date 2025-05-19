@@ -43,11 +43,13 @@ const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
                     className="md:w-[266px] rounded-[7px] md:rounded-[12px] md:h-[160px] lg:w-[270px] lg:h-[180px] w-[161px] h-[126px]"
                 />
             </div>
+
             <div>
                 <p className="text-[#000000]  text-[12px] font-[500] md:text-[16px]">
                     {productName}
                 </p>
             </div>
+
         </div>
     );
 };
