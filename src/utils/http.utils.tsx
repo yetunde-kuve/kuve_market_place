@@ -37,13 +37,14 @@ export class HttpUtil {
       progressMessage?: string;
     } = {}
   ) {
-    const { showLoading, hideLoading, failedDialog, successDialog } = this.props;
+    const { showLoading, hideLoading, failedDialog, successDialog } =
+      this.props;
 
     if (!silently) {
       showLoading(progressMessage ?? "Please Wait");
     }
 
-    let baseUrl = process.env.NEXT_PUBLIC_BASE_URL;
+    let baseUrl = process.env.NEXT_PUBLIC_BASED_URL;
     let url = `${baseUrl}${path}`;
     //   printOut("Url: $url");
 
@@ -62,21 +63,14 @@ export class HttpUtil {
     //   } catch (e) {}
     // }
     token = localStorage.getItem("token");
-
+    const APIKey = process.env.NEXT_PULIC_API_KEY;
     let header = {
       "Content-Type": "application/json",
       // apikey: getApiKey(data ?? {}),
       authorization: token == null ? undefined : `Bearer ${token}`,
       // url: url,
-      userdevice: "",
-      xroute: "web",
-      "Content-Security-Policy":
-        "default-src 'self'; script-src 'self' 'unsafe-inline' https://trusted-scripts.com; style-src 'self' 'unsafe-inline' https://trusted-styles.com; img-src 'self' data: https://trusted-images.com; connect-src 'self' https://api.trusted-domain.com https://sentry.io; font-src 'self' https://fonts.googleapis.com; object-src 'none'; frame-ancestors 'self';",
-      "X-Frame-Options": "SAMEORIGIN",
-      "X-Content-Type-Options": "nosniff",
-      "Referrer-Policy": "no-referrer-when-downgrade",
-      "Permissions-Policy":
-        "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+
+      XApiKey: APIKey,
     };
     let payload = encryptDataForApi(data);
 
@@ -118,7 +112,8 @@ export class HttpUtil {
         if (handleError) {
           failedDialog(message);
         } else {
-          if (onComplete != undefined && onComplete != null) onComplete(respData, message);
+          if (onComplete != undefined && onComplete != null)
+            onComplete(respData, message);
         }
         // this.checkIndexError(message);
         return message;
@@ -129,7 +124,8 @@ export class HttpUtil {
         }
         // console.log("statustCode in successs",  statusCode)
         var result = respData["data"] ?? respData;
-        if (onComplete != undefined && onComplete != null) onComplete!(result, null, message);
+        if (onComplete != undefined && onComplete != null)
+          onComplete!(result, null, message);
         return result;
       }
       // })
@@ -139,7 +135,8 @@ export class HttpUtil {
       if (handleError) {
         failedDialog(error);
       } else {
-        if (onComplete != undefined && onComplete != null) onComplete(null, error);
+        if (onComplete != undefined && onComplete != null)
+          onComplete(null, error);
       }
       return error;
     }
