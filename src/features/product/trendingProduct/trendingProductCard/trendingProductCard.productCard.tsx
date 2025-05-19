@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import {FaHeart, FaRegHeart} from "react-icons/fa";
+import Image from "next/image";
+import DefaultImage from "../../../../../public/img/productdefaultimg.png";
 
 type trendingProductCardProps = {
     image?: string;
@@ -9,6 +11,9 @@ const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
       image,
       productName
   }) => {
+
+    const isValidImage = typeof image === "string" && image.trim() !== "";
+
 
     const [loved, setLoved] = useState<Boolean>(false);
     const handleLove = () => {
@@ -30,8 +35,8 @@ const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
                     )}
                   </button>
                 </span>
-                <img
-                    src={image}
+                <Image
+                    src={isValidImage ? image! : DefaultImage}
                     width={270}
                     height={180}
                     alt="image"
