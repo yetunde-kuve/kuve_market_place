@@ -17,7 +17,7 @@ export default function Page() {
   const register = async () => {
     // setLoading(true);
     const response = await (apiCaller() as HttpUtil).performApiCall(
-      "Test/GetIPAddress",
+      "Test/TestEncryption",
       (res: any, error: any, smessage: any) => {
         if (error) {
           console.log(error);
@@ -27,8 +27,11 @@ export default function Page() {
         }
       },
       {
-        data: {},
-        getMethod: true,
+        data: {
+          payload: "string",
+        },
+
+        getMethod: false,
         silently: true,
       }
     );

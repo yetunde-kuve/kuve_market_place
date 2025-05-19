@@ -6,7 +6,7 @@ import { IoNotificationsOutline } from "react-icons/io5";
 import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu";
 import { useRef } from "react";
 import IconDropdown from "../dropDownIcon/dropDownIcon.component";
-import {useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -94,47 +94,11 @@ export default function NavBar() {
         { id: 32, label: "Rambutan" },
       ],
     },
-    {
-      title: "Exotics",
-      categories: [
-        { id: 29, label: "Dragon Fruit" },
-        { id: 30, label: "Passion Fruit" },
-        { id: 31, label: "Durian" },
-        { id: 32, label: "Rambutan" },
-      ],
-    },
-    {
-      title: "Exotics",
-      categories: [
-        { id: 29, label: "Dragon Fruit" },
-        { id: 30, label: "Passion Fruit" },
-        { id: 31, label: "Durian" },
-        { id: 32, label: "Rambutan" },
-      ],
-    },
-    {
-      title: "Exotics",
-      categories: [
-        { id: 29, label: "Dragon Fruit" },
-        { id: 30, label: "Passion Fruit" },
-        { id: 31, label: "Durian" },
-        { id: 32, label: "Rambutan" },
-      ],
-    },
-    {
-      title: "Exotics",
-      categories: [
-        { id: 29, label: "Dragon Fruit" },
-        { id: 30, label: "Passion Fruit" },
-        { id: 31, label: "Durian" },
-        { id: 32, label: "Rambutan" },
-      ],
-    },
   ];
 
   const routeToRegister = () => {
     router.push("/auth/signUp?activity=sell");
-  }
+  };
 
   // @ts-ignore
   return (
@@ -160,7 +124,7 @@ export default function NavBar() {
                   Sell Now
                 </Button>
               </div>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-2">
                 <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
                   <img
                     src="/img/heart.svg"

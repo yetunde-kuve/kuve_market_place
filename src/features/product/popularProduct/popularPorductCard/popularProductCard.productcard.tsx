@@ -27,24 +27,27 @@ export default function PopularProductCard({
         <span className="md:w-[24px] bg-white absolute lg:top-[7px] lg:right-[7px] top-[3.85px] right-[3.85px] md:h-[24px] h-[18px] w-[18px] rounded-full flex justify-center items-center">
           <i className="ri-verified-badge-fill text-primary text-[13px] md:text-[17px]"></i>
         </span>
-        <Image
-          src={isValidImage ? image! : DefaultImage}
-          width={266}
-          height={160}
-          alt="product"
-          className="md:w-[266px] rounded-[7px] md:rounded-[12px] md:h-[160px] lg:w-full lg:h-[160px] w-[154px] h-[100px] object-cover"
-        />
-      </div>
-      <div className="flex gap-[12px] items-center">
-        <div className="h-[30px] w-[30px] md:h-[48px] md:w-[48px] overflow-hidden flex justify-center items-center rounded-full">
+        <div className="relative w-[154px] h-[100px] md:w-[266px] md:h-[160px] lg:w-full lg:h-[160px] overflow-hidden rounded-[12px]">
           <Image
             src={isValidImage ? image! : DefaultImage}
-            alt="avatar"
-            height={48}
-            width={48}
-            className="object-cover w-full h-full"
+            alt="product"
+            fill
+            className="object-contain"
           />
         </div>
+      </div>
+      <div className="flex gap-[12px] items-center">
+        <div className="h-[30px] w-[30px] md:h-[48px] md:w-[48px] rounded-full bg-gray-100 flex items-center justify-center">
+          <div className="relative w-full h-full overflow-hidden rounded-full">
+            <Image
+              src={isValidImage ? image! : DefaultImage}
+              alt="avatar"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+
         <div>
           <p
             className={`${bricolage.className} text-text text-[12px] font-[700] md:text-[20px]`}

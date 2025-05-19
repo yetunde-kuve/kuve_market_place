@@ -3,7 +3,7 @@ import SocialMedialFooterIcon from "./component/socialMediaIcon.component";
 
 export default function Footer() {
   return (
-    <div className="bg-black-primary lg:mt-[87px] md:mt-[94px] mt-[70px] w-full lg:px-[88px] lg:py-[140px] md:px-[30px] md:py-[60px]  px-4 py-[39px] flex flex-col lg:gap-[70px]  md:gap-[33px] gap-[21px]">
+    <div className="bg-[#000222] lg:mt-[87px] md:mt-[94px] mt-[70px] w-full lg:px-[88px] lg:py-[140px] md:px-[30px] md:py-[60px]  px-4 py-[39px] flex flex-col lg:gap-[70px]  md:gap-[33px] gap-[21px]">
       <div className="grid md:grid-cols-4 grid-cols-1 lg:gap-[90px]  md:gap-[20px] gap-[30px] w-full">
         <div className="flex flex-col gap-[25px] m w-full md:order-1 order-4">
           <img
