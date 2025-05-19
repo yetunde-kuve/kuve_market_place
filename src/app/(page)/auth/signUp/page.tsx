@@ -77,7 +77,7 @@ const SignUpForm = () => {
             // Simulating registration
             setTimeout(() => {
                 console.log('Registration attempted with:', data);
-                router.push('/auth/verify');
+                router.push(`/auth/verify/?type=${activityParam}`);
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
@@ -98,7 +98,7 @@ const SignUpForm = () => {
                 <input
                     id="firstName"
                     placeholder="Enter your first name"
-                    className={`w-full p-3 border ${errors.firstName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 border ${errors.firstName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("firstName", {
                         required: "First name is required"
                     })}
@@ -112,7 +112,7 @@ const SignUpForm = () => {
                 <input
                     id="lastName"
                     placeholder="Enter your last name"
-                    className={`w-full p-3 border ${errors.lastName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 border ${errors.lastName ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("lastName", {
                         required: "Last name is required"
                     })}
@@ -127,7 +127,7 @@ const SignUpForm = () => {
                 <input
                     id="email"
                     placeholder="Enter your email"
-                    className={`w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("email", {
                         required: "Email is required",
                         pattern: {
@@ -146,7 +146,7 @@ const SignUpForm = () => {
                 <input
                     id="phoneNumber"
                     placeholder="Enter your phone number"
-                    className={`w-full p-3 border ${errors.phoneNumber ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 border ${errors.phoneNumber ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("phoneNumber", {
                         required: "Phone number is required",
                         pattern: {
@@ -166,7 +166,7 @@ const SignUpForm = () => {
                         <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
                         <select
                             id="activity"
-                            className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                            className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                             {...register("activity", {
                                 required: "Please select an option"
                             })}
@@ -352,7 +352,7 @@ const SignUpForm = () => {
                 Sign up with Google
             </button>
 
-            <p className="text-center my-5 text-[16px] font-normal text-gray-600">
+            <p className="text-center my-5 pb-12 text-[16px] font-normal text-gray-600">
                 Already have an account?{' '}
                 <Link href="/auth/login" className="font-medium text-[#3E3E3E] hover:text-blue-500">
                     Login
@@ -392,7 +392,7 @@ const SignUp = () => {
                     </div>
 
                     <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-8">
-                        <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+                        <div className="w-full lg:max-w-md md:w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
                             <div className="mb-4 text-center">
                                 <div className="flex justify-center mb-6">
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
