@@ -7,7 +7,7 @@ const TrendingProduct = () => {
     {
       id: 1,
       image: "/img/productDefaultimg.png",
-      productName: "Breed Dry Dog Food",
+      productName: "Breed Dog Food",
     },
     {
       id: 2,
