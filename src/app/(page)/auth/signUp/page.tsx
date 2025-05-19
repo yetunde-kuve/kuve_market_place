@@ -352,7 +352,7 @@ const SignUpForm = () => {
                 Sign up with Google
             </button>
 
-            <p className="text-center my-5 pb-12 text-[16px] font-normal text-gray-600">
+            <p className="text-center my-5 pb-10 text-[16px] font-normal text-gray-600">
                 Already have an account?{' '}
                 <Link href="/auth/login" className="font-medium text-[#3E3E3E] hover:text-blue-500">
                     Login
