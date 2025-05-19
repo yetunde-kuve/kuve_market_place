@@ -9,56 +9,35 @@ import ViewAll from "@/components/widgets/ViewAll.widget";
 import SliderButton from "@/components/sliderButton/sliderButton.sliderButton";
 import IconDropdown from "@/components/dropDownIcon/dropDownIcon.component";
 import { HttpUtil } from "@/utils/http.utils";
+import { useUtils } from "@/context/utils.context";
+import { useEffect } from "react";
 
 export default function Page() {
-  // const register = async () => {
-  //   // setLoading(true);
-  //   const response = await (apiCaller() as HttpUtil).performApiCall(
-  //     "/account/account-registration",
-  //     (res: any, error: any, smessage: any) => {
-  //       if (error) {
-  //         console.log(error);
-  //         setLoading(false);
-  //         toast.error(error);
-  //         return;
-  //       }
-  //     },
-  //     {
-  //       data: {
-  //         countryId: country,
-  //         businessName: businessName,
-  //         firstName: firstName,
-  //         lastName: lastName,
-  //         emailAddress: email,
-  //       },
-  //       getMethod: false,
-  //       silently: true,
-  //     }
-  //   );
-  //   if (response?.nextStage == "VerifyEmail") {
-  //     setBusOnboardingActiveStep(busOnboardingActiveStep + 1);
-  //     bussinessModel.userId = response?.userId;
-  //     bussinessModel.email = response?.email;
-  //     setBusinessModel(bussinessModel);
-  //     setLoading(false);
-  //     return;
-  //   } else if (response?.nextStage == "CreatePassword") {
-  //     setBusOnboardingActiveStep(busOnboardingActiveStep + 2);
-  //   } else {
-  //     setLoading(false);
+  const { apiCaller } = useUtils();
+  const register = async () => {
+    // setLoading(true);
+    const response = await (apiCaller() as HttpUtil).performApiCall(
+      "Test/GetIPAddress",
+      (res: any, error: any, smessage: any) => {
+        if (error) {
+          console.log(error);
+          // setLoading(false);
+          // toast.error(error);
+          return;
+        }
+      },
+      {
+        data: {},
+        getMethod: true,
+        silently: true,
+      }
+    );
 
-  //     bussinessModel.userId = response?.userId;
-
-  //     bussinessModel.email = email;
-  //     setBusinessModel(bussinessModel);
-  //     toast.success(response?.message);
-  //     setTimeout(() => {
-  //       setBusOnboardingActiveStep(busOnboardingActiveStep + 1);
-  //     }, 2000);
-
-  //     console.log(response);
-  //   }
-  // };
+    console.log(response);
+  };
+  useEffect(() => {
+    register();
+  }, []);
   return (
     <div className="p-8 space-y-8">
       <h1 className="mb-6 text-2xl font-bold">Button Component</h1>
