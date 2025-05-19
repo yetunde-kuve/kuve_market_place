@@ -6,22 +6,22 @@ const TrendingProduct = () => {
   const products = [
     {
       id: 1,
-      image: "/img/productDefaultimg.png",
+      image: "https://mchris.ng/wp-content/uploads/2023/06/1-17.jpg",
       productName: "Breed Dry Dog Food",
     },
     {
       id: 2,
-      image: "/img/productDefaultimg.png",
+      image: "https://mchris.ng/wp-content/uploads/2023/06/1-17.jpg",
       productName: "Breed Dry Dog Food",
     },
     {
       id: 3,
-      image: "/img/productDefaultimg.png",
+      image: "https://mchris.ng/wp-content/uploads/2023/06/1-17.jpg",
       productName: "Breed Dry Dog Food",
     },
     {
       id: 4,
-      image: "/img/productDefaultimg.png",
+      image: "https://mchris.ng/wp-content/uploads/2023/06/1-17.jpg",
       productName: "Breed Dry Dog Food",
     },
     // { id: 5, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },

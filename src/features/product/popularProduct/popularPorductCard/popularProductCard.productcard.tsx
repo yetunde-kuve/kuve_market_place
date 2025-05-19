@@ -27,13 +27,15 @@ export default function PopularProductCard({
         <span className="md:w-[24px] bg-white absolute lg:top-[7px] lg:right-[7px] top-[3.85px] right-[3.85px] md:h-[24px] h-[18px] w-[18px] rounded-full flex justify-center items-center">
           <i className="ri-verified-badge-fill text-primary text-[13px] md:text-[17px]"></i>
         </span>
-        <Image
-          src={isValidImage ? image! : DefaultImage}
-          width={266}
-          height={160}
-          alt="product"
-          className="md:w-[266px] rounded-[7px] md:rounded-[12px] md:h-[160px] lg:w-full lg:h-[160px] w-[154px] h-[100px] object-cover"
-        />
+        <div className="w-[154px] h-[100px] md:w-[266px] md:h-[160px] lg:w-full lg:h-[160px] relative">
+          <Image
+            src={isValidImage ? image! : DefaultImage}
+            alt="product"
+            fill
+            className="rounded-[12px] object-contain bg-white"
+            sizes="(max-width: 768px) 154px, (max-width: 1024px) 266px, 100vw"
+          />
+        </div>
       </div>
       <div className="flex gap-[12px] items-center">
         <div className="h-[30px] w-[30px] md:h-[48px] md:w-[48px] overflow-hidden flex justify-center items-center rounded-full">
