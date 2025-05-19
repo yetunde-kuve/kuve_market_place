@@ -98,6 +98,7 @@ export default function Page() {
               { label: "Dashboard", href: "/dashboard" },
               { label: "Settings", icon: <i className="ri-tools-line"></i>, onClick: () => {} },
             ]}
+            mobileRedirectPath="/"
           />
         </div>
       </div>
