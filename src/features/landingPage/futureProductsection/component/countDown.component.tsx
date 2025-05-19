@@ -47,10 +47,10 @@ const CountdownTimer = () => {
       {Object.entries(timeLeft).map(([label, value]) => (
         <div
           key={label}
-          className="text-center bg-white text-text rounded-full h-[44px] w-[44px] flex flex-col items-center justify-center"
+          className="text-center bg-white text-text rounded-full h-[64px] w-[64px] flex flex-col items-center justify-center"
         >
-          <div className="text-[11px] font-[600]">{value}</div>
-          <div className="text-[7.9px] font-[400]">{label}</div>
+          <div className="text-[12px] font-[600]">{value}</div>
+          <div className="text-[8.9px] font-[400]">{label}</div>
         </div>
       ))}
     </div>

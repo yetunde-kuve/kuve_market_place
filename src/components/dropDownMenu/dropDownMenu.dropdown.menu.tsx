@@ -118,7 +118,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
               onMouseLeave={handleMouseLeave}
             >
               {/* scroll wrapper */}
-              <div className="max-h-[330px] overflow-auto px-[100px] py-[63px] mx-10">
+              <div className="overflow-auto px-[100px] py-[63px] mx-10">
                 <div className="grid grid-cols-4 gap-[40.7px] min-w-max">
                   {items.map((group: any, index: number) => (
                     <div
