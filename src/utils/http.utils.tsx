@@ -85,12 +85,12 @@ export class HttpUtil {
 
       let body = response.data;
       let encryptedResponse = body.response;
-      // printOut(`encryptedResponse: ${encryptedResponse}`);
+      printOut(`encryptedResponse: ${encryptedResponse}`);
       let decryptedResponse = decryptDataForApi(encryptedResponse);
-      // printOut(`decryptedResponse: ${decryptedResponse}`);
+      printOut(`decryptedResponse: ${decryptedResponse}`);
 
       let respData = JSON.parse(decryptedResponse);
-
+      console.log(respData);
       if (NEXT_PUBLIC_DEBUG) {
         // printOut(
         //   `Response >> ${response.status} || ${JSON.stringify(respData)} <<`
