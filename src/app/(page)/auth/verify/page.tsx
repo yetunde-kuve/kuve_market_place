@@ -1,55 +1,38 @@
 'use client'
 
-import React, {useEffect, useState} from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState, Suspense } from "react";
+import { useRouter } from "next/navigation";
 import Image from 'next/image';
-import Link from 'next/link';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
-import Button from "@/components/widgets/Button.widget";
 
-// Define types for our form values
 interface FormValues {
     otp: string;
 }
-
-const Verify = () => {
+// Client Components that use useSearchParams
+const VerifyForm = () => {
+    // Move the code that uses useSearchParams into this component
+    const { useSearchParams } = require('next/navigation');
     const router = useRouter();
-    const [isLoading, setIsLoading] = useState<boolean>(false);
-    const [email, setEmail] = useState<string>('');
-    const [resendDisabled, setResendDisabled] = useState<boolean>(false);
-    const [countdown, setCountdown] = useState<number>(0);
+    const [isLoading, setIsLoading] = useState(false);
+    const [email, setEmail] = useState('');
+    const [resendDisabled, setResendDisabled] = useState(false);
+    const [countdown, setCountdown] = useState(0);
     const searchParams = useSearchParams();
     const name = searchParams.get('name');
+
     const {
         register,
         handleSubmit,
         formState: { errors },
         setValue,
         watch
-    } = useForm<FormValues>({
+    } = useForm({
         defaultValues: {
             otp: ''
         }
     });
-
-    // Get email from query params or local storage
-    // useEffect(() => {
-    //     const emailFromQuery = name;
-    //     const emailFromStorage = localStorage.getItem('verificationEmail');
-    //
-    //     if (emailFromQuery) {
-    //         setEmail(emailFromQuery);
-    //         localStorage.setItem('verificationEmail', emailFromQuery);
-    //     } else if (emailFromStorage) {
-    //         setEmail(emailFromStorage);
-    //     } else {
-    //         // Redirect to login if no email is found
-    //         router.push('/auth/login');
-    //     }
-    // }, [router]);
-
 
     useEffect(() => {
         if (countdown > 0) {
@@ -105,6 +88,67 @@ const Verify = () => {
         }
     };
 
+    return (
+        <form onSubmit={handleSubmit(onSubmit)} className="pt-6">
+            <div>
+                <div className="flex justify-between items-center mb-2">
+                    <label htmlFor="otp" className="block text-[16px] font-normal text-black-light">
+                        Verification Code
+                    </label>
+                    <div className="flex justify-end mt-2">
+                        <button
+                            type="button"
+                            onClick={handleResendOtp}
+                            disabled={resendDisabled}
+                            className={`text-sm font-medium ${resendDisabled ? 'text-gray-400' : 'text-orange-500 hover:text-orange-600'}`}
+                        >
+                            {resendDisabled ? `Resend OTP (${countdown}s)` : 'Resend OTP'}
+                        </button>
+                    </div>
+                </div>
+
+                <input
+                    id="otp"
+                    type="text"
+                    placeholder="Enter 6 digit code"
+                    className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    {...register("otp", {
+                        required: "OTP is required",
+                        pattern: {
+                            value: /^[0-9]{6}$/,
+                            message: "OTP must be 6 digits"
+                        }
+                    })}
+                    onChange={handleOtpChange}
+                />
+                {errors.otp && (
+                    <p className="mt-1 text-xs text-red-600">{errors.otp.message}</p>
+                )}
+            </div>
+
+            <div>
+                <button
+                    type="submit"
+                    disabled={isLoading || !watch('otp')}
+                    className="w-full mt-8 py-3 px-4 bg-blue-light text-white font-medium rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                >
+                    {isLoading ? 'Verifying...' : 'Verify'}
+                </button>
+            </div>
+        </form>
+    );
+};
+
+// Loading fallback for Suspense
+const LoadingFallback = () => (
+    <div className="flex justify-center items-center h-32">
+        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900"></div>
+    </div>
+);
+
+// Main component
+const Verify = () => {
+    const router = useRouter();
 
     return (
         <div className="relative bg-white">
@@ -138,60 +182,15 @@ const Verify = () => {
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                                 </div>
                                 <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Verify Email</h2>
-                                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px h-[48px]">
+                                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
                                     Enter OTP sent to your email to verify<br/>
                                     your account.
                                 </p>
                             </div>
 
-                            <form onSubmit={handleSubmit(onSubmit)} className="pt-6">
-                                <div>
-                                    <div className="flex justify-between items-center mb-2">
-                                        <label htmlFor="otp" className="block text-[16px] font-normal text-black-light">
-                                            Verification Code
-                                        </label>
-                                        <div className="flex justify-end mt-2">
-                                            <button
-                                                type="button"
-                                                onClick={handleResendOtp}
-                                                disabled={resendDisabled}
-                                                className={`text-sm font-medium ${resendDisabled ? 'text-gray-400' : 'text-orange-500 hover:text-orange-600'}`}
-                                            >
-                                                {resendDisabled ? `Resend OTP (${countdown}s)` : 'Resend OTP'}
-                                            </button>
-                                        </div>
-                                    </div>
-
-                                    <input
-                                        id="otp"
-                                        type="text"
-                                        placeholder="Enter 6 digit code"
-                                        className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-                                        {...register("otp", {
-                                            required: "OTP is required",
-                                            pattern: {
-                                                value: /^[0-9]{6}$/,
-                                                message: "OTP must be 6 digits"
-                                            }
-                                        })}
-                                        onChange={handleOtpChange}
-                                    />
-                                    {errors.otp && (
-                                        <p className="mt-1 text-xs text-red-600">{errors.otp.message}</p>
-                                    )}
-                                </div>
-
-                                <div>
-                                    <button
-                                        type="submit"
-                                        disabled={isLoading || !watch('otp')}
-                                        className="w-full mt-8 py-3 px-4 bg-blue-light text-white font-medium rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
-                                    >
-                                        {isLoading ? 'Verifying...' : 'Verify'}
-                                    </button>
-                                </div>
-
-                            </form>
+                            <Suspense fallback={<LoadingFallback />}>
+                                <VerifyForm />
+                            </Suspense>
                         </div>
                     </div>
                 </div>
