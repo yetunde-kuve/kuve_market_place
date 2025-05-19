@@ -5,10 +5,10 @@ import ViewAll from "@/components/widgets/ViewAll.widget";
 
 const TrendingProduct = () => {
     const products = [
-        { id: 1, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
-        { id: 2, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
-        { id: 3, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
-        { id: 4, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
+        { id: 1, image: "/img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
+        { id: 2, image: "/img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
+        { id: 3, image: "/img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
+        { id: 4, image: "/img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
         // { id: 5, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
         // { id: 6, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
         // { id: 7, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
