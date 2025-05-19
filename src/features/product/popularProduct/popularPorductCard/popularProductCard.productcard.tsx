@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Bricolage_Grotesque } from "next/font/google";
-
+import DefaultImage from "../../../../../public/img/productdefaultimg.png";
 const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
@@ -23,8 +23,8 @@ export default function PopularProductCard({
         <span className="md:w-[24px] bg-white absolute lg:top-[7px] lg:right-[7px] top-[3.85px] right-[3.85px] md:h-[24px]  h-[18px] w-[18px] rounded-full flex justify-center items-center">
           <i className="ri-verified-badge-fill text-primary text-[13px] md:text-[17px]"></i>
         </span>
-        <img
-          src={image}
+        <Image
+          src={DefaultImage}
           width={266}
           height={160}
           alt="image"
@@ -33,7 +33,13 @@ export default function PopularProductCard({
       </div>
       <div className="flex gap-[12px] items-center">
         <div className="h-[30px] w-[30px] md:h-[48px] md:w-[48px] overflow-hidden flex justify-center items-center rounded-full">
-          <img src={image} alt="image" className="object-cover w-full h-full" />
+          <Image
+            src={DefaultImage}
+            alt="image"
+            height={48}
+            width={48}
+            className="object-cover w-full h-full"
+          />
         </div>
         <div>
           <p
