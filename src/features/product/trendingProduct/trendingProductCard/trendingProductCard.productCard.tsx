@@ -28,7 +28,6 @@ const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
                     ) : (
                         <FaRegHeart size={18} />
                     )}
-
                   </button>
                 </span>
                 <img
