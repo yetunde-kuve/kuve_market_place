@@ -10,7 +10,7 @@ const nextConfig = {
         HOST: process.env.HOST || 'localhost',
       },
       images: {
-        domains: ['logo.clearbit.com','firebasestorage.googleapis.com','res.cloudinary.com'], // Add any other necessary domains here
+        domains: ['logo.clearbit.com','firebasestorage.googleapis.com','res.cloudinary.com', 'mchris.ng'], // Add any other necessary domains here
       },
       // experimental: {
       //   missingSuspenseWithCSRBailout: false,
