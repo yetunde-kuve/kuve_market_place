@@ -48,7 +48,7 @@ const Slider = () => {
   }, []);
 
   return (
-    <div className="relative w-full lg:h-[310px] md:h-auto h-auto">
+    <div className="relative w-full lg:h-[310px] md:h-auto h-[168px]">
       {/* Slider Background */}
       <div
         className="absolute top-0 left-0 w-full h-full bg-center bg-cover shadow-xl rounded-2xl bg-text"
@@ -68,7 +68,7 @@ const Slider = () => {
         </div>
 
         {/* Product Text and Button (Left Side) */}
-        <div className="z-10 flex flex-1 flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 text-white lg:pl-28 md:pl-14">
+        <div className="z-10 flex  flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 text-white lg:pl-28 md:pl-14">
           <p className="font-[600] text-white text-[clamp(10px, 3vw, 24px)]">
             {productList[currentIndex].title}
           </p>
@@ -84,9 +84,10 @@ const Slider = () => {
               Start Shopping
             </button>
           ) : (
-            <Button size="medium" color="pink">
+            <button className="mt-2 text-[8px] font-[600] text-black-primary px-[24px] py-[9.5px] rounded-full bg-primary md:text-[10px] lg:text-[14px]">
+              {" "}
               Start Shopping
-            </Button>
+            </button>
           )}
         </div>
 
