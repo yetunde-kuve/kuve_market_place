@@ -4,12 +4,14 @@ import Button from "../widgets/Button.widget";
 import { BsChatSquare } from "react-icons/bs";
 import { IoNotificationsOutline } from "react-icons/io5";
 import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import IconDropdown from "../dropDownIcon/dropDownIcon.component";
 import { useRouter } from "next/navigation";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [isScrolling, setIsScrolling] = useState(false);
+  const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
   const list = [
     { id: 1, name: "Groceries" },
@@ -99,6 +101,24 @@ export default function NavBar() {
   const routeToRegister = () => {
     router.push("/auth/signUp?activity=sell");
   };
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolling(true);
+
+      if (scrollTimeout.current) {
+        clearTimeout(scrollTimeout.current);
+      }
+
+      scrollTimeout.current = setTimeout(() => {
+        setIsScrolling(false);
+      }, 150); // Delay before showing again
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // @ts-ignore
   return (
@@ -215,7 +235,9 @@ export default function NavBar() {
           <div className="block md:hidden lg:hidden">
             <SearchBar />
           </div>
-          <div className="relative">
+          <div
+            className={`transition-all duration-300 ${isScrolling ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"}`}
+          >
             <div
               ref={scrollRef}
               className="flex w-full px-1 py-1 items-center gap-[7px] overflow-x-auto scrollbar-none whitespace-nowrap"

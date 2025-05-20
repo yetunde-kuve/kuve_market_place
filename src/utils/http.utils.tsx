@@ -63,33 +63,36 @@ export class HttpUtil {
     //   } catch (e) {}
     // }
     token = localStorage.getItem("token");
-    const APIKey = process.env.NEXT_PULIC_API_KEY;
+    const APIKey = process.env.NEXT_PUBLIC_API_KEY;
+    console.log(process.env.NEXT_PUBLIC_API_KEY);
     let header = {
       "Content-Type": "application/json",
       // apikey: getApiKey(data ?? {}),
-      authorization: token == null ? undefined : `Bearer ${token}`,
+      // authorization: token == null ? undefined : `Bearer ${token}`,
       // url: url,
 
       XApiKey: APIKey,
     };
     let payload = encryptDataForApi(data);
+    let dataPayload = {
+      data: payload,
+    };
 
-    // if (NEXT_PUBLIC_DEBUG) {
-    //   printOut(`Requesting >> ${url} || ${JSON.stringify(data)} || ${payload} || ${JSON.stringify(header)} <<`);
-    // }
-    // console.log(`Requesting >> ${url} ||  ${JSON.stringify(data)}  <<`)
     try {
       let response = await (!getMethod
-        ? axios.post(url, { body: { data: payload } }, { headers: header })
+        ? axios.post(url, dataPayload, { headers: header })
         : axios.get(url, { headers: header }));
 
       let body = response.data;
-      let encryptedResponse = body.response;
+      // console.log("encrypted body", body.data);
+      // console.log(decryptDataForApi(body.data));
+      // console.log("encrypted body.response", body.response);
+      let encryptedResponse = body.data;
       printOut(`encryptedResponse: ${encryptedResponse}`);
       let decryptedResponse = decryptDataForApi(encryptedResponse);
       printOut(`decryptedResponse: ${decryptedResponse}`);
-
-      console.log(response);
+      // console.log("this is");
+      // console.log(decryptedResponse);
       let respData = JSON.parse(decryptedResponse);
       console.log(respData);
       if (NEXT_PUBLIC_DEBUG) {
