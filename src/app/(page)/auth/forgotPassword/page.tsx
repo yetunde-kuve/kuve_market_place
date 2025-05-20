@@ -40,7 +40,7 @@ const Page = () => {
             // Simulating authentication
             setTimeout(() => {
                 console.log('Password:', data);
-                router.push('/auth/login');
+                router.push('/auth/reset');
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
