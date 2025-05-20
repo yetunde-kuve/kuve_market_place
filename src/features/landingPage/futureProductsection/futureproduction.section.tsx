@@ -26,10 +26,10 @@ export default function FutureProduct() {
             </Button>
           </div>
         </div>
-        <div>
+        <div className="drop-shadow-[0_0_40px_rgba(255,255,255,0.5)]">
           <Image
-            src={"/img/jbl.png"}
-            className="lg:h-[330px] lg:w-[568px]  md:w-[330px] md:h-[195px] w-full h-auto"
+            src="/img/jbl.png"
+            className="lg:h-[330px] lg:w-[568px] md:w-[330px] md:h-[195px] w-full h-auto"
             alt="product"
             width={568}
             height={330}

@@ -80,7 +80,7 @@ export class HttpUtil {
     // console.log(`Requesting >> ${url} ||  ${JSON.stringify(data)}  <<`)
     try {
       let response = await (!getMethod
-        ? axios.post(url, { body: payload }, { headers: header })
+        ? axios.post(url, { body: { data: payload } }, { headers: header })
         : axios.get(url, { headers: header }));
 
       let body = response.data;
@@ -89,6 +89,7 @@ export class HttpUtil {
       let decryptedResponse = decryptDataForApi(encryptedResponse);
       printOut(`decryptedResponse: ${decryptedResponse}`);
 
+      console.log(response);
       let respData = JSON.parse(decryptedResponse);
       console.log(respData);
       if (NEXT_PUBLIC_DEBUG) {
