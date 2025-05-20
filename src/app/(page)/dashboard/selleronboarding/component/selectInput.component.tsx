@@ -40,10 +40,10 @@ const CustomSelectInput = styled(InputBase)<{ error?: boolean }>(({ error }) => 
     borderRadius: "0.375rem", // rounded-md
     backgroundColor: "#f1f5f9", // slate-100
     color: "#121212",
-    border: `1px solid ${error ? "#ef4444" : "transparent"}`, // red-500 or primary
+    border: `1px solid ${error ? "#ef4444" : "#000222"}`, // red-500 or primary
     outline: "none",
     "&:focus": {
-      borderColor: error ? "#ef4444" : "#ff9d98",
+      borderColor: error ? "#ef4444" : "#000222",
     },
   },
 }));

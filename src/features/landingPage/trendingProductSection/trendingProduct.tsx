@@ -11,25 +11,26 @@ const TrendingProduct = () => {
       id: 1,
       image: T1,
       productName: "Breed Dry Dog Food",
+      price: "₦ 1’500,000.00"
     },
     {
       id: 2,
       image: T2,
       productName: "Breed Dry Dog Food",
+      price: "₦ 1’500,000.00"
     },
     {
       id: 3,
       image: T3,
       productName: "Breed Dry Dog Food",
+      price: "₦ 1’500,000.00"
     },
     {
       id: 4,
       image: T4,
       productName: "Breed Dry Dog Food",
+      price: "₦ 1’500,000.00"
     },
-    // { id: 5, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
-    // { id: 6, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
-    // { id: 7, image: "img/productDefaultimg.png", productName: "Breed Dry Dog Food" },
   ];
   return (
     <section className="flex flex-col w-full md:gap-[30px] gap-[18px]">
@@ -39,13 +40,14 @@ const TrendingProduct = () => {
         </p>
         <ViewAll />
       </div>
-      <div className="w-full overflow-x-auto scrollbar-none">
+      <div className="flex w-full items-center gap-[9.8px] md:gap-[10px] lg:gap-[22px] overflow-x-auto scrollbar-none whitespace-nowrap">
         <div className="flex gap-[9.8px] md:gap-[10px] lg:gap-[22px] w-max">
           {products.map((product) => (
             <TrendingProductCard
               key={product.id}
               image={product.image}
               productName={product.productName}
+              price={product.price}
             />
           ))}
         </div>

@@ -10,7 +10,7 @@ import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 import { Suspense } from "react";
 import { HttpUtil } from "@/utils/http.utils";
 import { useUtils } from "@/context/utils.context";
-import {Box, Checkbox, FormControlLabel, FormHelperText} from "@mui/material";
+import {Box, Checkbox, FormControlLabel, FormControl, Select, FormHelperText, MenuItem} from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
 import SucessfullDialog from "@/components/diaolog/successDialog.component";
 
@@ -210,26 +210,50 @@ const SignUpForm = () => {
           <p className="mt-1 text-xs text-red-600">{errors.phoneNumber.message}</p>
         )}
       </div>
-
             {
                 showActivityField && (
                     <div>
                         <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
-                        <select
-                            id="activity"
-                            className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
-                            {...register("activity", {
-                                required: "Please select an option"
-                            })}
-                        >
-                            <option value="" disabled>Select option</option>
-                            <option value="sell">Sell</option>
-                            <option value="buy">Buy</option>
-                        </select>
-                        {errors.activity && (
-                            <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
-                        )}
+                        <Controller
+                            name="activity"
+                            control={control}
+                            rules={{ required: "Please select an option" }}
+                            render={({ field }) => (
+                                <FormControl
+                                    fullWidth
+                                    error={!!errors.activity}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '12px',
+                                            backgroundColor: '#F5F7FA',
+                                            padding: '14px 0',
+                                            fontSize: '14px',
+                                            '& fieldset': {
+                                                borderColor: errors.activity ? 'red' : '#F5F7FA',
+                                            },
+                                            // other styling
+                                        },
+                                        // additional styling
+                                    }}
+                                >
+                                    <Select
+                                        {...field}
+                                        displayEmpty
+                                        placeholder="Select option"
+                                        inputProps={{ 'aria-label': 'What do you want to do?' }}
+                                    >
+                                        <MenuItem value="" disabled>Select option</MenuItem>
+                                        <MenuItem value="sell">Sell</MenuItem>
+                                        <MenuItem value="buy">Buy</MenuItem>
+                                    </Select>
+                                    {errors.activity && (
+                                        <FormHelperText error>{errors.activity.message}</FormHelperText>
+                                    )}
+                                </FormControl>
+                            )}
+                        />
                     </div>
+
                 )
             }
 

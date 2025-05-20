@@ -6,19 +6,21 @@ import DefaultImage from "../../../../../public/img/productdefaultimg.png";
 type trendingProductCardProps = {
   image?: any;
   productName?: string;
+  price?: string;
 };
-const TrendingProductCard: React.FC<trendingProductCardProps> = ({
-  image,
-  productName,
-}) => {
-  const isValidImage = typeof image === "string" && image.trim() !== "";
+const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
+      image,
+      productName, price
+  }) => {
+
+    const isValidImage = typeof image === "string" && image.trim() !== "";
 
   const [loved, setLoved] = useState<Boolean>(false);
   const handleLove = () => {
     setLoved(!loved);
   };
   return (
-    <div className="w-[178.85px] h-[168.37px] flex flex-col md:gap-[16px] gap-[9.52px] rounded-[14px] pt-[15px] px-[15px] md:rounded-[24px] lg:w-[300px] lg:h-[250px] md:w-[286.64px] md:h-[246.91px] bg-white">
+    <div className="w-[178.85px] h-[198.37px] flex flex-col md:gap-x-[16px] gap-[9.52px] rounded-[14px] pt-[15px] px-[15px] md:rounded-[24px] lg:w-[300px] lg:h-[274px] md:w-[286.64px] md:h-[271.91px] bg-white">
       <div className="relative">
         <span className="lg:w-[34px] lg:h-[34px] md:w-[32.35px] md:h-[32.45px] bg-white absolute lg:top-[7px] lg:right-[7px] top-[3.85px] right-[3.85px]  h-[20.23px] w-[20.23px] rounded-full flex justify-center items-center">
           <button
@@ -42,13 +44,19 @@ const TrendingProductCard: React.FC<trendingProductCardProps> = ({
         />
       </div>
 
-      <div>
-        <p className="text-[#000000]  text-[12px] font-[500] md:text-[16px]">
-          {productName}
-        </p>
-      </div>
-    </div>
-  );
+        <div>
+            <p className="text-[#000000] text-[9.52px] font-[500] md:text-[16px]">
+                {productName}
+            </p>
+        </div>
+        <div>
+            <p className="text-[#535353] text-[10px] font-[500] md:text-[13px]">
+                {price}
+            </p>
+        </div>
+
+        </div>
+    );
 };
 
 export default TrendingProductCard;
