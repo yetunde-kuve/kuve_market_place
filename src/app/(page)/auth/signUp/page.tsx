@@ -5,11 +5,12 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import { useForm } from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 import { Suspense } from "react";
 import { HttpUtil } from "@/utils/http.utils";
 import { useUtils } from "@/context/utils.context";
+import {Box, Checkbox, FormControlLabel, FormHelperText} from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
 import SucessfullDialog from "@/components/diaolog/successDialog.component";
 
@@ -38,7 +39,6 @@ const SignUpForm = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showActivityField, setShowActivityField] = useState<boolean>(true);
   const activityParam = searchParams.get("activity");
@@ -49,6 +49,7 @@ const SignUpForm = () => {
   const [loading, setLoading] = useState(false);
   // Initialize react-hook-form
   const {
+    control,
     register,
     handleSubmit,
     watch,
@@ -125,7 +126,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mb-6">
       <FullPageLoader open={loading} />
       {/* {openMessage && (
         <SucessfullDialog
@@ -144,7 +145,7 @@ const SignUpForm = () => {
         <input
           id="firstName"
           placeholder="Enter your first name"
-          className={`w-full p-3 border ${errors.firstName ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full p-3 border ${errors.firstName ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
           {...register("firstName", {
             required: "First name is required",
           })}
@@ -160,7 +161,7 @@ const SignUpForm = () => {
         <input
           id="lastName"
           placeholder="Enter your last name"
-          className={`w-full p-3 border ${errors.lastName ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full p-3 border ${errors.lastName ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
           {...register("lastName", {
             required: "Last name is required",
           })}
@@ -168,25 +169,24 @@ const SignUpForm = () => {
         {errors.lastName && <p className="mt-1 text-xs text-red-600">{errors.lastName.message}</p>}
       </div>
 
-      <div>
-        <label htmlFor="email" className="block mb-1 text-[16px] font-normal text-black-light">
-          Email<span className="text-red-500">*</span>
-        </label>
-        <input
-          id="email"
-          placeholder="Enter your email"
-          className={`w-full p-3 border ${errors.email ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-          {...register("email", {
-            required: "Email is required",
-            pattern: {
-              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-              message: "Invalid email address",
-            },
-          })}
-        />
-        {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
-      </div>
-
+            <div>
+                <label htmlFor="email" className="block mb-1 text-[16px] font-normal text-black-light">Email<span className="text-red-500">*</span></label>
+                <input
+                    id="email"
+                    placeholder="Enter your email"
+                    className={`w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                    {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address"
+                        }
+                    })}
+                />
+                {errors.email && (
+                    <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
+                )}
+            </div>
       <div>
         <label
           htmlFor="phoneNumber"
@@ -197,7 +197,7 @@ const SignUpForm = () => {
         <input
           id="phoneNumber"
           placeholder="Enter your phone number"
-          className={`w-full p-3 border ${errors.phoneNumber ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+          className={`w-full p-3 border ${errors.phoneNumber ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
           {...register("phoneNumber", {
             required: "Phone number is required",
             pattern: {
@@ -211,51 +211,47 @@ const SignUpForm = () => {
         )}
       </div>
 
-      {showActivityField && (
-        <div>
-          <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">
-            What do you want to do?<span className="text-red-500">*</span>
-          </label>
-          <select
-            id="activity"
-            className={`w-full p-3 border ${errors.activity ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            {...register("activity", {
-              required: "Please select an option",
-            })}
-          >
-            <option value="" disabled>
-              Select option
-            </option>
-            <option value="sell">Sell</option>
-            <option value="buy">Buy</option>
-          </select>
-          {errors.activity && (
-            <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
-          )}
-        </div>
-      )}
+            {
+                showActivityField && (
+                    <div>
+                        <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
+                        <select
+                            id="activity"
+                            className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                            {...register("activity", {
+                                required: "Please select an option"
+                            })}
+                        >
+                            <option value="" disabled>Select option</option>
+                            <option value="sell">Sell</option>
+                            <option value="buy">Buy</option>
+                        </select>
+                        {errors.activity && (
+                            <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
+                        )}
+                    </div>
+                )
+            }
 
-      <div>
-        <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">
-          Password<span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            className={`w-full p-3 border ${errors.password ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              validate: (value) => {
-                const firstName = watch("firstName").toLowerCase();
-                const lastName = watch("lastName").toLowerCase();
-                const email = watch("email").toLowerCase();
-                const nameInEmail = email.split("@")[0].toLowerCase();
+            <div>
+                <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">Password<span className="text-red-500">*</span></label>
+                <div className="relative">
+                    <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        className={`w-full p-3 border ${errors.password ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                        {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters"
+                            },
+                            validate: (value) => {
+                                const firstName = watch("firstName").toLowerCase();
+                                const lastName = watch("lastName").toLowerCase();
+                                const email = watch("email").toLowerCase();
+                                const nameInEmail = email.split('@')[0].toLowerCase();
 
                 // Check for capital letter
                 if (!/[A-Z]/.test(value)) {
@@ -340,64 +336,63 @@ const SignUpForm = () => {
         {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}
       </div>
 
-      {/*<div>*/}
-      {/*    <label htmlFor="confirmPassword" className="block mb-1 text-[16px] font-normal text-black-light">Confirm Password</label>*/}
-      {/*    <div className="relative">*/}
-      {/*        <input*/}
-      {/*            id="confirmPassword"*/}
-      {/*            type={showConfirmPassword ? "text" : "password"}*/}
-      {/*            placeholder="Confirm your password"*/}
-      {/*            className={`w-full p-3 border ${errors.confirmPassword ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}*/}
-      {/*            {...register("confirmPassword", {*/}
-      {/*                required: "Please confirm your password",*/}
-      {/*                validate: value => value === password || "Passwords do not match"*/}
-      {/*            })}*/}
-      {/*        />*/}
-      {/*        <button*/}
-      {/*            type="button"*/}
-      {/*            className="absolute inset-y-0 right-0 flex items-center pr-3"*/}
-      {/*            onClick={() => setShowConfirmPassword(!showConfirmPassword)}*/}
-      {/*        >*/}
-      {/*            {showConfirmPassword ? (*/}
-      {/*                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">*/}
-      {/*                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>*/}
-      {/*                    <line x1="1" y1="1" x2="23" y2="23"></line>*/}
-      {/*                </svg>*/}
-      {/*            ) : (*/}
-      {/*                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">*/}
-      {/*                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>*/}
-      {/*                    <circle cx="12" cy="12" r="3"></circle>*/}
-      {/*                </svg>*/}
-      {/*            )}*/}
-      {/*        </button>*/}
-      {/*    </div>*/}
-      {/*    {errors.confirmPassword && (*/}
-      {/*        <p className="mt-1 text-xs text-red-600">{errors.confirmPassword.message}</p>*/}
-      {/*    )}*/}
+      {/*<div className="flex items-center pt-3">*/}
+      {/*  <input*/}
+      {/*    id="agreeToTerms"*/}
+      {/*    type="checkbox"*/}
+      {/*    className="h-[20px] w-[20px] text-[#FF9D98] rounded focus:ring-[#FF9D98] checked:bg-[#FF9D98] checked:border-transparent"*/}
+      {/*    {...register("agreeToTerms", {*/}
+      {/*      required: "You must agree to the terms and conditions",*/}
+      {/*    })}*/}
+      {/*  />*/}
+      {/*  <label htmlFor="agreeToTerms" className="block ml-2 text-sm text-gray-700">*/}
+      {/*    I agree to the{" "}*/}
+      {/*    <Link href="/terms" className="text-blue-600 hover:text-blue-800">*/}
+      {/*      Terms and Conditions*/}
+      {/*    </Link>*/}
+      {/*  </label>*/}
       {/*</div>*/}
+      {/*{errors.agreeToTerms && <p className="text-xs text-red-600">{errors.agreeToTerms.message}</p>}*/}
 
-      <div className="flex items-center">
-        <input
-          id="agreeToTerms"
-          type="checkbox"
-          className="h-[20px] w-[20px] text-[#FF9D98] rounded focus:ring-[#FF9D98] checked:bg-[#FF9D98] checked:border-transparent"
-          {...register("agreeToTerms", {
-            required: "You must agree to the terms and conditions",
-          })}
+        <Controller
+            name="agreeToTerms"
+            control={control}
+            rules={{ required: "You must accept the terms and conditions" }}
+            render={({ field }) => (
+                <Box>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
+                                sx={{
+                                    color: '#FF9D98',
+                                    '&.Mui-checked': {
+                                        color: '#FF9D98',
+                                    },
+                                }}
+                            />
+                        }
+                        label={
+                            <span className="block text-[14px] text-gray-700">
+                                I agree to the{" "}
+                                <Link href="/terms" className="text-blue-600 hover:text-blue-800">
+                                    Terms and Conditions
+                                </Link>
+                            </span>
+                        }
+                    />
+                    {errors.agreeToTerms && (
+                        <FormHelperText error>{errors.agreeToTerms.message}</FormHelperText>
+                    )}
+                </Box>
+            )}
         />
-        <label htmlFor="agreeToTerms" className="block ml-2 text-sm text-gray-700">
-          I agree to the{" "}
-          <Link href="/terms" className="text-blue-600 hover:text-blue-800">
-            Terms and Conditions
-          </Link>
-        </label>
-      </div>
-      {errors.agreeToTerms && <p className="text-xs text-red-600">{errors.agreeToTerms.message}</p>}
 
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-3 px-4 bg-blue-light text-white text-[16px] font-normal rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 mt-4"
+        className="w-full py-3 px-4 bg-blue-light text-white text-[16px] font-normal rounded-[12px] hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 mt-4"
       >
         {isLoading ? "Creating Account..." : "Create Account"}
       </button>
@@ -416,7 +411,7 @@ const SignUpForm = () => {
       <button
         type="button"
         onClick={handleGoogleSignUp}
-        className="w-full flex items-center justify-center py-3 px-4 border border-[#EDEDED] rounded-md shadow-sm bg-white text-[16px] font-normal text-black-light hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+        className="w-full flex items-center justify-center py-3 px-4 border border-[#EDEDED] rounded-[12px] shadow-sm bg-white text-[16px] font-normal text-black-light hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       >
         <svg
           className="w-5 h-5 mr-2"
@@ -462,19 +457,13 @@ const SignUp = () => {
   const router = useRouter();
 
   return (
-    <div className="relative bg-white">
-      <Head>
-        <title>Kuve - Sign Up</title>
-        <meta name="description" content="Sign up for a Kuve account" />
-      </Head>
-
+    <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 bg-white">
       <div className="topGradient"></div>
-
-      <div className="flex min-h-screen">
+      <div className="grid w-full h-full lg:grid-cols-2 grid-1">
         <AuthBannerBanner />
         {/* Right side - Signup Form */}
-        <div className="relative flex flex-col w-full px-4 pt-6 lg:w-1/2 md:px-8">
-          <div>
+        <div className="relative flex flex-col h-screen overflow-y-auto lg:pb-[60px] lg:pt-[24px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px]">
+          <div className="absolute pl-3 md:pl-8 lg:pl-10">
             <button
               onClick={() => router.back()}
               className="flex items-center text-[14px] font-bold text-blue hover:text-gray-900"
@@ -496,25 +485,25 @@ const SignUp = () => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center w-full max-w-md mx-auto mt-8">
-            <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
-              <div className="mb-4 text-center">
-                <div className="flex justify-center mb-6">
-                  <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
-                </div>
-                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">
-                  Create Account
-                </h2>
-                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
-                  Create an account to start buying and selling on Kuve.
-                </p>
-              </div>
+            <div className="flex flex-col justify-center max-w-md mx-auto w-full md:mt-12 lg:mt-8 mt-8 md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px]">
+                <div className="mx-3 lg:mx-2 md:mx-24 md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+                    <div className="mb-4 text-center">
+                        <div className="flex justify-center mb-6">
+                            <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Create Account</h2>
+                            <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                                Create an account to start buying and selling on Kuve.
+                            </p>
+                        </div>
+                    </div>
 
-              <Suspense fallback={<LoadingFallback />}>
-                <SignUpForm />
-              </Suspense>
+                  <Suspense fallback={<LoadingFallback />}>
+                    <SignUpForm />
+                  </Suspense>
+                </div>
             </div>
-          </div>
         </div>
       </div>
     </div>

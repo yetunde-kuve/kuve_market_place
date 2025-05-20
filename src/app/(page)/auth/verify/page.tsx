@@ -20,7 +20,7 @@ const VerifyForm = () => {
     const [resendDisabled, setResendDisabled] = useState(false);
     const [countdown, setCountdown] = useState(0);
     const searchParams = useSearchParams();
-    const name = searchParams.get('name');
+    const name = searchParams.get('type');
 
     const {
         register,
@@ -61,7 +61,11 @@ const VerifyForm = () => {
             // Simulating verification
             setTimeout(() => {
                 console.log('OTP verification attempted:', data.otp);
-                router.push('/dashboard');
+                if (name === 'sell'){
+                    router.push('/dashboard/selleronboarding');
+                }else {
+                    router.push('/dashboard');
+                }
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
@@ -111,7 +115,7 @@ const VerifyForm = () => {
                     id="otp"
                     type="text"
                     placeholder="Enter 6 digit code"
-                    className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("otp", {
                         required: "OTP is required",
                         pattern: {
@@ -130,7 +134,7 @@ const VerifyForm = () => {
                 <button
                     type="submit"
                     disabled={isLoading || !watch('otp')}
-                    className="w-full mt-8 py-3 px-4 bg-blue-light text-white font-medium rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                    className="w-full mt-8 py-3 px-4 bg-blue-light text-white font-medium rounded-[12px] hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 disabled:bg-gray-400 disabled:cursor-not-allowed"
                 >
                     {isLoading ? 'Verifying...' : 'Verify'}
                 </button>
@@ -151,19 +155,13 @@ const Verify = () => {
     const router = useRouter();
 
     return (
-        <div className="relative bg-white">
-            <Head>
-                <title>Kuve - Verify</title>
-                <meta name="description" content="Verify email address to access your account" />
-            </Head>
-
+        <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 bg-white">
             <div className="topGradient"></div>
-
-            <div className="flex min-h-screen">
+            <div className="grid w-full h-full lg:grid-cols-2 grid-1">
                 <AuthBannerBanner/>
                 {/* Right side - Login Form */}
-                <div className="relative w-full lg:w-1/2 flex flex-col px-4 md:px-8 pt-6">
-                    <div>
+                <div className="relative flex flex-col h-screen overflow-y-auto lg:pb-[60px] lg:pt-[24px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px]">
+                    <div className="absolute pl-3 md:pl-8 lg:pl-10">
                         <button
                             onClick={() => router.back()}
                             className="flex items-center text-[14px] font-bold text-blue hover:text-gray-900"
@@ -174,18 +172,20 @@ const Verify = () => {
                             <span className="ml-2">GO BACK</span>
                         </button>
                     </div>
-                    <div className="flex flex-col justify-center max-w-md mx-auto w-full lg:mt-32 mt-44">
-                        <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+                    <div className="flex flex-col justify-center  max-w-md mx-auto w-full md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px] lg:mt-32 mt-44">
+                        <div className="mx-3 lg:mx-4 md:mx-24 md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-[20px] lg:px-0 md:py-12 md:px-8 lg:bg-transparent lg:shadow-none lg:p-0">
 
                             <div className="mb-4 text-center">
                                 <div className="flex justify-center mb-6">
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                                 </div>
-                                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Verify Email</h2>
-                                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
-                                    Enter OTP sent to your email to verify<br/>
-                                    your account.
-                                </p>
+                                <div className="flex flex-col items-center justify-center">
+                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Verify Email</h2>
+                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                                        Enter OTP sent to your email to verify<br/>
+                                        your account.
+                                    </p>
+                                </div>
                             </div>
 
                             <Suspense fallback={<LoadingFallback />}>

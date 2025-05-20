@@ -58,28 +58,13 @@ const Login = () => {
   };
 
   return (
-    <div className="relative bg-white">
-      <Head>
-        <title>Kuve - Sign In</title>
-        <meta name="description" content="Sign in to your Kuve account" />
-      </Head>
-
+    <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 bg-white">
             <div className="topGradient"></div>
-
-            <div className="flex min-h-screen">
-                {/*<div className="hidden min-h-[200px] lg:flex lg:w-1/2 relative p-2">*/}
-                    {/*<Image*/}
-                    {/*    src={"/img/auth-banner.png"}*/}
-                    {/*    alt="banner"*/}
-                    {/*    width={709}*/}
-                    {/*    height={40}*/}
-                    {/*/>*/}
-                {/*</div>*/}
+            <div className="grid w-full h-full lg:grid-cols-2 grid-1">
                 <AuthBannerBanner />
-
         {/* Right side - Login Form */}
-        <div className="relative flex flex-col w-full px-4 pt-6 lg:w-1/2 md:px-8">
-          <div>
+        <div className="relative flex flex-col h-screen overflow-y-auto lg:pb-[60px] lg:pt-[24px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px]">
+          <div className="pl-3 md:pl-8 lg:pl-10">
             <button
               onClick={() => router.back()}
               className="flex items-center text-[14px] font-bold text-blue hover:text-gray-900"
@@ -101,17 +86,19 @@ const Login = () => {
             </button>
           </div>
 
-                    <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-12">
-                        <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
-                            <div className="mb-4 text-center">
-                                <div className="flex justify-center mb-6">
-                                    <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
-                                </div>
-                                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Welcome Back</h2>
-                                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px h-[48px]">
-                                    Enter your email and password to access your account.
-                                </p>
-                            </div>
+            <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-8 md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px]">
+                <div className="mx-3 lg:mx-4 md:mx-24 md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-[20px] md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+                    <div className="mb-4 text-center">
+                        <div className="flex justify-center mb-6">
+                            <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">Welcome Back</h2>
+                            <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
+                                Enter your email and password to access your account.
+                            </p>
+                        </div>
+                    </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
@@ -124,7 +111,7 @@ const Login = () => {
                   <input
                     id="email"
                     placeholder="Enter your email"
-                    className={`w-full p-3 border ${errors.email ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 border ${errors.email ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("email", {
                       required: "Email is required",
                       pattern: {
@@ -150,7 +137,7 @@ const Login = () => {
                       id="password"
                       type={showPassword ? "text" : "password"}
                       placeholder="Enter your password"
-                      className={`w-full p-3 border ${errors.password ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                      className={`w-full p-3 border ${errors.password ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
                       {...register("password", {
                         required: "Password is required",
                         minLength: {
@@ -224,7 +211,7 @@ const Login = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-3 px-4 bg-blue-light text-white text-[16px] font-normal rounded-md hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
+                  className="w-full py-3 px-4 bg-blue-light text-white text-[16px] font-normal rounded-[12px] hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2"
                 >
                   {isLoading ? "Signing in..." : "Sign In"}
                 </button>
@@ -243,7 +230,7 @@ const Login = () => {
                 <button
                   type="button"
                   onClick={handleGoogleSignIn}
-                  className="w-full flex items-center justify-center py-3 px-4 border border-[#EDEDED] rounded-md shadow-sm bg-white text-[16px] font-normal text-black-light hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                  className="w-full flex items-center justify-center py-3 px-4 border border-[#EDEDED] rounded-[12px] shadow-sm bg-white text-[16px] font-normal text-black-light hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <svg
                     className="w-5 h-5 mr-2"
