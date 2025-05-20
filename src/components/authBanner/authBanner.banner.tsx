@@ -3,14 +3,14 @@ import Image from "next/image";
 
 const AuthBannerBanner = () => {
   return (
-    <div className="hidden lg:flex lg:w-1/2 relative w-[709px] text-white m-3">
+    <div className="hidden lg:flex lg:w-full relative w-[709px] text-white m-3">
       <div className="absolute inset-0">
         <Image
           src="/img/banner-bg.png"
           alt="Shopping carts background"
           layout="fill"
           objectFit="cover"
-          className="rounded-3xl"
+          className="rounded-[35px]"
         />
       </div>
       <div className="relative z-10 flex flex-col justify-end p-12">
