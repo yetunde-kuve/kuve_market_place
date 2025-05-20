@@ -189,7 +189,7 @@ const SignUpForm = () => {
                         id="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
-                        className={`w-full p-3 border ${errors.password ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                        className={`w-full p-3 border ${errors.password ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                         {...register("password", {
                             required: "Password is required",
                             minLength: {
