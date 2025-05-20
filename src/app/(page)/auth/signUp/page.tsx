@@ -141,6 +141,24 @@ const SignUpForm = () => {
         {errors.lastName && <p className="mt-1 text-xs text-red-600">{errors.lastName.message}</p>}
       </div>
 
+            <div>
+                <label htmlFor="email" className="block mb-1 text-[16px] font-normal text-black-light">Email<span className="text-red-500">*</span></label>
+                <input
+                    id="email"
+                    placeholder="Enter your email"
+                    className={`w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                    {...register("email", {
+                        required: "Email is required",
+                        pattern: {
+                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                            message: "Invalid email address"
+                        }
+                    })}
+                />
+                {errors.email && (
+                    <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
+                )}
+            </div>
       <div>
         <label htmlFor="email" className="block mb-1 text-[16px] font-normal text-black-light">
           Email<span className="text-red-500">*</span>
@@ -160,6 +178,24 @@ const SignUpForm = () => {
         {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
       </div>
 
+            <div>
+                <label htmlFor="phoneNumber" className="block mb-1 text-[16px] font-normal text-black-light">Phone Number<span className="text-red-500">*</span></label>
+                <input
+                    id="phoneNumber"
+                    placeholder="Enter your phone number"
+                    className={`w-full p-3 border ${errors.phoneNumber ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                    {...register("phoneNumber", {
+                        required: "Phone number is required",
+                        pattern: {
+                            value: /^[0-9+\-\s()]*$/,
+                            message: "Invalid phone number format"
+                        }
+                    })}
+                />
+                {errors.phoneNumber && (
+                    <p className="mt-1 text-xs text-red-600">{errors.phoneNumber.message}</p>
+                )}
+            </div>
       <div>
         <label
           htmlFor="phoneNumber"
@@ -184,51 +220,47 @@ const SignUpForm = () => {
         )}
       </div>
 
-      {showActivityField && (
-        <div>
-          <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">
-            What do you want to do?<span className="text-red-500">*</span>
-          </label>
-          <select
-            id="activity"
-            className={`w-full p-3 border ${errors.activity ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            {...register("activity", {
-              required: "Please select an option",
-            })}
-          >
-            <option value="" disabled>
-              Select option
-            </option>
-            <option value="sell">Sell</option>
-            <option value="buy">Buy</option>
-          </select>
-          {errors.activity && (
-            <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
-          )}
-        </div>
-      )}
+            {
+                showActivityField && (
+                    <div>
+                        <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
+                        <select
+                            id="activity"
+                            className={`w-full p-3 border ${errors.activity ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                            {...register("activity", {
+                                required: "Please select an option"
+                            })}
+                        >
+                            <option value="" disabled>Select option</option>
+                            <option value="sell">Sell</option>
+                            <option value="buy">Buy</option>
+                        </select>
+                        {errors.activity && (
+                            <p className="mt-1 text-xs text-red-600">{errors.activity.message}</p>
+                        )}
+                    </div>
+                )
+            }
 
-      <div>
-        <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">
-          Password<span className="text-red-500">*</span>
-        </label>
-        <div className="relative">
-          <input
-            id="password"
-            type={showPassword ? "text" : "password"}
-            placeholder="Enter your password"
-            className={`w-full p-3 border ${errors.password ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 8,
-                message: "Password must be at least 8 characters",
-              },
-              validate: (value) => {
-                const firstName = watch("firstName").toLowerCase();
-                const lastName = watch("lastName").toLowerCase();
-                const email = watch("email").toLowerCase();
-                const nameInEmail = email.split("@")[0].toLowerCase();
+            <div>
+                <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">Password<span className="text-red-500">*</span></label>
+                <div className="relative">
+                    <input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter your password"
+                        className={`w-full p-3 border ${errors.password ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
+                        {...register("password", {
+                            required: "Password is required",
+                            minLength: {
+                                value: 8,
+                                message: "Password must be at least 8 characters"
+                            },
+                            validate: (value) => {
+                                const firstName = watch("firstName").toLowerCase();
+                                const lastName = watch("lastName").toLowerCase();
+                                const email = watch("email").toLowerCase();
+                                const nameInEmail = email.split('@')[0].toLowerCase();
 
                 // Check for capital letter
                 if (!/[A-Z]/.test(value)) {
@@ -469,19 +501,17 @@ const SignUp = () => {
             </button>
           </div>
 
-          <div className="flex flex-col justify-center w-full max-w-md mx-auto mt-8">
-            <div className="w-full lg:max-w-md md:max-w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
-              <div className="mb-4 text-center">
-                <div className="flex justify-center mb-6">
-                  <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
-                </div>
-                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">
-                  Create Account
-                </h2>
-                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
-                  Create an account to start buying and selling on Kuve.
-                </p>
-              </div>
+                    <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-8">
+                        <div className="w-full lg:max-w-md md:w-[712px] mx-auto md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+                            <div className="mb-4 text-center">
+                                <div className="flex justify-center mb-6">
+                                    <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
+                                </div>
+                                <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Create Account</h2>
+                                <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                                    Create an account to start buying and selling on Kuve.
+                                </p>
+                            </div>
 
               <Suspense fallback={<LoadingFallback />}>
                 <SignUpForm />

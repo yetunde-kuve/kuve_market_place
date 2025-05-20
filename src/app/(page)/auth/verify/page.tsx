@@ -20,7 +20,7 @@ const VerifyForm = () => {
     const [resendDisabled, setResendDisabled] = useState(false);
     const [countdown, setCountdown] = useState(0);
     const searchParams = useSearchParams();
-    const name = searchParams.get('name');
+    const name = searchParams.get('type');
 
     const {
         register,
@@ -61,7 +61,11 @@ const VerifyForm = () => {
             // Simulating verification
             setTimeout(() => {
                 console.log('OTP verification attempted:', data.otp);
-                router.push('/dashboard');
+                if (name === 'sell'){
+                    router.push('/dashboard/selleronboarding');
+                }else {
+                    router.push('/dashboard');
+                }
                 setIsLoading(false);
             }, 1000);
         } catch (error) {
@@ -111,7 +115,7 @@ const VerifyForm = () => {
                     id="otp"
                     type="text"
                     placeholder="Enter 6 digit code"
-                    className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500`}
+                    className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-md focus:outline-none focus:ring-2 focus:ring-blue-light`}
                     {...register("otp", {
                         required: "OTP is required",
                         pattern: {
