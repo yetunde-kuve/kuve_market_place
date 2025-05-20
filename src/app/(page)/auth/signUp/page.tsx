@@ -10,6 +10,8 @@ import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 import { Suspense } from "react";
 import { HttpUtil } from "@/utils/http.utils";
 import { useUtils } from "@/context/utils.context";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
+import SucessfullDialog from "@/components/diaolog/successDialog.component";
 
 // Define types for our form values
 interface FormValues {
@@ -41,6 +43,10 @@ const SignUpForm = () => {
   const [showActivityField, setShowActivityField] = useState<boolean>(true);
   const activityParam = searchParams.get("activity");
   const { apiCaller } = useUtils();
+  const [status, setStatus] = useState(false);
+  const [openMessage, setOpenMessage] = useState(false);
+  const [message, setMessage] = useState("");
+  const [loading, setLoading] = useState(false);
   // Initialize react-hook-form
   const {
     register,
@@ -73,34 +79,44 @@ const SignUpForm = () => {
   const password = watch("password");
 
   const onSubmit = async (data: FormValues) => {
-    console.log(data);
-
+    setLoading(true);
     setIsLoading(true);
     const response = await (apiCaller() as HttpUtil).performApiCall(
-      "Test/GetIPAddress",
+      "v1/Authorization/StartRegistraton",
       (res: any, error: any, smessage: any) => {
         if (error) {
           console.log(error);
-          // setLoading(false);
+          setLoading(false);
+          setMessage(error);
+          setStatus(false);
+          setOpenMessage(true);
           // toast.error(error);
           return;
+        }
+        if (res) {
+          console.log(res);
+          setLoading(false);
+          setMessage(smessage);
+          setStatus(true);
+          setOpenMessage(true);
         }
       },
       {
         data: {
           email: data.email,
           firstName: data.firstName,
-          middleName: data.firstName,
+          phoneNumber: data.phoneNumber,
           lastName: data.lastName,
           password: data.password,
           dateOfBirth: "2025-05-19",
-          gender: "F",
-          residentialCountryId: 2147483647,
+          gender: "M",
+          residentialCountryId: 1,
         },
-        getMethod: true,
+        getMethod: false,
         silently: true,
       }
     );
+    console.log(response);
   };
 
   const handleGoogleSignUp = () => {
@@ -110,6 +126,17 @@ const SignUpForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <FullPageLoader open={loading} />
+      {/* {openMessage && (
+        <SucessfullDialog
+          status={status}
+          open={openMessage}
+          message={message}
+          onClose={() => {
+            setOpenMessage(false);
+          }}
+        />
+      )} */}
       <div>
         <label htmlFor="firstName" className="block mb-1 text-[16px] font-normal text-black-light">
           First Name<span className="text-red-500">*</span>

@@ -48,12 +48,12 @@ const Slider = () => {
   }, []);
 
   return (
-    <div className="relative w-full h-auto ">
+    <div className="relative w-full lg:h-[310px] md:h-auto h-auto">
       {/* Slider Background */}
       <div
         className="absolute top-0 left-0 w-full h-full bg-center bg-cover shadow-xl rounded-2xl bg-text"
         style={{
-          backgroundImage: `url('/svg/heroslide.svg')`, // Use your background image path here
+          backgroundImage: `url('/svg/heroslide.svg')`,
         }}
       />
 
@@ -68,13 +68,13 @@ const Slider = () => {
         </div>
 
         {/* Product Text and Button (Left Side) */}
-        <div className="z-10 flex flex-col lg:w-[56%] sm:w-[100%] items-start justify-center p-6 text-white md:pl-20">
+        <div className="z-10 flex flex-1 flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 text-white lg:pl-28 md:pl-14">
           <p className="font-[600] text-white text-[clamp(10px, 3vw, 24px)]">
             {productList[currentIndex].title}
           </p>
           <h2
             style={{ fontSize: isSmallerScreen ? "10px" : "" }}
-            className="font-[700] text-white  lg:text-[48px] md:text-[34px]  text-[16px]"
+            className="font-[700] text-white  lg:text-[48px] md:text-[24px]  text-[16px]"
           >
             {productList[currentIndex].description}
           </h2>
@@ -90,7 +90,7 @@ const Slider = () => {
           )}
         </div>
 
-        <div className="justify-end flex-shrink-0 md:pr-14">
+        <div className="justify-end flex-shrink-0 md:pr-16 lg:pr-28">
           <Image
             src={productList[currentIndex].image}
             alt={productList[currentIndex].title}
