@@ -40,7 +40,7 @@ export default function OnboardingInput({
         onChange={onChange}
         placeholder={placeholder}
         className={`h-[48px] mt-[8px] text-[14px] px-4 w-full rounded-md bg-slate-100 text-[#121212] focus:outline-none focus:border ${
-          error ? "border-red-500" : "border-primary"
+          error ? "border-red-500" : "border-blue-light"
         }`}
       />
       {error && <p className="mt-1 text-xs text-red-600">{error}</p>}
