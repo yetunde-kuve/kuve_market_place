@@ -5,8 +5,9 @@ import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import Link from 'next/link';
 import Head from 'next/head';
-import { useForm } from 'react-hook-form';
+import {Controller, useForm} from 'react-hook-form';
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
+import {Box, Checkbox, FormControlLabel, FormHelperText} from "@mui/material";
 
 // Define types for our form values
 interface FormValues {
@@ -22,6 +23,7 @@ const Login = () => {
 
   // Initialize react-hook-form
   const {
+      control,
     register,
     handleSubmit,
     formState: { errors },
@@ -142,7 +144,7 @@ const Login = () => {
                         required: "Password is required",
                         minLength: {
                           value: 6,
-                          message: "Password must be at least 6 characters",
+                          message: "Password must be at least 8 characters",
                         },
                       })}
                     />
@@ -190,17 +192,33 @@ const Login = () => {
                 </div>
 
                     <div className="flex items-center justify-between">
-                        <div className="flex items-center">
-                            <input
-                                id="rememberMe"
-                                type="checkbox"
-                                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                                {...register("rememberMe")}
-                            />
-                            <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                                Remember me
-                            </label>
-                        </div>
+                        <Controller
+                            name="rememberMe"
+                            control={control}
+                            render={({ field }) => (
+                                <Box>
+                                    <FormControlLabel
+                                        control={
+                                            <Checkbox
+                                                checked={field.value}
+                                                onChange={(e) => field.onChange(e.target.checked)}
+                                                sx={{
+                                                    color: '#FF9D98',
+                                                    '&.Mui-checked': {
+                                                        color: '#FF9D98',
+                                                    },
+                                                }}
+                                            />
+                                        }
+                                        label={
+                                            <span className="block text-sm text-gray-700">
+                                          Remember me
+                                      </span>
+                                        }
+                                    />
+                                </Box>
+                            )}
+                        />
                         <div>
                             <Link href="/auth/forgotPassword" className="text-sm text-gray-600 hover:text-gray-900">
                                 Forgot Password
