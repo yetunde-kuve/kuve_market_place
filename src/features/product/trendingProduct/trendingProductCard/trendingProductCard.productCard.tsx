@@ -45,12 +45,12 @@ const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
       </div>
 
         <div>
-            <p className="text-[#000000]  text-[9.52px] font-[500] md:text-[16px]">
+            <p className="text-[#000000] text-[9.52px] font-[500] md:text-[16px]">
                 {productName}
             </p>
         </div>
         <div>
-            <p className="text-[#535353]  text-[10px] font-[500] md:text-[13px]">
+            <p className="text-[#535353] text-[10px] font-[500] md:text-[13px]">
                 {price}
             </p>
         </div>
