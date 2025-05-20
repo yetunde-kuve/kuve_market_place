@@ -140,9 +140,9 @@ export default function NavBar() {
             </div>
             <div className="flex items-center gap-4">
               <div className="hidden lg:block md:hidden">
-                <Button color="pink" onClick={routeToRegister}>
+                <button className="h-[40px] rounded-full bg-[#FF9D98] border shadow-md border-black-primary text-[14px] font-[600] text-black-primary px-4">
                   Sell Now
-                </Button>
+                </button>
               </div>
               <div className="flex items-center gap-2">
                 <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
