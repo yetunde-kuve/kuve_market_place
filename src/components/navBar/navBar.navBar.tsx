@@ -139,7 +139,7 @@ export default function NavBar() {
               <SearchBar />
             </div>
             <div className="flex items-center gap-4">
-              <div className="hidden lg:block md:hidden">
+              <div className="hidden lg:block md:hidden" onClick={routeToRegister}>
                 <button className="h-[40px] rounded-full bg-[#FF9D98] border shadow-md border-black-primary text-[14px] font-[600] text-black-primary px-4">
                   Sell Now
                 </button>
