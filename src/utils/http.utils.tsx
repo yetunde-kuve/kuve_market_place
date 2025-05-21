@@ -68,7 +68,7 @@ export class HttpUtil {
     let header = {
       "Content-Type": "application/json",
       // apikey: getApiKey(data ?? {}),
-      // authorization: token == null ? undefined : `Bearer ${token}`,
+      authorization: token == null ? undefined : `Bearer ${token}`,
       // url: url,
 
       XApiKey: APIKey,

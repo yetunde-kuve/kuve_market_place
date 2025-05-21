@@ -13,6 +13,7 @@ import { HttpUtil } from "@/utils/http.utils";
 import { useToast } from "@/context/toast.context";
 import { useUtils } from "@/context/utils.context";
 import { useGoogleLogin } from "@react-oauth/google";
+import { saveToLocal } from "@/utils/app.utils";
 
 // Define types for our form values
 interface FormValues {
@@ -62,6 +63,9 @@ const Login = () => {
           return;
         }
         if (res) {
+          let token = res.token;
+
+          saveToLocal("token", token);
           setIsLoading(false);
           setLoading(false);
           toast.success(smessage);
@@ -96,6 +100,9 @@ const Login = () => {
           return;
         }
         if (res) {
+          let token = res.token;
+
+          saveToLocal("token", token);
           setIsLoading(false);
           setLoading(false);
           toast.success(smessage);
