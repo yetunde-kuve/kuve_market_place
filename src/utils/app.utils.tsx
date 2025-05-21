@@ -1059,7 +1059,6 @@ export function isLinkRestricted(path: string): boolean {
 
   if (path.includes("/cookie-policy")) return false;
   if (path.includes("/business/onboarding")) return false;
-  if (path.includes("/dashboard")) return false;
 
   return true;
 }

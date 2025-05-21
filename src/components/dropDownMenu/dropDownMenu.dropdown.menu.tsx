@@ -62,9 +62,8 @@ const DropdownList: React.FC<DropdownListProps> = ({
   };
 
   const handleClick = () => {
-    if (isMobile) {
-      setOpen((prev) => !prev);
-    }
+    setOpen((prev) => !prev);
+    // if(isMobile){}
   };
 
   useEffect(() => {
@@ -93,8 +92,8 @@ const DropdownList: React.FC<DropdownListProps> = ({
     <div
       ref={containerRef}
       className="relative inline-block w-full"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      // onMouseEnter={handleMouseEnter}
+      // onMouseLeave={handleMouseLeave}
     >
       <button
         ref={buttonRef}

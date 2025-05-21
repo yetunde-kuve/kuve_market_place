@@ -25,6 +25,7 @@ import InputBase from "@mui/material/InputBase";
 import { useToast } from "@/context/toast.context";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
+import { saveToLocal } from "@/utils/app.utils";
 
 // Define types for our form values
 interface FormValues {
@@ -194,9 +195,13 @@ const SignUpForm = () => {
           return;
         }
         if (res) {
+          let token = res.token;
+
+          saveToLocal("token", token);
           setIsLoading(false);
           setLoading(false);
           toast.success(smessage);
+
           setTimeout(() => {
             router.push("/dashboard");
           }, 2000);
