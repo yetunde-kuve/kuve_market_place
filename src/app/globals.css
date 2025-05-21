@@ -14,6 +14,18 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+.Toastify__toast--success-custom {
+  background-color: #21ca0b !important; /* Green */
+  color: white !important;
+  border-radius: 8px; /* Rounded corners */
+}
+
+.Toastify__toast--error-custom {
+  background-color: #e00319 !important; /* Red */
+  color: white !important;
+  border-radius: 8px; /* Rounded corners */
+}
+
 .loader {
   width: 30px;
   height: 30px;
@@ -323,7 +335,7 @@ figure {
 }
 input[type="checkbox"] {
   border-radius: 4px;
-  accent-color: #FF9D98;
+  accent-color: #ff9d98;
   width: 20px;
   height: 20px;
   border: 1px;
@@ -381,7 +393,7 @@ input[type="checkbox"] {
 
 /* Hover effect for the scrollbar thumb */
 ::-webkit-scrollbar-thumb:hover {
-  background-color: #F5F7FA; /* Darker color on hover */
+  background-color: #f5f7fa; /* Darker color on hover */
 }
 #st-notification-frame {
   margin-top: 20px;
