@@ -64,7 +64,7 @@ export class HttpUtil {
     // }
     token = localStorage.getItem("token");
     const APIKey = process.env.NEXT_PUBLIC_API_KEY;
-    console.log(process.env.NEXT_PUBLIC_API_KEY);
+
     let header = {
       "Content-Type": "application/json",
       // apikey: getApiKey(data ?? {}),
