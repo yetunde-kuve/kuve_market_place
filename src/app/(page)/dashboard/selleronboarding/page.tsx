@@ -75,7 +75,7 @@ export default function SellerOnboarding() {
     setTotalSteps(stepsCount);
   });
   return (
-    <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 ">
+    <div className="flex items-center justify-center w-full bg-white lg:h-screen lg:overflow-hidden md:px-0 ">
       <div className="topGradient"></div>
       <div className="grid w-full h-full lg:grid-cols-2 grid-1">
         <AuthBannerBanner2 />

@@ -21,6 +21,8 @@ import {
 } from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
 import SucessfullDialog from "@/components/diaolog/successDialog.component";
+import {styled} from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
 import { useToast } from "@/context/toast.context";
 
 // Define types for our form values
@@ -86,6 +88,26 @@ const SignUpForm = () => {
       setShowActivityField(false);
     }
   }, [activityParam, setValue]);
+
+    const CustomIcon = () => (
+        <i
+            className="ri-arrow-down-s-line"
+            style={{
+                fontSize: 20,
+                position: "absolute",
+                right: 12,
+                top: "50%",
+                transform: "translateY(-50%)",
+                pointerEvents: "none",
+                color: "#6b7280", // matches typical icon color
+            }}
+        />
+    );
+
+   const options = [
+        { label: "Sell", value: "S" },
+        { label: "Buy", value: "B" },
+   ]
 
   const password = watch("password");
 
@@ -216,53 +238,64 @@ const SignUpForm = () => {
           <p className="mt-1 text-xs text-red-600">{errors.phoneNumber.message}</p>
         )}
       </div>
-      {showActivityField && (
-        <div>
-          <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">
-            What do you want to do?<span className="text-red-500">*</span>
-          </label>
-          <Controller
-            name="activity"
-            control={control}
-            rules={{ required: "Please select an option" }}
-            render={({ field }) => (
-              <FormControl
-                fullWidth
-                error={!!errors.activity}
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    borderRadius: "12px",
-                    backgroundColor: "#F5F7FA",
-                    padding: "14px 0",
-                    fontSize: "14px",
-                    "& fieldset": {
-                      borderColor: errors.activity ? "red" : "#F5F7FA",
-                    },
-                    // other styling
-                  },
-                  // additional styling
-                }}
-              >
-                <Select
-                  {...field}
-                  displayEmpty
-                  placeholder="Select option"
-                  inputProps={{ "aria-label": "What do you want to do?" }}
-                >
-                  <MenuItem value="" disabled>
-                    Select option
-                  </MenuItem>
-                  <MenuItem value="sell">Sell</MenuItem>
-                  <MenuItem value="buy">Buy</MenuItem>
-                </Select>
-                {errors.activity && (
-                  <FormHelperText error>{errors.activity.message}</FormHelperText>
-                )}
-              </FormControl>
-            )}
-          />
-        </div>
-      )}
+            {
+                showActivityField && (
+                    <div>
+                        <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
+                        <Controller
+                            name="activity"
+                            control={control}
+                            rules={{ required: "Please select an option" }}
+                            render={({ field }) => (
+                                <FormControl
+                                    fullWidth
+                                    error={!!errors.activity}
+                                    sx={{
+                                        '& .MuiOutlinedInput-root': {
+                                            borderRadius: '12px',
+                                            backgroundColor: '#F5F7FA',
+                                            padding: '14px 0',
+                                            fontSize: '14px',
+                                            height: '48px',
+                                            '& fieldset': {
+                                                borderColor: errors.activity ? 'red' : '#F5F7FA',
+                                            },
+                                            // other styling
+                                        },
+                                        // additional styling
+                                    }}
+                                >
+                                    <Select
+                                        {...field}
+                                        displayEmpty
+                                        placeholder="Select option"
+                                        inputProps={{ 'aria-label': 'What do you want to do?' }}
+                                        IconComponent={CustomIcon}
+                                        renderValue={(selected) => {
+                                            if (!selected) {
+                                                return <p className="text-[#6B6B6B]">Select option</p>;
+                                            }
+                                            const selectedOption = options.find((opt) => String(opt.value) === String(selected));
+                                            return <p>{selectedOption?.label ?? ""}</p>;
+                                        }}
+                                    >
+                                        <MenuItem value="" disabled>Select option</MenuItem>
+                                        {options.map((option) => (
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                    {errors.activity && (
+                                        <FormHelperText error>{errors.activity.message}</FormHelperText>
+                                    )}
+                                </FormControl>
+                            )}
+                        />
+                    </div>
+
+                )
+            }
 
       <div>
         <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">
@@ -368,59 +401,40 @@ const SignUpForm = () => {
         </div>
         {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}
       </div>
-
-      {/*<div className="flex items-center pt-3">*/}
-      {/*  <input*/}
-      {/*    id="agreeToTerms"*/}
-      {/*    type="checkbox"*/}
-      {/*    className="h-[20px] w-[20px] text-[#FF9D98] rounded focus:ring-[#FF9D98] checked:bg-[#FF9D98] checked:border-transparent"*/}
-      {/*    {...register("agreeToTerms", {*/}
-      {/*      required: "You must agree to the terms and conditions",*/}
-      {/*    })}*/}
-      {/*  />*/}
-      {/*  <label htmlFor="agreeToTerms" className="block ml-2 text-sm text-gray-700">*/}
-      {/*    I agree to the{" "}*/}
-      {/*    <Link href="/terms" className="text-blue-600 hover:text-blue-800">*/}
-      {/*      Terms and Conditions*/}
-      {/*    </Link>*/}
-      {/*  </label>*/}
-      {/*</div>*/}
-      {/*{errors.agreeToTerms && <p className="text-xs text-red-600">{errors.agreeToTerms.message}</p>}*/}
-
-      <Controller
-        name="agreeToTerms"
-        control={control}
-        rules={{ required: "You must accept the terms and conditions" }}
-        render={({ field }) => (
-          <Box>
-            <FormControlLabel
-              control={
-                <Checkbox
-                  checked={field.value}
-                  onChange={(e) => field.onChange(e.target.checked)}
-                  sx={{
-                    color: "#FF9D98",
-                    "&.Mui-checked": {
-                      color: "#FF9D98",
-                    },
-                  }}
-                />
-              }
-              label={
-                <span className="block text-[14px] text-gray-700">
-                  I agree to the{" "}
-                  <Link href="/terms" className="text-blue-600 hover:text-blue-800">
-                    Terms and Conditions
-                  </Link>
-                </span>
-              }
-            />
-            {errors.agreeToTerms && (
-              <FormHelperText error>{errors.agreeToTerms.message}</FormHelperText>
+        <Controller
+            name="agreeToTerms"
+            control={control}
+            rules={{ required: "You must accept the terms and conditions" }}
+            render={({ field }) => (
+                <Box>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={field.value}
+                                onChange={(e) => field.onChange(e.target.checked)}
+                                sx={{
+                                    color: '#FF9D98',
+                                    '&.Mui-checked': {
+                                        color: '#FF9D98',
+                                    },
+                                }}
+                            />
+                        }
+                        label={
+                            <span className="block text-[14px] text-gray-700">
+                                I agree to the{" "}
+                                <Link href="/terms" className="text-blue-600 hover:text-blue-800">
+                                    Terms and Conditions
+                                </Link>
+                            </span>
+                        }
+                    />
+                    {errors.agreeToTerms && (
+                        <FormHelperText error>{errors.agreeToTerms.message}</FormHelperText>
+                    )}
+                </Box>
             )}
-          </Box>
-        )}
-      />
+        />
 
       <button
         type="submit"
