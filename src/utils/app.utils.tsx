@@ -1051,7 +1051,7 @@ export function isLinkRestricted(path: string): boolean {
   if (path.includes("/dasboard")) return false;
   if (path.includes("/testing")) return false;
   //  console.log(``)
-
+  if (path.includes("/google")) return false;
   if (path.includes("/forgot_password")) return false;
   if (path.includes("/unlockaccount")) return false;
 
