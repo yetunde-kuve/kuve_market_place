@@ -24,6 +24,7 @@ import SucessfullDialog from "@/components/diaolog/successDialog.component";
 import {styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import { useToast } from "@/context/toast.context";
+import axios from "axios";
 
 // Define types for our form values
 interface FormValues {
@@ -35,6 +36,10 @@ interface FormValues {
   confirmPassword: string;
   activity: string;
   agreeToTerms: boolean;
+}
+export interface UserInterest {
+    name: string;
+    id: string;
 }
 
 // Loading fallback for Suspense
@@ -59,6 +64,9 @@ const SignUpForm = () => {
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
+  const [interests, setInterests] = useState<UserInterest[]>([]);
+  let baseUrl = process.env.NEXT_PUBLIC_BASED_URL;
+  const APIKey = process.env.NEXT_PUBLIC_API_KEY;
   // Initialize react-hook-form
   const {
     control,
@@ -88,6 +96,20 @@ const SignUpForm = () => {
       setShowActivityField(false);
     }
   }, [activityParam, setValue]);
+
+    useEffect(() => {
+        // Function to fetch user interests
+        const fetchInterests = async () => {
+            try {
+                const response = await axios.get(`${baseUrl}v1/Authorization/UserInterest`)
+                setInterests(response.data)
+                console.log(interests)
+            } catch (error) {
+                console.error('Failed to fetch interests:', error)
+            }
+        }
+        fetchInterests();
+    }, []);
 
     const CustomIcon = () => (
         <i
@@ -126,7 +148,7 @@ const SignUpForm = () => {
           setLoading(false);
           toast.success(smessage);
           setTimeout(() => {
-            router.push("/auth/verify");
+            router.push(`/auth/verify/?type=${activityParam}`);
           }, 2000);
         }
       },
@@ -140,12 +162,13 @@ const SignUpForm = () => {
           dateOfBirth: "2025-05-19",
           gender: "M",
           residentialCountryId: 1,
+          userPurpose: data.activity
         },
         getMethod: false,
         silently: true,
       }
     );
-    console.log(response);
+    localStorage.setItem('userDetails', JSON.stringify(response))
   };
 
   const handleGoogleSignUp = () => {
@@ -275,14 +298,14 @@ const SignUpForm = () => {
                                             if (!selected) {
                                                 return <p className="text-[#6B6B6B]">Select option</p>;
                                             }
-                                            const selectedOption = options.find((opt) => String(opt.value) === String(selected));
-                                            return <p>{selectedOption?.label ?? ""}</p>;
+                                            const selectedOption = interests.find((opt) => String(opt.id) === String(selected));
+                                            return <p>{selectedOption?.name ?? ""}</p>;
                                         }}
                                     >
                                         <MenuItem value="" disabled>Select option</MenuItem>
-                                        {options.map((option) => (
-                                            <MenuItem key={option.value} value={option.value}>
-                                                {option.label}
+                                        {interests.map((option) => (
+                                            <MenuItem key={option.id} value={option.id}>
+                                                {option.name}
                                             </MenuItem>
                                         ))}
                                     </Select>
@@ -539,10 +562,10 @@ const SignUp = () => {
                   <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                 </div>
                 <div className="flex flex-col items-center justify-center">
-                  <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">
+                  <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">
                     Create Account
                   </h2>
-                  <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                  <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
                     Create an account to start buying and selling on Kuve.
                   </p>
                 </div>

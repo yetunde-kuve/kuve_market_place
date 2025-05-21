@@ -6,9 +6,19 @@ import Image from 'next/image';
 import Head from 'next/head';
 import { useForm } from 'react-hook-form';
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
+import {HttpUtil} from "@/utils/http.utils";
+import {useToast} from "@/context/toast.context";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
+import {useUtils} from "@/context/utils.context";
 
 interface FormValues {
     otp: string;
+}
+
+interface UserDetails {
+    OTP: string,
+    UniqueId: string,
+    UserId: string
 }
 // Client Components that use useSearchParams
 const VerifyForm = () => {
@@ -16,11 +26,15 @@ const VerifyForm = () => {
     const { useSearchParams } = require('next/navigation');
     const router = useRouter();
     const [isLoading, setIsLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState('');
     const [resendDisabled, setResendDisabled] = useState(false);
     const [countdown, setCountdown] = useState(0);
     const searchParams = useSearchParams();
+    const toast = useToast();
+    const { apiCaller } = useUtils();
     const name = searchParams.get('type');
+    const [user, setUser] = useState<UserDetails | null>(null);
 
     const {
         register,
@@ -51,27 +65,77 @@ const VerifyForm = () => {
         setValue('otp', formattedValue);
     };
 
-    const onSubmit = async (data: FormValues) => {
-        setIsLoading(true);
-
-        try {
-            // const response = await verifyOtp(email, data.otp);
-            // if (response.success) router.push('/dashboard');
-
-            // Simulating verification
-            setTimeout(() => {
-                console.log('OTP verification attempted:', data.otp);
-                if (name === 'sell'){
-                    router.push('/dashboard/selleronboarding');
-                }else {
-                    router.push('/dashboard');
+    // const onSubmit = async (data: FormValues) => {
+    //     setIsLoading(true);
+    //
+    //     try {
+    //         // const response = await verifyOtp(email, data.otp);
+    //         // if (response.success) router.push('/dashboard');
+    //
+    //         // Simulating verification
+    //         setTimeout(() => {
+    //             console.log('OTP verification attempted:', data.otp);
+    //             if (name === 'sell'){
+    //                 router.push('/dashboard/selleronboarding');
+    //             }else {
+    //                 router.push('/dashboard');
+    //             }
+    //             setIsLoading(false);
+    //         }, 1000);
+    //     } catch (error) {
+    //         console.error('Verification failed:', error);
+    //         setIsLoading(false);
+    //     }
+    // };
+    // Fetch user data from localStorage on client side
+    useEffect(() => {
+        const storedUser = localStorage.getItem('userDetails');
+        if (storedUser) {
+            try {
+                const parsed = JSON.parse(storedUser);
+                if (parsed?.Details) {
+                    setUser(parsed.Details); // Set user to just the inner Details object
                 }
-                setIsLoading(false);
-            }, 1000);
-        } catch (error) {
-            console.error('Verification failed:', error);
-            setIsLoading(false);
+            } catch (e) {
+                console.error('Error parsing userDetails from localStorage:', e);
+            }
         }
+    }, []);
+
+    const onSubmit = async (data: FormValues) => {
+        setLoading(true);
+        setIsLoading(true);
+        const response = await (apiCaller() as HttpUtil).performApiCall(
+            "v1/Authorization/VerifyUser",
+            (res: any, error: any, smessage: any) => {
+                if (error) {
+                    setLoading(false);
+                    toast.error(error);
+                    return;
+                }
+                if (res) {
+                    setLoading(false);
+                    toast.success(smessage);
+                    setTimeout(() => {
+                        if (name === 'sell'){
+                            router.push('/dashboard/selleronboarding');
+                        }else {
+                            router.push('/dashboard');
+                        }
+                    }, 1000);
+                }
+            },
+            {
+                data: {
+                    otp: data.otp || user?.OTP,
+                    uniqueId: user?.UniqueId,
+                    userId: user?.UserId
+
+                },
+                getMethod: false,
+                silently: true,
+            }
+        );
     };
 
     const handleResendOtp = async () => {
@@ -94,6 +158,7 @@ const VerifyForm = () => {
 
     return (
         <form onSubmit={handleSubmit(onSubmit)} className="pt-6">
+            <FullPageLoader open={loading} />
             <div>
                 <div className="flex justify-between items-center mb-2">
                     <label htmlFor="otp" className="block text-[16px] font-normal text-black-light">
@@ -180,8 +245,8 @@ const Verify = () => {
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                                 </div>
                                 <div className="flex flex-col items-center justify-center">
-                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Verify Email</h2>
-                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">Verify Email</h2>
+                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
                                         Enter OTP sent to your email to verify<br/>
                                         your account.
                                     </p>
