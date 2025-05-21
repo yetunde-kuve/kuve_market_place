@@ -11,9 +11,11 @@ import IconDropdown from "@/components/dropDownIcon/dropDownIcon.component";
 import { HttpUtil } from "@/utils/http.utils";
 import { useUtils } from "@/context/utils.context";
 import { useEffect } from "react";
+import { useToast } from "@/context/toast.context";
 
 export default function Page() {
   const { apiCaller } = useUtils();
+  const toast = useToast();
   const register = async () => {
     // setLoading(true);
     const response = await (apiCaller() as HttpUtil).performApiCall(
@@ -41,8 +43,19 @@ export default function Page() {
   useEffect(() => {
     register();
   }, []);
+  const handleAction = () => {
+    // Simulate an API call or operation
+    const successCondition = Math.random() > 0.5; // Randomly show success or error
+
+    if (successCondition) {
+      toast.success("Action completed successfully!");
+    } else {
+      toast.error("Action failed. Please try again.");
+    }
+  };
   return (
     <div className="p-8 space-y-8">
+      <button onClick={handleAction}>Perform Action</button>
       <h1 className="mb-6 text-2xl font-bold">Button Component</h1>
 
       {/* Primary Buttons */}
