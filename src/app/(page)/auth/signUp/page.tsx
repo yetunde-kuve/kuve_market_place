@@ -13,6 +13,8 @@ import { useUtils } from "@/context/utils.context";
 import {Box, Checkbox, FormControlLabel, FormControl, Select, FormHelperText, MenuItem} from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
 import SucessfullDialog from "@/components/diaolog/successDialog.component";
+import {styled} from "@mui/material/styles";
+import InputBase from "@mui/material/InputBase";
 
 // Define types for our form values
 interface FormValues {
@@ -76,6 +78,44 @@ const SignUpForm = () => {
       setShowActivityField(false);
     }
   }, [activityParam, setValue]);
+
+    const CustomIcon = () => (
+        <i
+            className="ri-arrow-down-s-line"
+            style={{
+                fontSize: 20,
+                position: "absolute",
+                right: 12,
+                top: "50%",
+                transform: "translateY(-50%)",
+                pointerEvents: "none",
+                color: "#6b7280", // matches typical icon color
+            }}
+        />
+    );
+
+    const CustomSelectInput = styled(InputBase)<{ error?: boolean }>(({ error }) => ({
+        "& .MuiInputBase-input": {
+            height: "48px !important",
+            padding: "0 1rem",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            fontSize: "14px",
+            borderRadius: "0.375rem", // rounded-md
+            backgroundColor: "#f1f5f9", // slate-100
+            color: "#121212", // red-500 or primary
+            outline: "none",
+            "&:focus": {
+                borderColor: error ? "#ef4444" : "#000222",
+            },
+        },
+    }));
+
+   const options = [
+        { label: "Sell", value: "S" },
+        { label: "Buy", value: "B" },
+   ]
 
   const password = watch("password");
 
@@ -228,6 +268,7 @@ const SignUpForm = () => {
                                             backgroundColor: '#F5F7FA',
                                             padding: '14px 0',
                                             fontSize: '14px',
+                                            height: '48px',
                                             '& fieldset': {
                                                 borderColor: errors.activity ? 'red' : '#F5F7FA',
                                             },
@@ -241,10 +282,22 @@ const SignUpForm = () => {
                                         displayEmpty
                                         placeholder="Select option"
                                         inputProps={{ 'aria-label': 'What do you want to do?' }}
+                                        IconComponent={CustomIcon}
+                                        // input={<CustomSelectInput error={!!errors} />}
+                                        renderValue={(selected) => {
+                                            if (!selected) {
+                                                return <p className="text-[#6B6B6B]">Select option</p>;
+                                            }
+                                            const selectedOption = options.find((opt) => String(opt.value) === String(selected));
+                                            return <p>{selectedOption?.label ?? ""}</p>;
+                                        }}
                                     >
                                         <MenuItem value="" disabled>Select option</MenuItem>
-                                        <MenuItem value="sell">Sell</MenuItem>
-                                        <MenuItem value="buy">Buy</MenuItem>
+                                        {options.map((option) => (
+                                            <MenuItem key={option.value} value={option.value}>
+                                                {option.label}
+                                            </MenuItem>
+                                        ))}
                                     </Select>
                                     {errors.activity && (
                                         <FormHelperText error>{errors.activity.message}</FormHelperText>
@@ -359,25 +412,6 @@ const SignUpForm = () => {
         </div>
         {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}
       </div>
-
-      {/*<div className="flex items-center pt-3">*/}
-      {/*  <input*/}
-      {/*    id="agreeToTerms"*/}
-      {/*    type="checkbox"*/}
-      {/*    className="h-[20px] w-[20px] text-[#FF9D98] rounded focus:ring-[#FF9D98] checked:bg-[#FF9D98] checked:border-transparent"*/}
-      {/*    {...register("agreeToTerms", {*/}
-      {/*      required: "You must agree to the terms and conditions",*/}
-      {/*    })}*/}
-      {/*  />*/}
-      {/*  <label htmlFor="agreeToTerms" className="block ml-2 text-sm text-gray-700">*/}
-      {/*    I agree to the{" "}*/}
-      {/*    <Link href="/terms" className="text-blue-600 hover:text-blue-800">*/}
-      {/*      Terms and Conditions*/}
-      {/*    </Link>*/}
-      {/*  </label>*/}
-      {/*</div>*/}
-      {/*{errors.agreeToTerms && <p className="text-xs text-red-600">{errors.agreeToTerms.message}</p>}*/}
-
         <Controller
             name="agreeToTerms"
             control={control}
