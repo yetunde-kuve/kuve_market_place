@@ -76,8 +76,8 @@ const Page = () => {
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                                 </div>
                                 <div className="flex flex-col items-center justify-center">
-                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Reset Password</h2>
-                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">Reset Password</h2>
+                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
                                         Enter your new password
                                     </p>
                                 </div>

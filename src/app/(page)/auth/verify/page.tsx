@@ -245,8 +245,8 @@ const Verify = () => {
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                                 </div>
                                 <div className="flex flex-col items-center justify-center">
-                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Verify Email</h2>
-                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">Verify Email</h2>
+                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
                                         Enter OTP sent to your email to verify<br/>
                                         your account.
                                     </p>

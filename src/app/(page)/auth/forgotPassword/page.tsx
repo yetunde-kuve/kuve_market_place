@@ -74,8 +74,8 @@ const Page = () => {
                                     <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                                 </div>
                                 <div className="flex flex-col items-center justify-center">
-                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 lg:w-[406px] w-[396px]">Forgot Password</h2>
-                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal lg:w-[406px] w-[396px] h-[48px]">
+                                    <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">Forgot Password</h2>
+                                    <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
                                         Enter the email linked to your account.
                                     </p>
                                 </div>
