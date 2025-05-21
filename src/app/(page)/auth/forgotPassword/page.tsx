@@ -7,6 +7,10 @@ import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
+import {HttpUtil} from "@/utils/http.utils";
+import {useToast} from "@/context/toast.context";
+import {useUtils} from "@/context/utils.context";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
 
 interface FormValues {
     email: string;
@@ -17,6 +21,10 @@ interface FormValues {
 const Page = () => {
     const router = useRouter();
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [loading, setLoading] = useState(false);
+    const toast = useToast();
+    const { apiCaller } = useUtils();
+
 
     const {
         register,
@@ -31,26 +39,39 @@ const Page = () => {
     });
 
     const onSubmit = async (data: FormValues) => {
+        setLoading(true);
         setIsLoading(true);
+        const response = await (apiCaller() as HttpUtil).performApiCall(
+            "v1/Authorization/InitiateForgtPassword",
+            (res: any, error: any, smessage: any) => {
+                if (error) {
+                    setLoading(false);
+                    toast.error(error);
+                    return;
+                }
+                if (res) {
+                    setLoading(false);
+                    toast.success(smessage);
+                    setTimeout(() => {
+                        router.push('/auth/reset');
+                    }, 1000);
+                }
+            },
+            {
+                data: {
+                    Email: data.email,
 
-        try {
-            // const response = await signIn(data.email, data.password);
-            // if (response.success) router.push('/dashboard');
-
-            // Simulating authentication
-            setTimeout(() => {
-                console.log('Password:', data);
-                router.push('/auth/reset');
-                setIsLoading(false);
-            }, 1000);
-        } catch (error) {
-            console.error('Login failed:', error);
-            setIsLoading(false);
-        }
+                },
+                getMethod: false,
+                silently: true,
+            }
+        );
+        console.log(response);
     };
 
     return (
         <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 bg-white">
+            <FullPageLoader open={loading} />
             <div className="topGradient"></div>
             <div className="grid w-full h-full lg:grid-cols-2 grid-1">
                 <AuthBannerBanner />
@@ -111,7 +132,6 @@ const Page = () => {
                                         {isLoading ? 'Sending...' : 'Send Code'}
                                     </button>
                                 </div>
-
                             </form>
 
                             <p className="text-center mt-12 text-[14px] font-normal text-[#3D3D3D]">

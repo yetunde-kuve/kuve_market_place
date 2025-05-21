@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import Head from "next/head";
 import { Controller, useForm } from "react-hook-form";
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 import { Suspense } from "react";
@@ -20,9 +19,6 @@ import {
   Select,
 } from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
-import SucessfullDialog from "@/components/diaolog/successDialog.component";
-import { styled } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import { useToast } from "@/context/toast.context";
 import axios from "axios";
 import { useGoogleLogin } from "@react-oauth/google";
@@ -51,7 +47,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Client Component that uses useSearchParams
 const SignUpForm = () => {
   const { useSearchParams } = require("next/navigation");
   const router = useRouter();
@@ -68,7 +63,7 @@ const SignUpForm = () => {
   const toast = useToast();
   const [interests, setInterests] = useState<UserInterest[]>([]);
   let baseUrl = process.env.NEXT_PUBLIC_BASED_URL;
-  const APIKey = process.env.NEXT_PUBLIC_API_KEY;
+  const id = activityParam ===  'sell' ? interests[1]?.id : interests[0]?.id
   // Initialize react-hook-form
   const {
     control,
@@ -85,7 +80,7 @@ const SignUpForm = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
-      activity: activityParam || "",
+      activity: "",
       agreeToTerms: false,
     },
   });
@@ -98,6 +93,15 @@ const SignUpForm = () => {
       setShowActivityField(false);
     }
   }, [activityParam, setValue]);
+
+  useEffect(() => {
+    // If activity param exists, set the form value and hide the selection
+    if (activityParam && interests.length > 0) {
+      const selectedId = activityParam === 'sell' ? interests[1]?.id : interests[0]?.id;
+      setValue("activity", selectedId);
+      setShowActivityField(false);
+    }
+  }, [activityParam, setValue, interests]);
 
   useEffect(() => {
     // Function to fetch user interests
@@ -128,11 +132,6 @@ const SignUpForm = () => {
     />
   );
 
-  const options = [
-    { label: "Sell", value: "S" },
-    { label: "Buy", value: "B" },
-  ];
-
   const password = watch("password");
 
   const onSubmit = async (data: FormValues) => {
@@ -151,7 +150,7 @@ const SignUpForm = () => {
           toast.success(smessage);
           setTimeout(() => {
             router.push(`/auth/verify/?type=${activityParam}`);
-          }, 2000);
+          }, 1000);
         }
       },
       {
@@ -171,12 +170,9 @@ const SignUpForm = () => {
       }
     );
     localStorage.setItem("userDetails", JSON.stringify(response));
+    console.log(data)
   };
 
-  // const handleGoogleSignUp = () => {
-  //   // Implement Google Sign-Up logic
-  //   console.log("Sign up with Google clicked");
-  // };
   const loginWithGoogle = useGoogleLogin({
     onSuccess: (tokenResponse) => {
       handleGoogleSignIn(tokenResponse?.access_token);
@@ -218,21 +214,11 @@ const SignUpForm = () => {
         silently: true,
       }
     );
-    console.log(response);
+    localStorage.setItem('userDetails', JSON.stringify(response))
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mb-6 space-y-4">
       <FullPageLoader open={loading} />
-      {/* {openMessage && (
-        <SucessfullDialog
-          status={status}
-          open={openMessage}
-          message={message}
-          onClose={() => {
-            setOpenMessage(false);
-          }}
-        />
-      )} */}
       <div>
         <label htmlFor="firstName" className="block mb-1 text-[16px] font-normal text-black-light">
           First Name<span className="text-red-500">*</span>
