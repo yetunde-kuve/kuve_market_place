@@ -64,29 +64,6 @@ const VerifyForm = () => {
         const formattedValue = value.replace(/[^\d]/g, '').substring(0, 6);
         setValue('otp', formattedValue);
     };
-
-    // const onSubmit = async (data: FormValues) => {
-    //     setIsLoading(true);
-    //
-    //     try {
-    //         // const response = await verifyOtp(email, data.otp);
-    //         // if (response.success) router.push('/dashboard');
-    //
-    //         // Simulating verification
-    //         setTimeout(() => {
-    //             console.log('OTP verification attempted:', data.otp);
-    //             if (name === 'sell'){
-    //                 router.push('/dashboard/selleronboarding');
-    //             }else {
-    //                 router.push('/dashboard');
-    //             }
-    //             setIsLoading(false);
-    //         }, 1000);
-    //     } catch (error) {
-    //         console.error('Verification failed:', error);
-    //         setIsLoading(false);
-    //     }
-    // };
     // Fetch user data from localStorage on client side
     useEffect(() => {
         const storedUser = localStorage.getItem('userDetails');
@@ -127,9 +104,9 @@ const VerifyForm = () => {
             },
             {
                 data: {
-                    otp: data.otp || user?.OTP,
-                    uniqueId: user?.UniqueId,
-                    userId: user?.UserId
+                    OTP: data.otp || user?.OTP,
+                    UniqueId: user?.UniqueId,
+                    UserId: user?.UserId
 
                 },
                 getMethod: false,

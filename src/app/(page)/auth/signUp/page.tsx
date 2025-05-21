@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import Head from "next/head";
 import { Controller, useForm } from "react-hook-form";
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 import { Suspense } from "react";
@@ -20,11 +19,10 @@ import {
   Select,
 } from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
-import SucessfullDialog from "@/components/diaolog/successDialog.component";
-import {styled} from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
 import { useToast } from "@/context/toast.context";
 import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
+import { saveToLocal } from "@/utils/app.utils";
 
 // Define types for our form values
 interface FormValues {
@@ -38,8 +36,8 @@ interface FormValues {
   agreeToTerms: boolean;
 }
 export interface UserInterest {
-    name: string;
-    id: string;
+  name: string;
+  id: string;
 }
 
 // Loading fallback for Suspense
@@ -49,7 +47,6 @@ const LoadingFallback = () => (
   </div>
 );
 
-// Client Component that uses useSearchParams
 const SignUpForm = () => {
   const { useSearchParams } = require("next/navigation");
   const router = useRouter();
@@ -66,7 +63,7 @@ const SignUpForm = () => {
   const toast = useToast();
   const [interests, setInterests] = useState<UserInterest[]>([]);
   let baseUrl = process.env.NEXT_PUBLIC_BASED_URL;
-  const APIKey = process.env.NEXT_PUBLIC_API_KEY;
+  const id = activityParam ===  'sell' ? interests[1]?.id : interests[0]?.id
   // Initialize react-hook-form
   const {
     control,
@@ -83,7 +80,7 @@ const SignUpForm = () => {
       phoneNumber: "",
       password: "",
       confirmPassword: "",
-      activity: activityParam || "",
+      activity: "",
       agreeToTerms: false,
     },
   });
@@ -97,39 +94,43 @@ const SignUpForm = () => {
     }
   }, [activityParam, setValue]);
 
-    useEffect(() => {
-        // Function to fetch user interests
-        const fetchInterests = async () => {
-            try {
-                const response = await axios.get(`${baseUrl}v1/Authorization/UserInterest`)
-                setInterests(response.data)
-                console.log(interests)
-            } catch (error) {
-                console.error('Failed to fetch interests:', error)
-            }
-        }
-        fetchInterests();
-    }, []);
+  useEffect(() => {
+    // If activity param exists, set the form value and hide the selection
+    if (activityParam && interests.length > 0) {
+      const selectedId = activityParam === 'sell' ? interests[1]?.id : interests[0]?.id;
+      setValue("activity", selectedId);
+      setShowActivityField(false);
+    }
+  }, [activityParam, setValue, interests]);
 
-    const CustomIcon = () => (
-        <i
-            className="ri-arrow-down-s-line"
-            style={{
-                fontSize: 20,
-                position: "absolute",
-                right: 12,
-                top: "50%",
-                transform: "translateY(-50%)",
-                pointerEvents: "none",
-                color: "#6b7280", // matches typical icon color
-            }}
-        />
-    );
+  useEffect(() => {
+    // Function to fetch user interests
+    const fetchInterests = async () => {
+      try {
+        const response = await axios.get(`${baseUrl}v1/Authorization/UserInterest`);
+        setInterests(response.data);
+        console.log(interests);
+      } catch (error) {
+        console.error("Failed to fetch interests:", error);
+      }
+    };
+    fetchInterests();
+  }, []);
 
-   const options = [
-        { label: "Sell", value: "S" },
-        { label: "Buy", value: "B" },
-   ]
+  const CustomIcon = () => (
+    <i
+      className="ri-arrow-down-s-line"
+      style={{
+        fontSize: 20,
+        position: "absolute",
+        right: 12,
+        top: "50%",
+        transform: "translateY(-50%)",
+        pointerEvents: "none",
+        color: "#6b7280", // matches typical icon color
+      }}
+    />
+  );
 
   const password = watch("password");
 
@@ -149,7 +150,7 @@ const SignUpForm = () => {
           toast.success(smessage);
           setTimeout(() => {
             router.push(`/auth/verify/?type=${activityParam}`);
-          }, 2000);
+          }, 1000);
         }
       },
       {
@@ -162,7 +163,52 @@ const SignUpForm = () => {
           dateOfBirth: "2025-05-19",
           gender: "M",
           residentialCountryId: 1,
-          userPurpose: data.activity
+          userPurpose: data.activity,
+        },
+        getMethod: false,
+        silently: true,
+      }
+    );
+    localStorage.setItem("userDetails", JSON.stringify(response));
+    console.log(data)
+  };
+
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      handleGoogleSignIn(tokenResponse?.access_token);
+      console.log(tokenResponse.access_token);
+    },
+  });
+
+  const handleGoogleSignIn = async (token: string) => {
+    setLoading(true);
+    setIsLoading(true);
+    const response = await (apiCaller() as HttpUtil).performApiCall(
+      "v1/Authorization/GoogleSignin",
+      (res: any, error: any, smessage: any) => {
+        if (error) {
+          setIsLoading(false);
+          setLoading(false);
+          toast.error(error);
+          return;
+        }
+        if (res) {
+          let token = res.token;
+
+          saveToLocal("token", token);
+          setIsLoading(false);
+          setLoading(false);
+          toast.success(smessage);
+
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 2000);
+        }
+      },
+      {
+        data: {
+          AccessToken: token,
+          PlatformType: 2,
         },
         getMethod: false,
         silently: true,
@@ -170,25 +216,9 @@ const SignUpForm = () => {
     );
     localStorage.setItem('userDetails', JSON.stringify(response))
   };
-
-  const handleGoogleSignUp = () => {
-    // Implement Google Sign-Up logic
-    console.log("Sign up with Google clicked");
-  };
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="mb-6 space-y-4">
       <FullPageLoader open={loading} />
-      {/* {openMessage && (
-        <SucessfullDialog
-          status={status}
-          open={openMessage}
-          message={message}
-          onClose={() => {
-            setOpenMessage(false);
-          }}
-        />
-      )} */}
       <div>
         <label htmlFor="firstName" className="block mb-1 text-[16px] font-normal text-black-light">
           First Name<span className="text-red-500">*</span>
@@ -261,64 +291,67 @@ const SignUpForm = () => {
           <p className="mt-1 text-xs text-red-600">{errors.phoneNumber.message}</p>
         )}
       </div>
-            {
-                showActivityField && (
-                    <div>
-                        <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">What do you want to do?<span className="text-red-500">*</span></label>
-                        <Controller
-                            name="activity"
-                            control={control}
-                            rules={{ required: "Please select an option" }}
-                            render={({ field }) => (
-                                <FormControl
-                                    fullWidth
-                                    error={!!errors.activity}
-                                    sx={{
-                                        '& .MuiOutlinedInput-root': {
-                                            borderRadius: '12px',
-                                            backgroundColor: '#F5F7FA',
-                                            padding: '14px 0',
-                                            fontSize: '14px',
-                                            height: '48px',
-                                            '& fieldset': {
-                                                borderColor: errors.activity ? 'red' : '#F5F7FA',
-                                            },
-                                            // other styling
-                                        },
-                                        // additional styling
-                                    }}
-                                >
-                                    <Select
-                                        {...field}
-                                        displayEmpty
-                                        placeholder="Select option"
-                                        inputProps={{ 'aria-label': 'What do you want to do?' }}
-                                        IconComponent={CustomIcon}
-                                        renderValue={(selected) => {
-                                            if (!selected) {
-                                                return <p className="text-[#6B6B6B]">Select option</p>;
-                                            }
-                                            const selectedOption = interests.find((opt) => String(opt.id) === String(selected));
-                                            return <p>{selectedOption?.name ?? ""}</p>;
-                                        }}
-                                    >
-                                        <MenuItem value="" disabled>Select option</MenuItem>
-                                        {interests.map((option) => (
-                                            <MenuItem key={option.id} value={option.id}>
-                                                {option.name}
-                                            </MenuItem>
-                                        ))}
-                                    </Select>
-                                    {errors.activity && (
-                                        <FormHelperText error>{errors.activity.message}</FormHelperText>
-                                    )}
-                                </FormControl>
-                            )}
-                        />
-                    </div>
-
-                )
-            }
+      {showActivityField && (
+        <div>
+          <label htmlFor="activity" className="block mb-1 text-[16px] font-normal text-black-light">
+            What do you want to do?<span className="text-red-500">*</span>
+          </label>
+          <Controller
+            name="activity"
+            control={control}
+            rules={{ required: "Please select an option" }}
+            render={({ field }) => (
+              <FormControl
+                fullWidth
+                error={!!errors.activity}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    borderRadius: "12px",
+                    backgroundColor: "#F5F7FA",
+                    padding: "14px 0",
+                    fontSize: "14px",
+                    height: "48px",
+                    "& fieldset": {
+                      borderColor: errors.activity ? "red" : "#F5F7FA",
+                    },
+                    // other styling
+                  },
+                  // additional styling
+                }}
+              >
+                <Select
+                  {...field}
+                  displayEmpty
+                  placeholder="Select option"
+                  inputProps={{ "aria-label": "What do you want to do?" }}
+                  IconComponent={CustomIcon}
+                  renderValue={(selected) => {
+                    if (!selected) {
+                      return <p className="text-[#6B6B6B]">Select option</p>;
+                    }
+                    const selectedOption = interests.find(
+                      (opt) => String(opt.id) === String(selected)
+                    );
+                    return <p>{selectedOption?.name ?? ""}</p>;
+                  }}
+                >
+                  <MenuItem value="" disabled>
+                    Select option
+                  </MenuItem>
+                  {interests.map((option) => (
+                    <MenuItem key={option.id} value={option.id}>
+                      {option.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+                {errors.activity && (
+                  <FormHelperText error>{errors.activity.message}</FormHelperText>
+                )}
+              </FormControl>
+            )}
+          />
+        </div>
+      )}
 
       <div>
         <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">
@@ -424,40 +457,40 @@ const SignUpForm = () => {
         </div>
         {errors.password && <p className="mt-1 text-xs text-red-600">{errors.password.message}</p>}
       </div>
-        <Controller
-            name="agreeToTerms"
-            control={control}
-            rules={{ required: "You must accept the terms and conditions" }}
-            render={({ field }) => (
-                <Box>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={field.value}
-                                onChange={(e) => field.onChange(e.target.checked)}
-                                sx={{
-                                    color: '#FF9D98',
-                                    '&.Mui-checked': {
-                                        color: '#FF9D98',
-                                    },
-                                }}
-                            />
-                        }
-                        label={
-                            <span className="block text-[14px] text-gray-700">
-                                I agree to the{" "}
-                                <Link href="/terms" className="text-blue-600 hover:text-blue-800">
-                                    Terms and Conditions
-                                </Link>
-                            </span>
-                        }
-                    />
-                    {errors.agreeToTerms && (
-                        <FormHelperText error>{errors.agreeToTerms.message}</FormHelperText>
-                    )}
-                </Box>
+      <Controller
+        name="agreeToTerms"
+        control={control}
+        rules={{ required: "You must accept the terms and conditions" }}
+        render={({ field }) => (
+          <Box>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={field.value}
+                  onChange={(e) => field.onChange(e.target.checked)}
+                  sx={{
+                    color: "#FF9D98",
+                    "&.Mui-checked": {
+                      color: "#FF9D98",
+                    },
+                  }}
+                />
+              }
+              label={
+                <span className="block text-[14px] text-gray-700">
+                  I agree to the{" "}
+                  <Link href="/terms" className="text-blue-600 hover:text-blue-800">
+                    Terms and Conditions
+                  </Link>
+                </span>
+              }
+            />
+            {errors.agreeToTerms && (
+              <FormHelperText error>{errors.agreeToTerms.message}</FormHelperText>
             )}
-        />
+          </Box>
+        )}
+      />
 
       <button
         type="submit"
@@ -480,7 +513,7 @@ const SignUpForm = () => {
 
       <button
         type="button"
-        onClick={handleGoogleSignUp}
+        onClick={() => loginWithGoogle()}
         className="w-full flex items-center justify-center py-3 px-4 border border-[#EDEDED] rounded-[12px] shadow-sm bg-white text-[16px] font-normal text-black-light hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
       >
         <svg
