@@ -2,12 +2,17 @@
 
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from 'next/image';
-import Link from 'next/link';
-import Head from 'next/head';
-import {Controller, useForm} from 'react-hook-form';
+import Image from "next/image";
+import Link from "next/link";
+import Head from "next/head";
+import { Controller, useForm } from "react-hook-form";
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
-import {Box, Checkbox, FormControlLabel, FormHelperText} from "@mui/material";
+import { Box, Checkbox, FormControlLabel, FormHelperText } from "@mui/material";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
+import { HttpUtil } from "@/utils/http.utils";
+import { useToast } from "@/context/toast.context";
+import { useUtils } from "@/context/utils.context";
+import { useGoogleLogin } from "@react-oauth/google";
 
 // Define types for our form values
 interface FormValues {
@@ -20,10 +25,13 @@ const Login = () => {
   const router = useRouter();
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+  const { apiCaller } = useUtils();
 
   // Initialize react-hook-form
   const {
-      control,
+    control,
     register,
     handleSubmit,
     formState: { errors },
@@ -34,36 +42,86 @@ const Login = () => {
       rememberMe: false,
     },
   });
+  const loginWithGoogle = useGoogleLogin({
+    onSuccess: (tokenResponse) => {
+      handleGoogleSignIn(tokenResponse?.access_token);
+      // console.log(tokenResponse.access_token);
+    },
+  });
 
   const onSubmit = async (data: FormValues) => {
+    setLoading(true);
     setIsLoading(true);
-
-    try {
-      // const response = await signIn(data.email, data.password);
-      // if (response.success) router.push('/dashboard');
-
-      // Simulating authentication
-      setTimeout(() => {
-        console.log("Login attempted with:", data);
-        router.push("/dashboard");
-        setIsLoading(false);
-      }, 1000);
-    } catch (error) {
-      console.error("Login failed:", error);
-      setIsLoading(false);
-    }
+    const response = await (apiCaller() as HttpUtil).performApiCall(
+      "v1/Authorization/login",
+      (res: any, error: any, smessage: any) => {
+        if (error) {
+          setIsLoading(false);
+          setLoading(false);
+          toast.error(error);
+          return;
+        }
+        if (res) {
+          setIsLoading(false);
+          setLoading(false);
+          toast.success(smessage);
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 2000);
+        }
+      },
+      {
+        data: {
+          Password: data.password,
+          EmailAddress: data.email,
+          LoginChannel: "Website",
+        },
+        getMethod: false,
+        silently: true,
+      }
+    );
+    console.log(response);
   };
 
-  const handleGoogleSignIn = () => {
-    // Implement Google Sign-In logic
-    console.log("Sign in with Google clicked");
+  const handleGoogleSignIn = async (token: string) => {
+    setLoading(true);
+    setIsLoading(true);
+    const response = await (apiCaller() as HttpUtil).performApiCall(
+      "v1/Authorization/GoogleSignin",
+      (res: any, error: any, smessage: any) => {
+        if (error) {
+          setIsLoading(false);
+          setLoading(false);
+          toast.error(error);
+          return;
+        }
+        if (res) {
+          setIsLoading(false);
+          setLoading(false);
+          toast.success(smessage);
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 2000);
+        }
+      },
+      {
+        data: {
+          AccessToken: token,
+          PlatformType: 2,
+        },
+        getMethod: false,
+        silently: true,
+      }
+    );
+    console.log(response);
   };
 
   return (
-    <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 bg-white">
-            <div className="topGradient"></div>
-            <div className="grid w-full h-full lg:grid-cols-2 grid-1">
-                <AuthBannerBanner />
+    <div className="flex items-center justify-center w-full bg-white lg:h-screen lg:overflow-hidden md:px-0">
+      <FullPageLoader open={loading} />
+      <div className="topGradient"></div>
+      <div className="grid w-full h-full lg:grid-cols-2 grid-1">
+        <AuthBannerBanner />
         {/* Right side - Login Form */}
         <div className="relative flex flex-col h-screen overflow-y-auto lg:pb-[60px] lg:pt-[24px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px]">
           <div className="pl-3 md:pl-8 lg:pl-10">
@@ -88,19 +146,21 @@ const Login = () => {
             </button>
           </div>
 
-            <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-8 md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px]">
-                <div className="mx-3 lg:mx-4 md:mx-24 md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-[20px] md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
-                    <div className="mb-4 text-center">
-                        <div className="flex justify-center mb-6">
-                            <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">Welcome Back</h2>
-                            <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
-                                Enter your email and password to access your account.
-                            </p>
-                        </div>
-                    </div>
+          <div className="flex flex-col justify-center max-w-md mx-auto w-full mt-8 md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px]">
+            <div className="mx-3 lg:mx-4 md:mx-24 md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-[20px] md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+              <div className="mb-4 text-center">
+                <div className="flex justify-center mb-6">
+                  <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
+                </div>
+                <div className="flex flex-col items-center justify-center">
+                  <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2">
+                    Welcome Back
+                  </h2>
+                  <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal h-[48px]">
+                    Enter your email and password to access your account.
+                  </p>
+                </div>
+              </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div>
@@ -191,40 +251,39 @@ const Login = () => {
                   )}
                 </div>
 
-                    <div className="flex items-center justify-between">
-                        <Controller
-                            name="rememberMe"
-                            control={control}
-                            render={({ field }) => (
-                                <Box>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={field.value}
-                                                onChange={(e) => field.onChange(e.target.checked)}
-                                                sx={{
-                                                    color: '#FF9D98',
-                                                    '&.Mui-checked': {
-                                                        color: '#FF9D98',
-                                                    },
-                                                }}
-                                            />
-                                        }
-                                        label={
-                                            <span className="block text-sm text-gray-700">
-                                          Remember me
-                                      </span>
-                                        }
-                                    />
-                                </Box>
-                            )}
+                <div className="flex items-center justify-between">
+                  <Controller
+                    name="rememberMe"
+                    control={control}
+                    render={({ field }) => (
+                      <Box>
+                        <FormControlLabel
+                          control={
+                            <Checkbox
+                              checked={field.value}
+                              onChange={(e) => field.onChange(e.target.checked)}
+                              sx={{
+                                color: "#FF9D98",
+                                "&.Mui-checked": {
+                                  color: "#FF9D98",
+                                },
+                              }}
+                            />
+                          }
+                          label={<span className="block text-sm text-gray-700">Remember me</span>}
                         />
-                        <div>
-                            <Link href="/auth/forgotPassword" className="text-sm text-gray-600 hover:text-gray-900">
-                                Forgot Password
-                            </Link>
-                        </div>
-                    </div>
+                      </Box>
+                    )}
+                  />
+                  <div>
+                    <Link
+                      href="/auth/forgotPassword"
+                      className="text-sm text-gray-600 hover:text-gray-900"
+                    >
+                      Forgot Password
+                    </Link>
+                  </div>
+                </div>
 
                 <button
                   type="submit"
@@ -247,7 +306,7 @@ const Login = () => {
 
                 <button
                   type="button"
-                  onClick={handleGoogleSignIn}
+                  onClick={() => loginWithGoogle()}
                   className="w-full flex items-center justify-center py-3 px-4 border border-[#EDEDED] rounded-[12px] shadow-sm bg-white text-[16px] font-normal text-black-light hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                 >
                   <svg
@@ -280,18 +339,21 @@ const Login = () => {
                 </button>
               </form>
 
-                            <p className="text-center mt-8 text-[16px] font-normal text-gray-600">
-                                {`Don't have an account?`}{' '}
-                                <Link href="/auth/signUp" className="font-medium text-[#3E3E3E] hover:text-blue-500">
-                                    Sign Up
-                                </Link>
-                            </p>
-                        </div>
-                    </div>
-                </div>
+              <p className="text-center mt-8 text-[16px] font-normal text-gray-600">
+                {`Don't have an account?`}{" "}
+                <Link
+                  href="/auth/signUp"
+                  className="font-medium text-[#3E3E3E] hover:text-blue-500"
+                >
+                  Sign Up
+                </Link>
+              </p>
             </div>
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default Login;
