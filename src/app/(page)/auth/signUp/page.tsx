@@ -5,16 +5,25 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import Head from "next/head";
-import {Controller, useForm} from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import AuthBannerBanner from "@/components/authBanner/authBanner.banner";
 import { Suspense } from "react";
 import { HttpUtil } from "@/utils/http.utils";
 import { useUtils } from "@/context/utils.context";
-import {Box, Checkbox, FormControlLabel, FormControl, Select, FormHelperText, MenuItem} from "@mui/material";
+import {
+  Box,
+  Checkbox,
+  FormControl,
+  FormControlLabel,
+  FormHelperText,
+  MenuItem,
+  Select,
+} from "@mui/material";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
 import SucessfullDialog from "@/components/diaolog/successDialog.component";
 import {styled} from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
+import { useToast } from "@/context/toast.context";
 
 // Define types for our form values
 interface FormValues {
@@ -49,6 +58,7 @@ const SignUpForm = () => {
   const [openMessage, setOpenMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const toast = useToast();
   // Initialize react-hook-form
   const {
     control,
@@ -126,20 +136,16 @@ const SignUpForm = () => {
       "v1/Authorization/StartRegistraton",
       (res: any, error: any, smessage: any) => {
         if (error) {
-          console.log(error);
           setLoading(false);
-          setMessage(error);
-          setStatus(false);
-          setOpenMessage(true);
-          // toast.error(error);
+          toast.error(error);
           return;
         }
         if (res) {
-          console.log(res);
           setLoading(false);
-          setMessage(smessage);
-          setStatus(true);
-          setOpenMessage(true);
+          toast.success(smessage);
+          setTimeout(() => {
+            router.push("/auth/verify");
+          }, 2000);
         }
       },
       {
@@ -166,7 +172,7 @@ const SignUpForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 mb-6">
+    <form onSubmit={handleSubmit(onSubmit)} className="mb-6 space-y-4">
       <FullPageLoader open={loading} />
       {/* {openMessage && (
         <SucessfullDialog
@@ -209,24 +215,24 @@ const SignUpForm = () => {
         {errors.lastName && <p className="mt-1 text-xs text-red-600">{errors.lastName.message}</p>}
       </div>
 
-            <div>
-                <label htmlFor="email" className="block mb-1 text-[16px] font-normal text-black-light">Email<span className="text-red-500">*</span></label>
-                <input
-                    id="email"
-                    placeholder="Enter your email"
-                    className={`w-full p-3 border ${errors.email ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
-                    {...register("email", {
-                        required: "Email is required",
-                        pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address"
-                        }
-                    })}
-                />
-                {errors.email && (
-                    <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>
-                )}
-            </div>
+      <div>
+        <label htmlFor="email" className="block mb-1 text-[16px] font-normal text-black-light">
+          Email<span className="text-red-500">*</span>
+        </label>
+        <input
+          id="email"
+          placeholder="Enter your email"
+          className={`w-full p-3 border ${errors.email ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
+          {...register("email", {
+            required: "Email is required",
+            pattern: {
+              value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+              message: "Invalid email address",
+            },
+          })}
+        />
+        {errors.email && <p className="mt-1 text-xs text-red-600">{errors.email.message}</p>}
+      </div>
       <div>
         <label
           htmlFor="phoneNumber"
@@ -310,25 +316,27 @@ const SignUpForm = () => {
                 )
             }
 
-            <div>
-                <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">Password<span className="text-red-500">*</span></label>
-                <div className="relative">
-                    <input
-                        id="password"
-                        type={showPassword ? "text" : "password"}
-                        placeholder="Enter your password"
-                        className={`w-full p-3 border ${errors.password ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
-                        {...register("password", {
-                            required: "Password is required",
-                            minLength: {
-                                value: 8,
-                                message: "Password must be at least 8 characters"
-                            },
-                            validate: (value) => {
-                                const firstName = watch("firstName").toLowerCase();
-                                const lastName = watch("lastName").toLowerCase();
-                                const email = watch("email").toLowerCase();
-                                const nameInEmail = email.split('@')[0].toLowerCase();
+      <div>
+        <label htmlFor="password" className="block mb-1 text-[16px] font-normal text-black-light">
+          Password<span className="text-red-500">*</span>
+        </label>
+        <div className="relative">
+          <input
+            id="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Enter your password"
+            className={`w-full p-3 border ${errors.password ? "border-red-500" : "border-gray-50"} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
+            {...register("password", {
+              required: "Password is required",
+              minLength: {
+                value: 8,
+                message: "Password must be at least 8 characters",
+              },
+              validate: (value) => {
+                const firstName = watch("firstName").toLowerCase();
+                const lastName = watch("lastName").toLowerCase();
+                const email = watch("email").toLowerCase();
+                const nameInEmail = email.split("@")[0].toLowerCase();
 
                 // Check for capital letter
                 if (!/[A-Z]/.test(value)) {
@@ -515,7 +523,7 @@ const SignUp = () => {
   const router = useRouter();
 
   return (
-    <div className="flex items-center justify-center w-full lg:h-screen lg:overflow-hidden md:px-0 bg-white">
+    <div className="flex items-center justify-center w-full bg-white lg:h-screen lg:overflow-hidden md:px-0">
       <div className="topGradient"></div>
       <div className="grid w-full h-full lg:grid-cols-2 grid-1">
         <AuthBannerBanner />
@@ -543,25 +551,27 @@ const SignUp = () => {
             </button>
           </div>
 
-            <div className="flex flex-col justify-center max-w-md mx-auto w-full md:mt-12 lg:mt-8 mt-8 md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px]">
-                <div className="mx-3 lg:mx-2 md:mx-24 md:mt-8 mt-16 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
-                    <div className="mb-4 text-center">
-                        <div className="flex justify-center mb-6">
-                            <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">Create Account</h2>
-                            <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
-                                Create an account to start buying and selling on Kuve.
-                            </p>
-                        </div>
-                    </div>
-
-                  <Suspense fallback={<LoadingFallback />}>
-                    <SignUpForm />
-                  </Suspense>
+          <div className="flex flex-col justify-center max-w-md mx-auto w-full md:mt-12 lg:mt-8 mt-8 md:mb-20 lg:mb-0 lg:max-w-md md:max-w-[912px]">
+            <div className="mx-3 mt-16 lg:mx-2 md:mx-24 md:mt-8 md:bg-white md:shadow-lg md:rounded-xl md:p-8 lg:bg-transparent lg:shadow-none lg:p-0">
+              <div className="mb-4 text-center">
+                <div className="flex justify-center mb-6">
+                  <Image src="/img/logo.svg" alt="Kuve Logo" width={141.97} height={31} />
                 </div>
+                <div className="flex flex-col items-center justify-center">
+                  <h2 className="text-[32px] lg:text-[48px] md:text-[40px] font-medium text-black-light mb-2 md:w-[406px] w-[396px]">
+                    Create Account
+                  </h2>
+                  <p className="text-[#3D3D3D] text-[14px] md:text-[16px] font-normal md:w-[406px] w-[396px] h-[48px]">
+                    Create an account to start buying and selling on Kuve.
+                  </p>
+                </div>
+              </div>
+
+              <Suspense fallback={<LoadingFallback />}>
+                <SignUpForm />
+              </Suspense>
             </div>
+          </div>
         </div>
       </div>
     </div>

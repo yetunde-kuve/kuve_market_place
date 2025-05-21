@@ -9,6 +9,7 @@ import NetworkStatusBackdrop from "../services/network/networkCheck.service";
 import { UIProvider } from "@/context/ui.context";
 import AppLogout from "@/services/logoutinactive/logoutInactive.service";
 import ThemeProvider from "@/store/themeProvider/themeProvider.provider";
+import { ToastProvider } from "@/context/toast.context";
 
 type Props = {
   children: ReactNode;
@@ -20,13 +21,15 @@ export default function Layouts({ children }: Props) {
       <UIProvider>
         <CachedProvider>
           <AuthProvider>
-            <ThemeProvider>
-              <NetworkStatusBackdrop>
-                <AppLogout>
-                  <Layout>{children}</Layout>
-                </AppLogout>
-              </NetworkStatusBackdrop>
-            </ThemeProvider>
+            <ToastProvider>
+              <ThemeProvider>
+                <NetworkStatusBackdrop>
+                  <AppLogout>
+                    <Layout>{children}</Layout>
+                  </AppLogout>
+                </NetworkStatusBackdrop>
+              </ThemeProvider>
+            </ToastProvider>
           </AuthProvider>
         </CachedProvider>
       </UIProvider>
