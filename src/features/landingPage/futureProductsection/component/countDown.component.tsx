@@ -1,11 +1,24 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const CountdownTimer = () => {
+type DateProps = {
+  startDate: string,
+  endDate: string,
+};
+const CountdownTimer = ({ startDate, endDate }:DateProps) => {
   const calculateTimeLeft = () => {
-    const targetDate = new Date();
-    targetDate.setMonth(targetDate.getMonth() + 3);
-    const difference = +targetDate - +new Date();
+    if (!endDate) {
+      return {
+        days: "00",
+        hours: "00",
+        minutes: "00",
+        seconds: "00",
+      };
+    }
+
+    const now = new Date();
+    const targetDate = new Date(endDate);
+    const difference = +targetDate - +now;
 
     let timeLeft = {
       days: "00",
@@ -40,20 +53,36 @@ const CountdownTimer = () => {
     }, 1000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [endDate]); // Add endDate to dependency array
+
+  // Don't render if no endDate provided
+  if (!endDate) {
+    return null;
+  }
+
+  // Check if countdown has ended
+  const hasEnded = new Date() >= new Date(endDate);
+
+  if (hasEnded) {
+    return (
+        <div className="text-white text-sm font-medium">
+          Offer has ended
+        </div>
+    );
+  }
 
   return (
-    <div className="flex items-center gap-4">
-      {Object.entries(timeLeft).map(([label, value]) => (
-        <div
-          key={label}
-          className="text-center bg-white text-text rounded-full h-[64px] w-[64px] flex flex-col items-center justify-center"
-        >
-          <div className="text-[12px] font-[600]">{value}</div>
-          <div className="text-[8.9px] font-[400]">{label}</div>
-        </div>
-      ))}
-    </div>
+      <div className="flex items-center gap-4">
+        {Object.entries(timeLeft).map(([label, value]) => (
+            <div
+                key={label}
+                className="text-center bg-white text-text rounded-full h-[64px] w-[64px] flex flex-col items-center justify-center"
+            >
+              <div className="text-[12px] font-[600]">{value}</div>
+              <div className="text-[8.9px] font-[400]">{label}</div>
+            </div>
+        ))}
+      </div>
   );
 };
 

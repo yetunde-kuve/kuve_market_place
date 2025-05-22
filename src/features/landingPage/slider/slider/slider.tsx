@@ -3,49 +3,148 @@ import Button from "@/components/widgets/Button.widget";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
+import {MPHttpUtilNoSecure} from "@/utils/MPHttpNosecure.utils";
+
+interface product {
+  id: number;
+  title: string;
+  imagePath: string;
+  bannerDescription: string;
+}
 const Slider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const mpHttp = new MPHttpUtilNoSecure()
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const isSmallerScreen = useMediaQuery({ maxWidth: 320 });
-  const productList = [
-    {
-      id: 1,
-      title: "Kuve",
-      description: "Your AI-powered Secure Marketplace",
-      image: "/img/watch.svg",
-    },
-    {
-      id: 2,
-      title: "Kuve",
-      description: "Set Up Your Storefront",
-      image: "/img/watch.svg",
-    },
-    {
-      id: 3,
-      title: "Kuve",
-      description: "List un-use Items On Kuve Today",
-      image: "/img/watch.svg",
-    },
-  ];
+  const [productList, setProductList] = useState<product[]>([])
+
+
+  useEffect(() => {
+    const fetchBanner = async () => {
+      setLoading(true);
+      setError(null);
+
+      mpHttp.get("TopBanner/GetAllTopBanner", {}, {}, (result: any, error: any) => {
+        if (error) {
+          console.error("Error fetching banners:", error);
+          setError("Failed to load banners");
+          setLoading(false);
+        } else {
+          console.log("Banner fetched successfully:", result);
+
+          // Check if result is an array and has items
+          if (Array.isArray(result) && result.length > 0) {
+            setProductList(result);
+          } else {
+            setError("No banners available");
+          }
+          setLoading(false);
+        }
+      });
+    };
+
+    fetchBanner();
+  }, []);
+
 
   // Next slide function
   const goToNext = () => {
-    setCurrentIndex((prev) => (prev + 1) % productList.length);
+    if (productList.length > 0) {
+      setCurrentIndex((prev) => (prev + 1) % productList.length);
+    }
   };
 
   // Previous slide function
   const goToPrevious = () => {
-    setCurrentIndex(
-      (prev) => (prev - 1 + productList.length) % productList.length
-    );
+    if (productList.length > 0) {
+      setCurrentIndex((prev) => (prev - 1 + productList.length) % productList.length);
+    }
   };
-  // Automatically slide every 5 seconds
-  useEffect(() => {
-    const interval = setInterval(goToNext, 5000); // Change slide every 5 seconds
 
-    // Cleanup the interval when the component is unmounted
+  // Automatically slide every 5 seconds - only start when data is loaded
+  useEffect(() => {
+    if (productList.length === 0) return; // Don't start auto-slide if no data
+
+    const interval = setInterval(goToNext, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [productList.length]); // Depend on productList.length
+
+  // Show loading state with skeleton
+  if (loading) {
+    return (
+        <div className="relative w-full lg:h-[310px] md:h-auto h-[168px]">
+          {/* Skeleton Background */}
+          <div className="absolute top-0 left-0 w-full h-full bg-gray-200 animate-pulse shadow-xl rounded-2xl" />
+
+          {/* Skeleton Content */}
+          <div className="relative flex items-center justify-between w-full h-full gap-6 lg:gap-20 md:gap-10">
+
+            {/* Skeleton Left Button */}
+            <div className="absolute top-1/2 md:left-[-30px] left-[-10px] transform -translate-y-1/2 z-10">
+              <div className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+            </div>
+
+            {/* Skeleton Text Content (Left Side) */}
+            <div className="z-10 flex flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 lg:pl-28 md:pl-14 space-y-4">
+              {/* Skeleton Title */}
+              <div className="h-6 bg-gray-300 rounded animate-pulse w-32"></div>
+
+              {/* Skeleton Description */}
+              <div className="space-y-2">
+                <div className="h-8 bg-gray-300 rounded animate-pulse w-64 lg:h-12"></div>
+                <div className="h-8 bg-gray-300 rounded animate-pulse w-48 lg:h-12"></div>
+              </div>
+
+              {/* Skeleton Button */}
+              <div className="h-10 bg-gray-300 rounded-full animate-pulse w-32 mt-4"></div>
+            </div>
+
+            {/* Skeleton Image (Right Side) */}
+            <div className="justify-end flex-shrink-0 md:pr-16 lg:pr-28 py-4">
+              <div className="lg:w-[200px] lg:h-[200px] md:w-[192px] md:h-[212px] w-[113px] h-[112px] bg-gray-300 rounded-lg animate-pulse"></div>
+            </div>
+
+            {/* Skeleton Right Button */}
+            <div className="absolute top-1/2 md:right-[-30px] right-[-10px] transform -translate-y-1/2 z-10">
+              <div className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
+            </div>
+          </div>
+
+          {/* Skeleton Indicator Circles */}
+          <div className="absolute left-0 right-0 z-10 flex justify-center gap-2 bottom-4">
+            {[1, 2, 3].map((_, index) => (
+                <div
+                    key={index}
+                    className="w-2 h-2 bg-gray-300 rounded-full animate-pulse"
+                ></div>
+            ))}
+          </div>
+        </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+        <div className="relative w-full lg:h-[310px] md:h-auto h-[168px] flex items-center justify-center">
+          <div className="text-red-500">{error}</div>
+        </div>
+    );
+  }
+
+  // Show empty state
+  if (productList.length === 0) {
+    return (
+        <div className="relative w-full lg:h-[310px] md:h-auto h-[168px] flex items-center justify-center">
+          <div className="text-white">No banners available</div>
+        </div>
+    );
+  }
+
+  // Get current product safely
+  const currentProduct = productList[currentIndex];
 
   return (
     <div className="relative w-full lg:h-[310px] md:h-auto h-[168px]">
@@ -70,13 +169,13 @@ const Slider = () => {
         {/* Product Text and Button (Left Side) */}
         <div className="z-10 flex  flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 text-white lg:pl-28 md:pl-14">
           <p className="font-[600] text-white text-[clamp(10px, 3vw, 24px)]">
-            {productList[currentIndex].title}
+            {currentProduct?.title}
           </p>
           <h2
             style={{ fontSize: isSmallerScreen ? "10px" : "" }}
             className="font-[700] text-white  lg:text-[48px] md:text-[24px]  text-[16px]"
           >
-            {productList[currentIndex].description}
+            {currentProduct?.bannerDescription}
           </h2>
           {isSmallerScreen ? (
             <button className="text-[10px] rounded-full bg-primary  text-slate-900 px-2 py-2">
@@ -91,13 +190,13 @@ const Slider = () => {
           )}
         </div>
 
-        <div className="justify-end flex-shrink-0 md:pr-16 lg:pr-28">
+        <div className="justify-end flex-shrink-0 md:pr-16 lg:pr-28 py-2">
           <Image
-            src={productList[currentIndex].image}
-            alt={productList[currentIndex].title}
+            src={currentProduct?.imagePath}
+            alt={currentProduct?.title}
             height={270}
             width={268}
-            className="lg:w-[200px] lg:h-[200px] md:w-[192px] md:h-[212px]  w-[113px] h-[112px]"
+            className="lg:w-[268px] lg:h-[270px] md:w-[192px] md:h-[212px]  w-[113px] h-[112px]"
           />
         </div>
 
