@@ -63,7 +63,7 @@ const Login = () => {
           return;
         }
         if (res) {
-          let token = res.token;
+          let token = res.Token;
 
           saveToLocal("token", token);
           setIsLoading(false);
