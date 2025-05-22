@@ -10,11 +10,31 @@ import SliderButton from "@/components/sliderButton/sliderButton.sliderButton";
 import IconDropdown from "@/components/dropDownIcon/dropDownIcon.component";
 import { HttpUtil } from "@/utils/http.utils";
 import { useUtils } from "@/context/utils.context";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useToast } from "@/context/toast.context";
+import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
 
 export default function Page() {
   const { apiCaller } = useUtils();
+  const http = new HttpUtilNoSecure();
+  const [data, setData] = useState<any>(null);
+  const [error, setError] = useState<any>(null);
+  useEffect(() => {
+    const fetchData = async () => {
+      http.get("v1/ServiceProviderType/GetAllServiceType", {}, {}, (result: any, error: any) => {
+        if (error) {
+          console.error("Error fetching users:", error);
+          // Handle the error, e.g., display an error message to the user
+        } else {
+          console.log("Users fetched successfully:", result);
+          // Process the fetched user data
+        }
+      });
+    };
+
+    fetchData();
+  }, []);
+
   const toast = useToast();
   const register = async () => {
     // setLoading(true);
