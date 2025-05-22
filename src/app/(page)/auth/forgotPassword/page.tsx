@@ -57,7 +57,7 @@ const Page = () => {
         setLoading(true);
         setIsLoading(true);
         const response = await (apiCaller() as HttpUtil).performApiCall(
-            "v1/Authorization/InitiateForgtPassword",
+            "v1/Authorization/InitiateForgetPassword",
             (res: any, error: any, smessage: any) => {
                 if (error) {
                     setLoading(false);
@@ -96,7 +96,7 @@ const Page = () => {
         setLoading(true);
         setIsLoadingR(true);
         const response = await (apiCaller() as HttpUtil).performApiCall(
-            "v1/Authorization/CompleteForgtPassword",
+            "v1/Authorization/CompleteForgetPassword",
             (res: any, error: any, smessage: any) => {
                 if (error) {
                     setLoading(false);
@@ -108,9 +108,9 @@ const Page = () => {
                     setLoading(false);
                     toast.success(smessage);
                     setIsLoadingR(false);
-                    setTimeout(() => {
+                    // setTimeout(() => {
                         router.push('/auth/login');
-                    }, 1000);
+                    // }, 1000);
                 }
             },
             {
@@ -145,22 +145,35 @@ const Page = () => {
         setValue('otp', formattedValue);
     };
 
-    const handleResendOtp = async () => {
+    const handleResendOtp = async (data: FormValues) => {
         setResendDisabled(true);
         setCountdown(30); // Disable resend for 30 seconds
+        setLoading(true);
+        const response = await (apiCaller() as HttpUtil).performApiCall(
+            "v1/Authorization/ResendOTPForForgetPassword",
+            (res: any, error: any, smessage: any) => {
+                if (error) {
+                    setLoading(false);
+                    toast.error(error);
+                    setIsLoadingR(false);
+                    return;
+                }
+                if (res) {
+                    setLoading(false);
+                    toast.success(smessage);
+                    setIsLoadingR(false);
+                }
+            },
+            {
+                data: {
+                    Email: data.email,
 
-        try {
-            // Implement your resend OTP logic here
-            // For example:
-            // await resendOtp(email);
-
-            // Simulating resend
-            console.log('Resend OTP to:', email);
-        } catch (error) {
-            console.error('Failed to resend OTP:', error);
-            setResendDisabled(false);
-            setCountdown(0);
-        }
+                },
+                getMethod: false,
+                silently: true,
+            }
+        );
+        console.log(response);
     };
 
     return (
@@ -266,7 +279,7 @@ const Page = () => {
                                                 <div className="flex justify-end mt-2">
                                                     <button
                                                         type="button"
-                                                        onClick={handleResendOtp}
+                                                        onClick={handleSubmit(handleResendOtp)}
                                                         disabled={resendDisabled}
                                                         className={`text-sm font-medium ${resendDisabled ? 'text-gray-400' : 'text-orange-500 hover:text-orange-600'}`}
                                                     >
@@ -281,7 +294,7 @@ const Page = () => {
                                                 placeholder="Enter 6 digit code"
                                                 className={`w-full p-3 tracking-widest border ${errors.otp ? 'border-red-500' : 'border-gray-50'} bg-[#F5F7FA] rounded-[12px] focus:outline-none focus:ring-2 focus:ring-blue-light`}
                                                 {...register("otp", {
-                                                    required: "OTP is required",
+                                                    // required: "OTP is required",
                                                     pattern: {
                                                         value: /^[0-9]{6}$/,
                                                         message: "OTP must be 6 digits"

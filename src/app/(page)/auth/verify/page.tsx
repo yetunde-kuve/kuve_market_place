@@ -16,9 +16,10 @@ interface FormValues {
 }
 
 interface UserDetails {
-    OTP: string,
-    UniqueId: string,
-    UserId: string
+    OTP?: string,
+    UniqueId?: string,
+    UserId?: string,
+    Email?: string,
 }
 // Client Components that use useSearchParams
 const VerifyForm = () => {
@@ -118,19 +119,30 @@ const VerifyForm = () => {
     const handleResendOtp = async () => {
         setResendDisabled(true);
         setCountdown(30); // Disable resend for 30 seconds
+        setLoading(true);
+        const response = await (apiCaller() as HttpUtil).performApiCall(
+            "v1/Authorization/ResendOTPForRegistration",
+            (res: any, error: any, smessage: any) => {
+                if (error) {
+                    setLoading(false);
+                    toast.error(error);
+                    return;
+                }
+                if (res) {
+                    setLoading(false);
+                    toast.success(smessage);
+                }
+            },
+            {
+                data: {
+                    Email: user?.Email,
 
-        try {
-            // Implement your resend OTP logic here
-            // For example:
-            // await resendOtp(email);
-
-            // Simulating resend
-            console.log('Resend OTP to:', email);
-        } catch (error) {
-            console.error('Failed to resend OTP:', error);
-            setResendDisabled(false);
-            setCountdown(0);
-        }
+                },
+                getMethod: false,
+                silently: true,
+            }
+        );
+        console.log(response);
     };
 
     return (
