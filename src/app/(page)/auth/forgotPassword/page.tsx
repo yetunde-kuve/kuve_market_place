@@ -115,6 +115,7 @@ const Page = () => {
             },
             {
                 data: {
+                    Email: data.email,
                     OTP: data.otp,
                     Password: data.password,
                     ConfirmPassword: data.confirmPassword,

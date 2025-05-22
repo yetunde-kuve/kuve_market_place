@@ -11,7 +11,11 @@ export class HttpUtilNoSecure {
   constructor() {
     this.baseUrl = process.env.NEXT_PUBLIC_BASED_URL || "";
     this.apiKey = process.env.NEXT_PUBLIC_API_KEY;
-    this.token = localStorage.getItem("token");
+    this.token = null;
+
+    if (typeof window !== "undefined") {
+      this.token = localStorage.getItem("token");
+    }
   }
 
   private async callApi(
