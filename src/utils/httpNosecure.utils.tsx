@@ -31,7 +31,7 @@ export class HttpUtilNoSecure {
       ...(this.token ? { authorization: `Bearer ${this.token}` } : {}),
       ...(this.apiKey ? { XApiKey: this.apiKey } : {}),
     };
-
+    console.log(headers);
     try {
       let response;
       switch (method) {
@@ -106,6 +106,7 @@ export class HttpUtilNoSecure {
     _options: {},
     onComplete: Function | null = null
   ) {
+    console.log("my data post", data, path);
     return this.callApi("post", path, data, {}, onComplete);
   }
 

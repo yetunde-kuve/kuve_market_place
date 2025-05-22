@@ -1,176 +1,252 @@
-'use client'
-import {useEffect, useState} from 'react';
-import {useCached} from "@/context/cached.context";
+"use client";
+import { useEffect, useState } from "react";
+import { useCached } from "@/context/cached.context";
+import ImageVector from "../../../../../../public/svg/imgvector.svg";
+import Image from "next/image";
+import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
+import UploadStoreCoverImg from "@/components/storeCoverModal/uploadStoreCoverModal.component";
+import StoreProfileImg from "@/components/storeProfilePicture/storeProfilePicture.component";
 
 export default function StorefrontSetup() {
-    const [selectedColor, setSelectedColor] = useState(0);
-    const {
-        onboardingStepper,
-        submitHandler,
-        setSubmitHandler,
-        setOnboardingStepper,
-        onboardingModel,
-        setOnboardingModel,
-        totalSteps,
-        setTotalSteps,
-    } = useCached();
+  const [selectedColor, setSelectedColor] = useState("");
+  const {
+    onboardingStepper,
+    submitHandler,
+    setSubmitHandler,
+    setOnboardingStepper,
+    onboardingModel,
+    setOnboardingModel,
+  } = useCached();
+  const http = new HttpUtilNoSecure();
+  const [allColors, setAllColors] = useState<any>([]);
 
-    const handleSubmit = () => {
-        return true;
+  const [openCover, setOpenCover] = useState(false);
+  const [coverimg, setCoverImg] = useState("");
+  const [profileImg, setProfileImg] = useState("");
+  const [openProfile, setOpenProfile] = useState(false);
+  const handleSubmit = () => {
+    onboardingModel.coverimg = coverimg;
+    onboardingModel.profileImg = profileImg;
+    onboardingModel.selectedColor = selectedColor;
+    setOnboardingModel(onboardingModel);
+    setOnboardingStepper(3);
+  };
+
+  const colors = [
+    { id: 0, bg: "bg-gray-200", ring: "ring-gray-400" },
+    { id: 1, bg: "bg-[#110927]", ring: "ring-black" },
+    { id: 2, bg: "bg-pink-400", ring: "ring-pink-500" },
+    { id: 3, bg: "bg-purple-500", ring: "ring-purple-600" },
+    { id: 4, bg: "bg-indigo-600", ring: "ring-indigo-700" },
+    { id: 5, bg: "bg-green-500", ring: "ring-green-600" },
+  ];
+  useEffect(() => {
+    const fetchData = async () => {
+      http.get("v1/ServiceProvider/GetAllColors", {}, {}, (result: any, error: any) => {
+        if (error) {
+          console.error("Error fetching users:", error);
+          // Handle the error, e.g., display an error message to the user
+        } else {
+          setAllColors(result);
+          console.log("Users fetched successfully:", result);
+          // Process the fetched user data
+        }
+      });
     };
 
-    useEffect(() => {
-        setSubmitHandler(() => handleSubmit);
-    }, []);
+    fetchData();
+  }, []);
+  console.log(onboardingModel);
+  return (
+    <div className="flex flex-col items-center gap-[15px] text-start w-full pt-4 ">
+      {/* Main Content */}
+      {openCover && (
+        <UploadStoreCoverImg
+          open={openCover}
+          onFinish={(img: string) => {
+            console.log(img);
+            setCoverImg(img);
+          }}
+          onClose={() => setOpenCover(false)}
+        />
+      )}
+      {openProfile && (
+        <StoreProfileImg
+          open={openProfile}
+          onFinish={(img: string) => {
+            console.log(img);
+            setProfileImg(img);
+          }}
+          onClose={() => setOpenProfile(false)}
+        />
+      )}
 
-    const colors = [
-        { id: 0, bg: 'bg-gray-200', ring: 'ring-gray-400' },
-        { id: 1, bg: 'bg-[#110927]', ring: 'ring-black' },
-        { id: 2, bg: 'bg-pink-400', ring: 'ring-pink-500' },
-        { id: 3, bg: 'bg-purple-500', ring: 'ring-purple-600' },
-        { id: 4, bg: 'bg-indigo-600', ring: 'ring-indigo-700' },
-        { id: 5, bg: 'bg-green-500', ring: 'ring-green-600' },
-    ];
-
-    return (
-        <div className="flex flex-col items-center gap-[15px] text-start w-full pt-4">
-            {/* Main Content */}
-            <div className="w-full">
-                <div>
-                    <div className='md:block hidden'>
-                        <svg width="527" height="194" viewBox="0 0 527 194" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_37066_2958)">
-                                <rect width="527" height="194" rx="20" fill="#EFEAEA"/>
-                                <path d="M359.5 46L514.086 313.75H204.914L359.5 46Z" fill="#D9D9D9"/>
-                                <circle cx="313" cy="46" r="13" fill="#D9D9D9"/>
-                                <path d="M158 10L332.937 313H-16.9371L158 10Z" fill="#D9D9D9"/>
-                                <rect x="246" y="79" width="36" height="36" rx="18" fill="#99999C"/>
-                                <path d="M253.2 94.4252C253.2 93.1964 254.196 92.2004 255.425 92.2004C256.267 92.2004 257.038 91.724 257.415 90.9704L258.4 89C258.532 88.736 258.598 88.604 258.673 88.49C258.866 88.1943 259.122 87.9448 259.422 87.7591C259.722 87.5735 260.059 87.4563 260.41 87.416C260.547 87.4004 260.694 87.4004 260.989 87.4004H267.011C267.306 87.4004 267.455 87.4004 267.589 87.416C267.94 87.4562 268.278 87.5733 268.578 87.7589C268.879 87.9445 269.134 88.1942 269.327 88.49C269.403 88.604 269.469 88.736 269.601 89L270.585 90.9704C270.769 91.3406 271.053 91.652 271.405 91.8693C271.757 92.0866 272.163 92.2013 272.577 92.2004C273.804 92.2004 274.8 93.1964 274.8 94.4252V100.429C274.8 102.835 274.8 104.037 274.248 104.917C273.96 105.374 273.573 105.761 273.115 106.048C272.237 106.6 271.035 106.6 268.629 106.6H259.372C256.966 106.6 255.763 106.6 254.884 106.048C254.426 105.761 254.04 105.373 253.752 104.916C253.2 104.037 253.2 102.835 253.2 100.429V94.4252Z" stroke="white" stroke-width="2.4"/>
-                                <path d="M264 101.8C265.989 101.8 267.6 100.188 267.6 98.1996C267.6 96.2114 265.989 94.5996 264 94.5996C262.012 94.5996 260.4 96.2114 260.4 98.1996C260.4 100.188 262.012 101.8 264 101.8Z" stroke="white" stroke-width="2.4"/>
-                            </g>
-                            <rect x="0.5" y="0.5" width="526" height="193" rx="19.5" stroke="#A2A2A2"/>
-                            <defs>
-                                <clipPath id="clip0_37066_2958">
-                                    <rect width="527" height="194" rx="20" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
-                    </div>
-
-                    <div className='block md:hidden'>
-                        <svg width="396" height="151" viewBox="0 0 396 151" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_37373_5139)">
-                                <rect width="396" height="151" rx="20" fill="#EFEAEA"/>
-                                <path d="M359.5 46L514.086 313.75H204.914L359.5 46Z" fill="#D9D9D9"/>
-                                <circle cx="313" cy="46" r="13" fill="#D9D9D9"/>
-                                <path d="M158 10L332.937 313H-16.9371L158 10Z" fill="#D9D9D9"/>
-                                <rect x="184" y="61" width="29" height="29" rx="14.5" fill="#99999C"/>
-                                <path d="M189.8 73.4264C189.8 72.4366 190.602 71.6342 191.592 71.6342C192.271 71.6342 192.891 71.2505 193.195 70.6434L193.989 69.0561C194.095 68.8435 194.148 68.7371 194.209 68.6453C194.364 68.4071 194.57 68.2061 194.812 68.0566C195.054 67.907 195.325 67.8126 195.608 67.7801C195.718 67.7676 195.837 67.7676 196.075 67.7676H200.925C201.163 67.7676 201.283 67.7676 201.391 67.7801C201.674 67.8125 201.946 67.9068 202.188 68.0564C202.43 68.2059 202.636 68.407 202.791 68.6453C202.852 68.7371 202.905 68.8435 203.011 69.0561L203.804 70.6434C203.953 70.9417 204.182 71.1925 204.465 71.3675C204.749 71.5426 205.076 71.635 205.409 71.6342C206.398 71.6342 207.2 72.4366 207.2 73.4264V78.2627C207.2 80.2008 207.2 81.1694 206.755 81.878C206.523 82.2465 206.212 82.5581 205.843 82.7896C205.135 83.2342 204.167 83.2342 202.228 83.2342H194.772C192.833 83.2342 191.865 83.2342 191.156 82.7896C190.788 82.5577 190.476 82.2458 190.245 81.877C189.8 81.1694 189.8 80.2008 189.8 78.2627V73.4264Z" stroke="white" stroke-width="1.93333"/>
-                                <path d="M198.5 79.3664C200.102 79.3664 201.4 78.068 201.4 76.4664C201.4 74.8648 200.102 73.5664 198.5 73.5664C196.898 73.5664 195.6 74.8648 195.6 76.4664C195.6 78.068 196.898 79.3664 198.5 79.3664Z" stroke="white" stroke-width="1.93333"/>
-                            </g>
-                            <rect x="0.5" y="0.5" width="395" height="150" rx="19.5" stroke="#A2A2A2"/>
-                            <defs>
-                                <clipPath id="clip0_37373_5139">
-                                    <rect width="396" height="151" rx="20" fill="white"/>
-                                </clipPath>
-                            </defs>
-                        </svg>
-
-                    </div>
-
-                </div>
-
-                {/* Image Upload Area */}
-                {/*<div className="bg-[#EFEAEA] rounded-lg h-[194px] mb-10 flex items-center justify-center relative overflow-hidden">*/}
-                {/*    <div className="absolute inset-0 flex items-center justify-center">*/}
-                {/*        <div className="bg-[#A2A2A2] w-2/3 h-full opacity-30 transform -skew-x-12"></div>*/}
-                {/*    </div>*/}
-
-                {/*    /!* Camera Icons *!/*/}
-                {/*    <div className="absolute left-8 bottom-2 opacity-80">*/}
-                {/*        <svg width="105" height="105" viewBox="0 0 105 105" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
-                {/*            <g clip-path="url(#clip0_37066_2968)">*/}
-                {/*                <rect width="105" height="105" rx="52.5" fill="#EFEAEA"/>*/}
-                {/*                <path d="M79.8706 48.5918L113.88 107.498H45.8613L79.8706 48.5918Z" fill="#D9D9D9"/>*/}
-                {/*                <path d="M28.3405 43.6914L66.8271 110.352H-10.1462L28.3405 43.6914Z" fill="#D9D9D9"/>*/}
-                {/*                <rect x="39" y="39" width="27.208" height="27.208" rx="13.604" fill="#99999C"/>*/}
-                {/*                <path d="M44.4414 50.6568C44.4414 49.7281 45.1942 48.9754 46.1229 48.9754C46.7595 48.9754 47.3418 48.6153 47.6266 48.0458L48.3711 46.5566C48.4709 46.3571 48.5208 46.2573 48.5779 46.1712C48.7235 45.9477 48.9166 45.7591 49.1435 45.6188C49.3703 45.4785 49.6253 45.3899 49.8903 45.3594C49.9937 45.3477 50.1052 45.3477 50.3283 45.3477H54.8793C55.1024 45.3477 55.2149 45.3477 55.3164 45.3594C55.5816 45.3898 55.8367 45.4783 56.0637 45.6186C56.2907 45.7589 56.484 45.9476 56.6297 46.1712C56.6868 46.2573 56.7367 46.3571 56.8365 46.5566L57.5802 48.0458C57.7196 48.3256 57.9344 48.5609 58.2004 48.7252C58.4664 48.8894 58.773 48.9761 59.0857 48.9754C60.0135 48.9754 60.7662 49.7281 60.7662 50.6568V55.1942C60.7662 57.0126 60.7662 57.9214 60.349 58.5862C60.1315 58.9319 59.8388 59.2242 59.4929 59.4414C58.829 59.8586 57.9203 59.8586 56.1019 59.8586H49.1058C47.2874 59.8586 46.3786 59.8586 45.7138 59.4414C45.3681 59.2238 45.0758 58.9312 44.8586 58.5853C44.4414 57.9214 44.4414 57.0126 44.4414 55.1942V50.6568Z" stroke="white" stroke-width="1.81387"/>*/}
-                {/*                <path d="M52.6036 56.2307C54.1063 56.2307 55.3244 55.0125 55.3244 53.5099C55.3244 52.0072 54.1063 50.7891 52.6036 50.7891C51.101 50.7891 49.8828 52.0072 49.8828 53.5099C49.8828 55.0125 51.101 56.2307 52.6036 56.2307Z" stroke="white" stroke-width="1.81387"/>*/}
-                {/*            </g>*/}
-                {/*            <rect x="0.5" y="0.5" width="104" height="104" rx="52" stroke="#A2A2A2"/>*/}
-                {/*            <defs>*/}
-                {/*                <clipPath id="clip0_37066_2968">*/}
-                {/*                    <rect width="105" height="105" rx="52.5" fill="white"/>*/}
-                {/*                </clipPath>*/}
-                {/*            </defs>*/}
-                {/*        </svg>*/}
-                {/*    </div>*/}
-                {/*    <div className="absolute inset-0 flex items-center justify-center">*/}
-                {/*        <div className="bg-gray-200 rounded-full p-3 opacity-80">*/}
-                {/*            <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">*/}
-                {/*                <rect width="36" height="36" rx="18" fill="#99999C"/>*/}
-                {/*                <path d="M7.2002 15.4252C7.2002 14.1964 8.1962 13.2004 9.425 13.2004C10.2674 13.2004 11.0378 12.724 11.4146 11.9704L12.3998 9.99999C12.5318 9.73599 12.5978 9.60399 12.6734 9.48999C12.8661 9.19432 13.1216 8.94478 13.4217 8.75914C13.7218 8.5735 14.0592 8.45634 14.4098 8.41599C14.5466 8.40039 14.6942 8.40039 14.9894 8.40039H21.011C21.3062 8.40039 21.455 8.40039 21.5894 8.41599C21.9402 8.45617 22.2778 8.57325 22.5782 8.7589C22.8785 8.94454 23.1342 9.19417 23.327 9.48999C23.4026 9.60399 23.4686 9.73599 23.6006 9.99999L24.5846 11.9704C24.7691 12.3406 25.0533 12.652 25.4053 12.8693C25.7572 13.0866 26.1629 13.2013 26.5766 13.2004C27.8042 13.2004 28.8002 14.1964 28.8002 15.4252V21.4288C28.8002 23.8348 28.8002 25.0372 28.2482 25.9168C27.9603 26.3742 27.5732 26.761 27.1154 27.0484C26.237 27.6004 25.0346 27.6004 22.6286 27.6004H13.3718C10.9658 27.6004 9.7634 27.6004 8.8838 27.0484C8.42634 26.7605 8.03958 26.3734 7.7522 25.9156C7.2002 25.0372 7.2002 23.8348 7.2002 21.4288V15.4252Z" stroke="white" stroke-width="2.4"/>*/}
-                {/*                <path d="M18.0004 22.7996C19.9886 22.7996 21.6004 21.1878 21.6004 19.1996C21.6004 17.2114 19.9886 15.5996 18.0004 15.5996C16.0122 15.5996 14.4004 17.2114 14.4004 19.1996C14.4004 21.1878 16.0122 22.7996 18.0004 22.7996Z" stroke="white" stroke-width="2.4"/>*/}
-                {/*            </svg>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
-
-                {/* Styling Section */}
-                <div className="my-10">
-                    <p className="uppercase text-xs font-medium text-gray-500 mb-4">Styling</p>
-
-                    {/* Color Selection */}
-                    <div className="flex items-center mb-6">
-                        <svg width="25" height="24" viewBox="0 0 25 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M12.5 22C18 22 22.5 17.5 22.5 12C22.5 6.5 18 2 12.5 2C7 2 2.5 6.5 2.5 12C2.5 17.5 7 22 12.5 22Z" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12.5 8V13" stroke="#AF52DE" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                            <path d="M12.4946 16H12.5036" stroke="#AF52DE" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                        <span className="text-[14px] font-normal text-[#474747] pl-2">Store Colour</span>
-
-                        <div className="ml-auto flex space-x-2">
-                            {colors.map((color) => (
-                                <button
-                                    key={color.id}
-                                    onClick={() => setSelectedColor(color.id)}
-                                    className={`w-8 h-8 rounded-full ${color.bg} flex items-center justify-center ${
-                                        selectedColor === color.id ? `ring-2 ${color.ring}` : ''
-                                    }`}
-                                >
-                                    {/*{selectedColor === color.id && (*/}
-                                        <svg width="17" height="18" viewBox="0 0 17 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" clip-rule="evenodd" d="M11.3784 5.3125C11.3784 4.08813 12.1612 3.04562 13.2534 2.65938V1.5625C13.2534 1.31386 13.3522 1.0754 13.528 0.899586C13.7038 0.723772 13.9423 0.625 14.1909 0.625C14.4396 0.625 14.678 0.723772 14.8538 0.899586C15.0296 1.0754 15.1284 1.31386 15.1284 1.5625V2.65938C15.6774 2.85306 16.1527 3.21226 16.4889 3.68744C16.8252 4.16262 17.0057 4.73039 17.0057 5.3125C17.0057 5.89461 16.8252 6.46238 16.4889 6.93756C16.1527 7.41274 15.6774 7.77194 15.1284 7.96562V16.5625C15.1284 16.8111 15.0296 17.0496 14.8538 17.2254C14.678 17.4012 14.4396 17.5 14.1909 17.5C13.9423 17.5 13.7038 17.4012 13.528 17.2254C13.3522 17.0496 13.2534 16.8111 13.2534 16.5625V7.96562C12.7048 7.77167 12.2299 7.41235 11.8941 6.93717C11.5583 6.46199 11.3781 5.89436 11.3784 5.3125ZM13.2534 5.3125C13.2534 5.56114 13.3522 5.7996 13.528 5.97541C13.7038 6.15123 13.9423 6.25 14.1909 6.25C14.4396 6.25 14.678 6.15123 14.8538 5.97541C15.0296 5.7996 15.1284 5.56114 15.1284 5.3125C15.1284 5.06386 15.0296 4.8254 14.8538 4.64959C14.678 4.47377 14.4396 4.375 14.1909 4.375C13.9423 4.375 13.7038 4.47377 13.528 4.64959C13.3522 4.8254 13.2534 5.06386 13.2534 5.3125ZM5.75342 12.8125C5.75334 12.2603 5.91581 11.7203 6.22056 11.2599C6.52532 10.7994 6.95887 10.4388 7.46717 10.2231L7.62842 10.1603V1.5625C7.62868 1.32355 7.72018 1.09372 7.88421 0.919968C8.04825 0.746216 8.27244 0.641655 8.51097 0.627651C8.74951 0.613647 8.9844 0.691257 9.16763 0.844624C9.35087 0.99799 9.46863 1.21553 9.49685 1.45281L9.50342 1.5625L9.50342 10.1594C10.0381 10.3484 10.5031 10.6945 10.8376 11.1524C11.1721 11.6104 11.3604 12.1587 11.3778 12.7255C11.3953 13.2923 11.241 13.8511 10.9353 14.3287C10.6296 14.8063 10.1867 15.1804 9.66467 15.4019L9.50342 15.4656V16.5625C9.50315 16.8014 9.41166 17.0313 9.24762 17.205C9.08359 17.3788 8.8594 17.4833 8.62086 17.4973C8.38232 17.5114 8.14744 17.4337 7.9642 17.2804C7.78096 17.127 7.6632 16.9095 7.63498 16.6722L7.62842 16.5625V15.4656C7.07983 15.2717 6.60491 14.9123 6.2691 14.4372C5.93328 13.962 5.75311 13.3944 5.75342 12.8125ZM7.62842 12.8125C7.62842 13.0611 7.72719 13.2996 7.90301 13.4754C8.07882 13.6512 8.31728 13.75 8.56592 13.75C8.81456 13.75 9.05301 13.6512 9.22883 13.4754C9.40464 13.2996 9.50342 13.0611 9.50342 12.8125C9.50342 12.5639 9.40464 12.3254 9.22883 12.1496C9.05301 11.9738 8.81456 11.875 8.56592 11.875C8.31728 11.875 8.07882 11.9738 7.90301 12.1496C7.72719 12.3254 7.62842 12.5639 7.62842 12.8125ZM0.128418 5.3125C0.128418 4.08813 0.911231 3.04562 2.00342 2.65938V1.5625C2.00342 1.31386 2.10219 1.0754 2.27801 0.899586C2.45382 0.723772 2.69228 0.625 2.94092 0.625C3.18956 0.625 3.42802 0.723772 3.60383 0.899586C3.77965 1.0754 3.87842 1.31386 3.87842 1.5625V2.65938C4.42736 2.85306 4.9027 3.21226 5.23893 3.68744C5.57516 4.16262 5.75572 4.73039 5.75572 5.3125C5.75572 5.89461 5.57516 6.46238 5.23893 6.93756C4.9027 7.41274 4.42736 7.77194 3.87842 7.96562L3.87842 16.5625C3.87842 16.8111 3.77965 17.0496 3.60383 17.2254C3.42802 17.4012 3.18956 17.5 2.94092 17.5C2.69228 17.5 2.45382 17.4012 2.27801 17.2254C2.10219 17.0496 2.00342 16.8111 2.00342 16.5625L2.00342 7.96562C1.45483 7.77167 0.979909 7.41235 0.644096 6.93717C0.308283 6.46199 0.128113 5.89436 0.128418 5.3125ZM2.00342 5.3125C2.00342 5.56114 2.10219 5.7996 2.27801 5.97541C2.45382 6.15123 2.69228 6.25 2.94092 6.25C3.18956 6.25 3.42802 6.15123 3.60383 5.97541C3.77965 5.7996 3.87842 5.56114 3.87842 5.3125C3.87842 5.06386 3.77965 4.8254 3.60383 4.64959C3.42802 4.47377 3.18956 4.375 2.94092 4.375C2.69228 4.375 2.45382 4.47377 2.27801 4.64959C2.10219 4.8254 2.00342 5.06386 2.00342 5.3125Z" fill="#FFF5F5"/>
-                                        </svg>
-                                    {/*)}*/}
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* Footer Buttons */}
-                <div className="gap-[12px] flex flex-col  justify-between  lg:hidden mt-[12px]  md:w-[507px] w-full ">
-                    <button
-                        onClick={handleSubmit}
-                        className="  rounded-[12px] w-full flex justify-center items-center h-[48px]  bg-[#000222] text-white font-[400]"
-                    >
-                        {onboardingStepper + 1 < totalSteps ? "Continue" : "Finish"}
-                    </button>
-                    <button
-                        onClick={() => {
-                            if (onboardingStepper + 1 < totalSteps) {
-                                setOnboardingStepper(onboardingStepper + 1);
-                            } else {
-                                alert("Last stepper");
-                            }
-                        }}
-                        className="w-full  text-[16px] font-[500] text-black"
-                    >
-                        Skip
-                    </button>
-                </div>
+      <div
+        style={{
+          backgroundImage: coverimg ? `url(${coverimg})` : "none",
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center",
+        }}
+        className="rounded-[20px] flex justify-center items-center relative w-full overflow-hidden bg-[#EFEAEA] md:h-[194px] h-[150px] border border-[#A2A2A2]"
+      >
+        <div className="absolute z-20 bottom-[10px] left-[10px]">
+          <div
+            style={{
+              backgroundImage: profileImg ? `url(${profileImg})` : "none",
+              backgroundSize: "cover",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}
+            className="md:h-[105px] md:w-[105px] relative  bg-[#EFEAEA] overflow-hidden   rounded-full border border-[#A2A2A2] flex justify-center items-center h-[75.5px] w-[75.5px]"
+          >
+            <div
+              onClick={() => setOpenProfile(true)}
+              className="h-[39px] w-[39px] z-30 rounded-full flex justify-center items-center bg-[#99999C] text-white text-[16px]"
+            >
+              <i className="ri-camera-line"></i>
             </div>
+
+            {profileImg.trim() == "" && (
+              <div className="absolute flex justify-center bottom-[-20px] z-0">
+                <Image src={ImageVector} width={132} height={88} alt="vector image" />
+              </div>
+            )}
+          </div>
         </div>
-    );
+
+        <div
+          onClick={() => setOpenCover(true)}
+          className="h-[39px] cursor-pointer w-[39px] z-30 rounded-full flex justify-center items-center bg-[#99999C] text-white text-[16px]"
+        >
+          <i className="ri-camera-line"></i>
+        </div>
+
+        {coverimg.trim() == "" && (
+          <div className="flex justify-center">
+            <Image
+              src={ImageVector}
+              height={404}
+              width={582}
+              alt="image vector"
+              className="absolute md:bottom-[-170px] bottom-[-80px]"
+            />
+          </div>
+        )}
+      </div>
+      <div className="w-full">
+        {/* Styling Section */}
+        <div className="my-10">
+          <p className="mb-4 text-xs font-medium text-gray-500 uppercase">Styling</p>
+
+          {/* Color Selection */}
+          <div className="flex items-center mb-6">
+            <svg
+              width="25"
+              height="24"
+              viewBox="0 0 25 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M12.5 22C18 22 22.5 17.5 22.5 12C22.5 6.5 18 2 12.5 2C7 2 2.5 6.5 2.5 12C2.5 17.5 7 22 12.5 22Z"
+                stroke="#AF52DE"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.5 8V13"
+                stroke="#AF52DE"
+                stroke-width="1.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M12.4946 16H12.5036"
+                stroke="#AF52DE"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+            <span className="text-[14px] font-normal text-[#474747] pl-2">Store Colour</span>
+
+            <div className="flex flex-wrap ml-auto space-x-2">
+              {allColors.map((color: any) => (
+                <button
+                  key={color.id}
+                  style={{
+                    backgroundColor: color.colourCode,
+                  }}
+                  onClick={() => {
+                    setSelectedColor(color.id);
+                  }}
+                  className={`w-8 h-8 rounded-full ${color.colourCode} shadow-md flex items-center justify-center ${
+                    selectedColor === color.id ? `ring-2 ${color.ring}` : ""
+                  }`}
+                >
+                  {/*{selectedColor === color.id && (*/}
+                  <svg
+                    width="17"
+                    height="18"
+                    viewBox="0 0 17 18"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      clip-rule="evenodd"
+                      d="M11.3784 5.3125C11.3784 4.08813 12.1612 3.04562 13.2534 2.65938V1.5625C13.2534 1.31386 13.3522 1.0754 13.528 0.899586C13.7038 0.723772 13.9423 0.625 14.1909 0.625C14.4396 0.625 14.678 0.723772 14.8538 0.899586C15.0296 1.0754 15.1284 1.31386 15.1284 1.5625V2.65938C15.6774 2.85306 16.1527 3.21226 16.4889 3.68744C16.8252 4.16262 17.0057 4.73039 17.0057 5.3125C17.0057 5.89461 16.8252 6.46238 16.4889 6.93756C16.1527 7.41274 15.6774 7.77194 15.1284 7.96562V16.5625C15.1284 16.8111 15.0296 17.0496 14.8538 17.2254C14.678 17.4012 14.4396 17.5 14.1909 17.5C13.9423 17.5 13.7038 17.4012 13.528 17.2254C13.3522 17.0496 13.2534 16.8111 13.2534 16.5625V7.96562C12.7048 7.77167 12.2299 7.41235 11.8941 6.93717C11.5583 6.46199 11.3781 5.89436 11.3784 5.3125ZM13.2534 5.3125C13.2534 5.56114 13.3522 5.7996 13.528 5.97541C13.7038 6.15123 13.9423 6.25 14.1909 6.25C14.4396 6.25 14.678 6.15123 14.8538 5.97541C15.0296 5.7996 15.1284 5.56114 15.1284 5.3125C15.1284 5.06386 15.0296 4.8254 14.8538 4.64959C14.678 4.47377 14.4396 4.375 14.1909 4.375C13.9423 4.375 13.7038 4.47377 13.528 4.64959C13.3522 4.8254 13.2534 5.06386 13.2534 5.3125ZM5.75342 12.8125C5.75334 12.2603 5.91581 11.7203 6.22056 11.2599C6.52532 10.7994 6.95887 10.4388 7.46717 10.2231L7.62842 10.1603V1.5625C7.62868 1.32355 7.72018 1.09372 7.88421 0.919968C8.04825 0.746216 8.27244 0.641655 8.51097 0.627651C8.74951 0.613647 8.9844 0.691257 9.16763 0.844624C9.35087 0.99799 9.46863 1.21553 9.49685 1.45281L9.50342 1.5625L9.50342 10.1594C10.0381 10.3484 10.5031 10.6945 10.8376 11.1524C11.1721 11.6104 11.3604 12.1587 11.3778 12.7255C11.3953 13.2923 11.241 13.8511 10.9353 14.3287C10.6296 14.8063 10.1867 15.1804 9.66467 15.4019L9.50342 15.4656V16.5625C9.50315 16.8014 9.41166 17.0313 9.24762 17.205C9.08359 17.3788 8.8594 17.4833 8.62086 17.4973C8.38232 17.5114 8.14744 17.4337 7.9642 17.2804C7.78096 17.127 7.6632 16.9095 7.63498 16.6722L7.62842 16.5625V15.4656C7.07983 15.2717 6.60491 14.9123 6.2691 14.4372C5.93328 13.962 5.75311 13.3944 5.75342 12.8125ZM7.62842 12.8125C7.62842 13.0611 7.72719 13.2996 7.90301 13.4754C8.07882 13.6512 8.31728 13.75 8.56592 13.75C8.81456 13.75 9.05301 13.6512 9.22883 13.4754C9.40464 13.2996 9.50342 13.0611 9.50342 12.8125C9.50342 12.5639 9.40464 12.3254 9.22883 12.1496C9.05301 11.9738 8.81456 11.875 8.56592 11.875C8.31728 11.875 8.07882 11.9738 7.90301 12.1496C7.72719 12.3254 7.62842 12.5639 7.62842 12.8125ZM0.128418 5.3125C0.128418 4.08813 0.911231 3.04562 2.00342 2.65938V1.5625C2.00342 1.31386 2.10219 1.0754 2.27801 0.899586C2.45382 0.723772 2.69228 0.625 2.94092 0.625C3.18956 0.625 3.42802 0.723772 3.60383 0.899586C3.77965 1.0754 3.87842 1.31386 3.87842 1.5625V2.65938C4.42736 2.85306 4.9027 3.21226 5.23893 3.68744C5.57516 4.16262 5.75572 4.73039 5.75572 5.3125C5.75572 5.89461 5.57516 6.46238 5.23893 6.93756C4.9027 7.41274 4.42736 7.77194 3.87842 7.96562L3.87842 16.5625C3.87842 16.8111 3.77965 17.0496 3.60383 17.2254C3.42802 17.4012 3.18956 17.5 2.94092 17.5C2.69228 17.5 2.45382 17.4012 2.27801 17.2254C2.10219 17.0496 2.00342 16.8111 2.00342 16.5625L2.00342 7.96562C1.45483 7.77167 0.979909 7.41235 0.644096 6.93717C0.308283 6.46199 0.128113 5.89436 0.128418 5.3125ZM2.00342 5.3125C2.00342 5.56114 2.10219 5.7996 2.27801 5.97541C2.45382 6.15123 2.69228 6.25 2.94092 6.25C3.18956 6.25 3.42802 6.15123 3.60383 5.97541C3.77965 5.7996 3.87842 5.56114 3.87842 5.3125C3.87842 5.06386 3.77965 4.8254 3.60383 4.64959C3.42802 4.47377 3.18956 4.375 2.94092 4.375C2.69228 4.375 2.45382 4.47377 2.27801 4.64959C2.10219 4.8254 2.00342 5.06386 2.00342 5.3125Z"
+                      fill="#FFF5F5"
+                    />
+                  </svg>
+                  {/*)}*/}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Footer Buttons */}
+
+        <div className="gap-[12px] flex flex-col  justify-between  lg:hidden mt-[12px]  md:w-[507px] w-full ">
+          <button
+            onClick={handleSubmit}
+            className="  rounded-[12px] w-full flex justify-center items-center h-[48px]  bg-[#000222] text-white font-[400]"
+          >
+            {"Continue"}
+          </button>
+          <button
+            onClick={() => {
+              if (onboardingStepper + 1 < 4) {
+                setOnboardingStepper(onboardingStepper + 1);
+              } else {
+                alert("Last stepper");
+              }
+            }}
+            className="w-full  text-[16px] font-[500] text-black"
+          >
+            Skip
+          </button>
+        </div>
+      </div>
+      <div className=" gap-[12px] justify-between hidden w-full bottom-6 lg:flex  ">
+        <button
+          onClick={() => {
+            setOnboardingStepper(onboardingStepper - 1);
+          }}
+          className="w-[75px] bg-white rounded-[12px] flex justify-center items-center h-[48px] border border-[#212844] text-[#212844] font-[400]"
+        >
+          Back
+        </button>
+        <button
+          onClick={handleSubmit}
+          className="w-full flex-1 rounded-[12px] flex justify-center items-center h-[48px]  bg-[#000222] text-white font-[400]"
+        >
+          {"Continue"}
+        </button>
+      </div>
+    </div>
+  );
 }
