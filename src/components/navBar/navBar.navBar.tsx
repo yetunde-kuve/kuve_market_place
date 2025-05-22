@@ -7,12 +7,58 @@ import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu
 import { useEffect, useRef, useState } from "react";
 import IconDropdown from "../dropDownIcon/dropDownIcon.component";
 import { useRouter } from "next/navigation";
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const [showLeftButton, setShowLeftButton] = useState(false);
+  const [showRightButton, setShowRightButton] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
+  const checkOverflow = () => {
+    if (scrollRef.current) {
+      const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
+      setShowLeftButton(scrollLeft > 0);
+      setShowRightButton(scrollWidth > clientWidth + scrollLeft);
+    }
+  };
+
+  const scrollAmount = 150; // Adjust the scroll amount as needed
+
+  const scrollLeft = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        left: scrollRef.current.scrollLeft - scrollAmount,
+        behavior: "smooth",
+      });
+    }
+    setTimeout(checkOverflow, 100);
+  };
+
+  const scrollRight = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTo({
+        left: scrollRef.current.scrollLeft + scrollAmount,
+        behavior: "smooth",
+      });
+    }
+    setTimeout(checkOverflow, 100);
+  };
+
+  useEffect(() => {
+    checkOverflow();
+    window.addEventListener("resize", checkOverflow);
+    return () => {
+      window.removeEventListener("resize", checkOverflow);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    checkOverflow();
+  };
+
   const list = [
     { id: 1, name: "Groceries" },
     { id: 2, name: "Premium Fruits" },
@@ -21,6 +67,8 @@ export default function NavBar() {
     { id: 5, name: "Electronics" },
     { id: 6, name: "Beauty" },
     { id: 7, name: "Home Improvement" },
+    { id: 8, name: "All Categories" },
+    { id: 8, name: "All Categories" },
     { id: 8, name: "All Categories" },
   ];
   const freshProduceSubcategories = [
@@ -97,6 +145,25 @@ export default function NavBar() {
       ],
     },
   ];
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
+  };
 
   const routeToRegister = () => {
     router.push("/auth/signUp?activity=sell");
@@ -139,7 +206,10 @@ export default function NavBar() {
               <SearchBar />
             </div>
             <div className="flex items-center gap-4">
-              <div className="hidden lg:block md:hidden" onClick={routeToRegister}>
+              <div
+                className="hidden lg:block md:hidden"
+                onClick={routeToRegister}
+              >
                 <button className="h-[40px] rounded-full bg-[#FF9D98] border shadow-md border-black-primary text-[14px] font-[600] text-black-primary px-4">
                   Sell Now
                 </button>
@@ -238,19 +308,38 @@ export default function NavBar() {
           <div
             className={`transition-all duration-300 ${isScrolling ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"}`}
           >
-            <div
-              ref={scrollRef}
-              className="flex w-full px-1 py-1 items-center gap-[7px] overflow-x-auto scrollbar-none whitespace-nowrap"
-              style={{ paddingBottom: "10px" }}
-            >
-              {list.map((item) => (
-                <DropDownMenuDropdownMenu
-                  mobileRedirectPath=""
-                  label={item.name}
-                  key={item.id}
-                  items={freshProduceSubcategories}
-                />
-              ))}
+            <div className="relative">
+              <div
+                onScroll={handleScroll}
+                ref={scrollRef}
+                className="flex gap-[7px] items-center px-1 py-1 overflow-x-auto scrollbar-none whitespace-nowrap transition-all duration-300 ease-in-out"
+                style={{ paddingBottom: "10px" }}
+              >
+                {list.map((item) => (
+                  <DropDownMenuDropdownMenu
+                    mobileRedirectPath=""
+                    label={item.name}
+                    key={item.id}
+                    items={freshProduceSubcategories}
+                  />
+                ))}
+              </div>
+              {showLeftButton && (
+                <button
+                  onClick={scrollLeft}
+                  className="absolute left-0 h-[24px] w-[24px] hidden lg:flex justify-center items-center hover:bg-primary transform -translate-y-1/2 bg-gray-500 rounded-full top-1/2 opacity-70 hover:opacity-100"
+                >
+                  &lt;
+                </button>
+              )}
+              {showRightButton && (
+                <button
+                  onClick={scrollRight}
+                  className="absolute right-0 h-[24px] w-[24px] hidden lg:flex justify-center items-center hover:bg-primary transform -translate-y-1/2 bg-gray-500 rounded-full top-1/2 opacity-70 hover:opacity-100"
+                >
+                  &gt;
+                </button>
+              )}
             </div>
           </div>
         </div>
