@@ -86,21 +86,17 @@ const UnusedItemSection = () => {
     // Error state
     if (error) {
         return (
-            <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
-                <div className="text-white text-center">
-                    <p>Error loading banner: {error}</p>
-                </div>
+            <div className="relative w-full lg:h-[310px] md:h-auto h-[168px] flex items-center justify-center">
+                <div className="text-red-500">{error}</div>
             </div>
         );
     }
 
-    // No data state
-    if (!data) {
+    // Show empty state
+    if (data.length === 0) {
         return (
-            <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
-                <div className="text-white text-center">
-                    <p>No banner data available</p>
-                </div>
+            <div className="relative w-full lg:h-[310px] md:h-auto h-[168px] flex items-center justify-center">
+                <div className="text-white">No banners available</div>
             </div>
         );
     }
