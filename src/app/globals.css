@@ -14,6 +14,10 @@
 body {
   font-family: "Poppins", sans-serif;
 }
+.carousel-item-padding {
+  padding-left: 7px;
+  padding-right: 7px;
+}
 .Toastify__toast--success-custom {
   background-color: #21ca0b !important; /* Green */
   color: white !important;

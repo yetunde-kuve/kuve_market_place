@@ -99,7 +99,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
         ref={buttonRef}
         onClick={handleClick}
         className={cn(
-          "flex text-text h-[36px] focus:shadow-none justify-between px-[12px] py-[9px] gap-[9px] items-center rounded-full w-full",
+          "flex text-text w-full h-[36px] focus:shadow-none justify-between px-[12px] py-[9px] gap-[9px] items-center rounded-full ",
           "bg-background-Secondary dark:bg-background-Tertiary-dark",
           "transition-colors duration-200",
           "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50",

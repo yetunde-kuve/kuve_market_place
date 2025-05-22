@@ -71,6 +71,7 @@
     "react-image-crop": "^11.0.5",
     "react-international-phone": "^4.2.9",
     "react-material-ui-carousel": "^3.4.2",
+    "react-multi-carousel": "^2.8.6",
     "react-native-metamap-sdk": "^5.1.6",
     "react-password-checklist": "^1.5.1",
     "react-phone-number-input": "^3.4.12",
