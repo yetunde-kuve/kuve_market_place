@@ -403,10 +403,10 @@ const Page = () => {
                                         </div>
                                         <button
                                             type="submit"
-                                            disabled={isLoading}
+                                            disabled={isLoadingR}
                                             className="w-full py-[12px] px-4 bg-blue-light text-white text-[16px] font-normal rounded-[12px] hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-gray-700 focus:ring-offset-2 mt-4"
                                         >
-                                            {isLoading ? 'Resending...' : 'Reset Password'}
+                                            {isLoadingR ? 'Resending...' : 'Reset Password'}
                                         </button>
 
                                     </form>
