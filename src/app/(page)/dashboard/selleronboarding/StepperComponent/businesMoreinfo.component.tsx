@@ -16,18 +16,18 @@ export default function BusinessMoreInformation() {
     setOnboardingStepper,
     onboardingModel,
     setOnboardingModel,
-    totalSteps,
-    setTotalSteps,
   } = useCached();
-
+  console.log(onboardingModel);
   const handleSubmit = () => {
-    return true;
+    onboardingModel.businessAddress = businessAddress;
+    onboardingModel.teamSize = teamSize;
+    onboardingModel.businessWebsite = businessWebsite;
+    setOnboardingModel(onboardingModel);
+    setOnboardingStepper(2);
   };
-  useEffect(() => {
-    setSubmitHandler(() => handleSubmit);
-  }, [businessAddress]);
+
   return (
-    <div className="  flex flex-col gap-[15px]  w-full md:px-0 px-6 ">
+    <div className="  flex flex-col gap-[15px]  w-full   ">
       <OnboardingInput
         label="Business Address"
         name="businessName"
@@ -50,9 +50,15 @@ export default function BusinessMoreInformation() {
         placeholder="Select option"
         error={""}
         options={[
-          { label: "Ten", value: 10 },
-          { label: "Twenty", value: 20 },
-          { label: "Thirty", value: 30 },
+          { label: "1-20", value: "1-20" },
+          { label: "21-50", value: "21-50" },
+          { label: "51-100", value: "51-100" },
+          { label: "101-200", value: "101-200" },
+          { label: "201-500", value: "201-500" },
+          { label: "501-1000", value: "501-1000" },
+          { label: "1001-2000", value: "1001-2000" },
+          { label: "2001-5000", value: "2001-5000" },
+          { label: "> 5000", value: "> 5000" },
         ]}
       />
       <OnboardingInput
@@ -66,16 +72,32 @@ export default function BusinessMoreInformation() {
         placeholder="Enter your business website"
         error={""}
       />
+      <div className=" gap-[12px] justify-between hidden w-full bottom-6 lg:flex ">
+        <button
+          onClick={() => {
+            setOnboardingStepper(onboardingStepper - 1);
+          }}
+          className="w-[75px] bg-white rounded-[12px] flex justify-center items-center h-[48px] border border-[#212844] text-[#212844] font-[400]"
+        >
+          Back
+        </button>
+        <button
+          onClick={handleSubmit}
+          className="w-[75px] flex-1 rounded-[12px] flex justify-center items-center h-[48px]  bg-[#000222] text-white font-[400]"
+        >
+          {onboardingStepper + 1 < 3 ? "Continue" : "Finish"}
+        </button>
+      </div>
       <div className="gap-[12px] flex flex-col  justify-between  lg:hidden mt-[12px]  md:w-[507px] w-full ">
         <button
           onClick={handleSubmit}
           className="  rounded-[12px] w-full flex justify-center items-center h-[48px]  bg-[#000222] text-white font-[400]"
         >
-          {onboardingStepper + 1 < totalSteps ? "Continue" : "Finish"}
+          {onboardingStepper + 1 < 3 ? "Continue" : "Finish"}
         </button>
         <button
           onClick={() => {
-            if (onboardingStepper + 1 < totalSteps) {
+            if (onboardingStepper + 1 < 3) {
               setOnboardingStepper(onboardingStepper + 1);
             } else {
               alert("Last stepper");

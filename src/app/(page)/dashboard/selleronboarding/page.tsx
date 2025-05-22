@@ -32,7 +32,7 @@ const stepContent: Record<number, StepType> = {
     component: <BusinessMoreInformation />,
   },
   2: {
-    label: "Set Up Your Storefront",
+    label: "Set Up Your Storefront ",
     sub: "Tell us more about your business",
     icon: "icon",
     component: <StorefrontSetup />,
@@ -48,32 +48,22 @@ const stepContent: Record<number, StepType> = {
 export default function SellerOnboarding() {
   const {
     onboardingStepper,
-    totalSteps,
+
     setTotalSteps,
     setOnboardingStepper,
     onboardingModel,
     setOnboardingModel,
   } = useCached();
 
-  const { submitHandler } = useCached();
-
-  const handleContinue = () => {
-    if (submitHandler && typeof submitHandler === "function") {
-      const isValid = submitHandler(); // Run step-specific logic
-
-      if (isValid) {
-        if (onboardingStepper + 1 < totalSteps) {
-          setOnboardingStepper(onboardingStepper + 1);
-        } else {
-          alert("🎉 Finished onboarding!");
-        }
-      }
-    }
-  };
   useEffect(() => {
-    const stepsCount = Object.keys(stepContent).length;
-    setTotalSteps(stepsCount);
-  });
+    setOnboardingStepper(0);
+  }, []);
+  useEffect(() => {
+    console.log("onboardingStepper:", onboardingStepper);
+    console.log("stepContent:", stepContent);
+    console.log("stepContent[stepper]:", stepContent[onboardingStepper]);
+  }, [onboardingStepper]);
+  const stepsCount = Object.keys(stepContent).length;
   return (
     <div className="flex items-center justify-center w-full bg-white lg:h-screen lg:overflow-hidden md:px-0 ">
       <div className="topGradient"></div>
@@ -84,18 +74,18 @@ export default function SellerOnboarding() {
             <div className="absolute top-0 items-center justify-between hidden w-full px-4 py-3 lg:flex ">
               <>
                 <p className="text-[14px] font-[700] text-[#808287]">
-                  {onboardingStepper + 1}/{totalSteps}
+                  {onboardingStepper + 1}/{stepsCount}
                 </p>
 
                 <button
                   onClick={() => {
-                    if (onboardingStepper + 1 < totalSteps) {
+                    if (onboardingStepper + 1 < stepsCount) {
                       setOnboardingStepper(onboardingStepper + 1);
                     } else {
                       alert("Last stepper");
                     }
                   }}
-                  className="text-[20px] font-[700] text-[#212844]"
+                  className="text-[16px] font-[500] text-[#212844]"
                 >
                   SKIP
                 </button>
@@ -137,42 +127,24 @@ export default function SellerOnboarding() {
               {onboardingStepper > 0 && (
                 <>
                   <p className="text-[14px] font-[700] text-[#808287]">
-                    {onboardingStepper + 1}/{totalSteps}
+                    {onboardingStepper + 1}/{stepsCount}
                   </p>
                 </>
               )}
             </div>
 
-            <div className="flex flex-col gap-[12px]  justify-center items-center  md:bg-white lg:bg-transparent md:p-[50px] lg:p-4 md:rounded-[20px] lg:rounded-none md:shadow-md lg:shadow-none">
+            <div className="flex md:px-0 px-4 flex-col gap-[12px]  justify-center items-center lg:mt-0 mt-[40px]  md:bg-white lg:bg-transparent md:p-[50px] lg:p-4 md:rounded-[20px] lg:rounded-none w-full md:shadow-md lg:shadow-none">
               <Image src={Logo} width={141} height={31} alt="kuve logo" />
               <p className="lg:text-[48px]  text-[#121212] md:text-[40px] text-[32px] font-[500] lg:w-[406px] lg:pt-10 text-center leading-[0.93]">
                 {" "}
-                {stepContent[onboardingStepper].label}
+                {stepContent[onboardingStepper]?.label}
               </p>
               <p className="text-[16px] text-center text-[#3D3D3D]">
                 {" "}
-                {stepContent[onboardingStepper].sub}
+                {stepContent[onboardingStepper]?.sub}
               </p>
               <div className="lg:w-[500px] md:w-[507px] w-full">
-                {stepContent[onboardingStepper].component}
-                <div></div>
-              </div>
-
-              <div className="absolute gap-[12px] justify-between hidden w-full bottom-6 lg:flex px-[5%]">
-                <button
-                  onClick={() => {
-                    setOnboardingStepper(onboardingStepper - 1);
-                  }}
-                  className="w-[75px] bg-white rounded-[12px] flex justify-center items-center h-[48px] border border-[#212844] text-[#212844] font-[400]"
-                >
-                  Back
-                </button>
-                <button
-                  onClick={handleContinue}
-                  className="w-[75px] flex-1 rounded-[12px] flex justify-center items-center h-[48px]  bg-[#000222] text-white font-[400]"
-                >
-                  {onboardingStepper + 1 < totalSteps ? "Continue" : "Finish"}
-                </button>
+                {stepContent[onboardingStepper]?.component}
               </div>
             </div>
           </div>
