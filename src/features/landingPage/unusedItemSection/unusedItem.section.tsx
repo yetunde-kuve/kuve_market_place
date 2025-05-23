@@ -75,7 +75,7 @@ const UnusedItemSection = () => {
                     </div>
 
                     {/* Skeleton Image (Right Side) */}
-                    <div className="justify-end flex-shrink-0 md:pr-16 lg:pr-28 py-4">
+                    <div className="md:block  hidden justify-end flex-shrink-0 md:pr-16 lg:pr-28 py-4">
                         <div className="lg:w-[200px] lg:h-[200px] md:w-[192px] md:h-[212px] w-[113px] h-[112px] bg-gray-300 rounded-lg animate-pulse"></div>
                     </div>
                 </div>
