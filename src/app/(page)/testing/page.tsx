@@ -13,6 +13,12 @@ import { useUtils } from "@/context/utils.context";
 import { useEffect, useState } from "react";
 import { useToast } from "@/context/toast.context";
 import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
+import SliderSkeleton from "@/components/skeleton/slider/slider.skeleton";
+import HeroSliderSkeleton from "@/components/skeleton/slider/slider.skeleton";
+import PopularProductCardSkeleton from "@/components/skeleton/popularProduct/popularproduct.skeleton";
+import TrendingProductCardSkeleton from "@/components/skeleton/trendingProduct/trending.skeleton";
+import FeaturedProductSkeleton from "@/components/skeleton/featureProduct/featureProduct.skeleton";
+import UnusedItemSkeleton from "@/components/skeleton/unusedItem/unusedItem.skeleton";
 
 export default function Page() {
   const { apiCaller } = useUtils();
@@ -80,6 +86,11 @@ export default function Page() {
 
       {/* Primary Buttons */}
       <div className="space-y-4">
+        <HeroSliderSkeleton />
+        <PopularProductCardSkeleton />
+        <TrendingProductCardSkeleton />
+        <FeaturedProductSkeleton />
+        <UnusedItemSkeleton />
         <h2 className="text-xl font-semibold">Primary Buttons</h2>
         <div className="flex flex-wrap gap-4">
           <Button color="pink" onClick={() => alert("Button clicked!")}>
