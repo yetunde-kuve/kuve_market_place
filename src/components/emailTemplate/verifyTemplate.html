@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Kuve - Verify Account</title>
+    <!--[if mso]>
+    <noscript>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:AllowPNG/>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    </noscript>
+    <![endif]-->
+    <style>
+        /* Reset styles */
+        body, table, td, p, a, li, blockquote {
+            -webkit-text-size-adjust: 100%;
+            -ms-text-size-adjust: 100%;
+        }
+
+        table, td {
+            mso-table-lspace: 0pt;
+            mso-table-rspace: 0pt;
+        }
+
+        img {
+            -ms-interpolation-mode: bicubic;
+            border: 0;
+            height: auto;
+            line-height: 100%;
+            outline: none;
+            text-decoration: none;
+        }
+
+        /* Main styles */
+        body {
+            margin: 0 !important;
+            padding: 20px !important;
+            background-color: white !important;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, Arial, sans-serif !important;
+        }
+
+        .email-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .main-table {
+            width: 100%;
+            max-width: 600px;
+            background-color: #ffffff;
+            overflow: hidden;
+        }
+
+        .gradient-bg {
+            /*background: url('your-gradient-image.jpg') center/cover;*/
+            /*background-color: #e8f4fd; !* Fallback color *!*/
+            /* Fallback gradient for email clients that support it */
+            background-image: linear-gradient(135deg, #e8f4fd 0%, #fdf2f8 30%, #fef7e8 60%, #f0f9ff 100%);
+            height: 50%;
+        }
+
+        .logo-cell {
+            padding: 40px 30px 20px 30px;
+            text-align: center;
+        }
+
+        .title-cell {
+            padding: 10px 30px;
+            text-align: center;
+        }
+
+        .title {
+            font-size: 40px;
+            font-weight: 600;
+            color: #FF9D98;
+            margin: 0 0 8px 0;
+            line-height: 32px;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            color: #828294;
+            font-weight: 500;
+            margin: 0;
+            line-height: 32px;
+        }
+
+        .content-cell {
+            padding: 20px 30px 40px 30px;
+        }
+
+        .greeting {
+            font-size: 24px;
+            color: #000000;
+            font-weight: 500;
+            margin: 0 0 25px 0;
+            line-height: 1.4;
+        }
+
+        .instruction {
+            font-size: 14px;
+            color: #333333;
+            font-weight: 400;
+            margin: 0 0 5px 0;
+            line-height: 32px;
+        }
+
+        .instruction-sub {
+            font-size: 14px;
+            color: #333333;
+            margin: 0 0 30px 0;
+            line-height: 32px;
+        }
+
+        .otp-table {
+            margin: 35px auto;
+        }
+
+        .otp-cell {
+            padding: 0 6px;
+        }
+
+        .otp-digit {
+            width: 55px;
+            height: 55px;
+            background-color: #ffffff;
+            border: 1px solid #FF9D98;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 56px;
+            font-size: 24px;
+            font-weight: 600;
+            color: #10241B;
+            display: inline-block;
+        }
+
+        .security-text {
+            font-size: 14px;
+            color: #333333;
+            font-weight: 400;
+            margin: 30px 0 20px 0;
+            line-height: 22px;
+        }
+
+        .ignore-text {
+            font-size: 14px;
+            color: #333333;
+            font-weight: 400;
+            margin: 0 0 30px 0;
+            line-height: 22px;
+        }
+
+        .signature {
+            margin: 0;
+        }
+
+        .signature-line {
+            font-size: 14px;
+            color: #333333;
+            margin: 3px 0;
+            line-height: 1.4;
+        }
+
+        .footer-table {
+            background-color: #16213e;
+            width: 100%;
+        }
+
+        .footer-cell {
+            margin: 20px;
+            border-radius: 20px;
+            padding: 35px 30px;
+            text-align: center;
+        }
+
+        .footer-icons-table {
+            margin: 0 auto 25px auto;
+        }
+
+        .footer-icon-cell {
+            padding: 0 7px;
+        }
+
+        .footer-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 44px;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .icon-white {
+            background-color: #ffffff;
+            color: #333333;
+        }
+        .icon-coral {
+            background-color: #ff7b7b;
+            color: #ffffff;
+        }
+        .icon-light {
+            background-color: #f8f9fa;
+            color: #333333;
+        }
+        .icon-red {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+
+        .copyright {
+            font-size: 12px;
+            color: #9ca3af;
+            margin: 0 0 18px 0;
+            line-height: 1.4;
+        }
+
+        .disclaimer {
+            font-size: 11px;
+            color: #9ca3af;
+            line-height: 1.6;
+            margin: 0 0 20px 0;
+        }
+
+        .footer-links-table {
+            margin: 0 auto 25px auto;
+        }
+
+        .footer-link-cell {
+            padding: 0 10px;
+        }
+
+        .footer-link {
+            color: #ffffff;
+            text-decoration: underline;
+            font-size: 12px;
+        }
+
+        .app-buttons-table {
+            margin: 0 auto;
+        }
+
+        .app-button-cell {
+            padding: 0 7px;
+        }
+
+        .app-button {
+            background-color: #374151;
+            color: #ffffff;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 12px;
+            display: inline-block;
+            border: 1px solid #4b5563;
+            min-width: 140px;
+            text-align: center;
+        }
+
+        /* Mobile responsive */
+        @media screen and (max-width: 600px) {
+            .main-table {
+                width: 100% !important;
+                border-radius: 0 !important;
+            }
+
+            .logo-cell,
+            .title-cell,
+            .content-cell {
+                padding-left: 20px !important;
+                padding-right: 20px !important;
+            }
+
+            .logo-cell {
+                padding-top: 30px !important;
+            }
+
+            .title {
+                font-size: 28px !important;
+            }
+
+            .subtitle {
+                font-size: 14px !important;
+            }
+
+            .otp-digit {
+                width: 42px !important;
+                height: 52px !important;
+                line-height: 48px !important;
+                font-size: 20px !important;
+            }
+
+            .otp-cell {
+                padding: 0 4px !important;
+            }
+
+            .footer-cell {
+                padding: 25px 20px !important;
+            }
+
+            .footer-icon {
+                width: 38px !important;
+                height: 38px !important;
+                line-height: 38px !important;
+                font-size: 14px !important;
+            }
+
+            .app-button {
+                display: block !important;
+                margin: 6px auto !important;
+                width: 180px !important;
+            }
+
+            .app-button-cell {
+                display: block !important;
+                padding: 6px 0 !important;
+            }
+        }
+
+        /* Outlook specific fixes */
+        <!--[if mso]>
+                    .main-table {
+                        border-collapse: collapse !important;
+                    }
+
+        .otp-digit {
+            font-family: Arial, sans-serif !important;
+        }
+        <![endif]-->
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <!-- Main Email Table -->
+    <table class="main-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+        <!-- Content with Gradient Background -->
+        <tr>
+            <td class="gradient-bg">
+                <!-- Logo Section -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                    <tr>
+                        <td class="logo-cell">
+                           <img src="./logo.svg" alt="logo">
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Title Section -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                    <tr>
+                        <td class="title-cell">
+                            <h1 class="title">Verify Account</h1>
+                            <p class="subtitle">Your NO. 1 AI-powered Marketplace</p>
+                        </td>
+                    </tr>
+                </table>
+
+                <!-- Content Section -->
+                <table width="100%" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                    <tr>
+                        <td class="content-cell">
+                            <p class="greeting">Hi <strong>Miracle</strong>,</p>
+
+                            <p class="instruction">Here is your One Time Password (OTP).</p>
+                            <p class="instruction-sub">Please enter this code to verify your email address for Kuve.</p>
+
+                            <!-- OTP Display -->
+                            <table class="otp-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                                <tr>
+                                    <td class="otp-cell">
+                                        <div class="otp-digit">9</div>
+                                    </td>
+                                    <td class="otp-cell">
+                                        <div class="otp-digit">6</div>
+                                    </td>
+                                    <td class="otp-cell">
+                                        <div class="otp-digit">7</div>
+                                    </td>
+                                    <td class="otp-cell">
+                                        <div class="otp-digit">0</div>
+                                    </td>
+                                    <td class="otp-cell">
+                                        <div class="otp-digit">4</div>
+                                    </td>
+                                    <td class="otp-cell">
+                                        <div class="otp-digit">2</div>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p class="security-text">For your security, this verification code is valid for <strong>10 minutes</strong> and will be invalid after one use!</p>
+
+                            <p class="ignore-text">If you think this is a mistake, kindly ignore this email.</p>
+
+                            <div class="signature">
+                                <p class="signature-line">Best Regards,</p>
+                                <p class="signature-line"><strong>Kuve Team.</strong></p>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <!-- Footer -->
+        <tr>
+            <td>
+                <table class="footer-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                    <tr>
+                        <td class="footer-cell">
+                            <!-- Footer Icons -->
+                            <table class="footer-icons-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                                <tr>
+                                    <td class="footer-icon-cell">
+                                        <a href="#" class="footer-icon icon-white">🌐</a>
+                                    </td>
+                                    <td class="footer-icon-cell">
+                                        <a href="#" class="footer-icon icon-coral">@</a>
+                                    </td>
+                                    <td class="footer-icon-cell">
+                                        <a href="#" class="footer-icon icon-light">💬</a>
+                                    </td>
+                                    <td class="footer-icon-cell">
+                                        <a href="#" class="footer-icon icon-red">📞</a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <p class="copyright">© 2024 Kuve. All rights reserved.</p>
+
+                            <p class="disclaimer">
+                                You are receiving this mail because you registered to join the Kuve marketplace on a buyer or
+                                a seller basis and that you agree to our Terms of Service and Privacy Policy. If you think this
+                                is a mistake, kindly ignore this email.
+                            </p>
+
+                            <!-- Footer Links -->
+                            <table class="footer-links-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                                <tr>
+                                    <td class="footer-link-cell">
+                                        <a href="#" class="footer-link">Privacy policy</a>
+                                    </td>
+                                    <td class="footer-link-cell">
+                                        <a href="#" class="footer-link">Terms of service</a>
+                                    </td>
+                                    <td class="footer-link-cell">
+                                        <a href="#" class="footer-link">Help center</a>
+                                    </td>
+                                    <td class="footer-link-cell">
+                                        <a href="#" class="footer-link">Unsubscribe</a>
+                                    </td>
+                                </tr>
+                            </table>
+
+                            <!-- App Store Buttons -->
+                            <table class="app-buttons-table" cellpadding="0" cellspacing="0" border="0" role="presentation">
+                                <tr>
+                                    <td class="app-button-cell">
+                                        <a href="#" class="app-button">
+                                            🍎 Download on App Store
+                                        </a>
+                                    </td>
+                                    <td class="app-button-cell">
+                                        <a href="#" class="app-button">
+                                            📱 Download on Play Store
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>

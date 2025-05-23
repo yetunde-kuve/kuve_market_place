@@ -6,6 +6,7 @@ import { FormControl, MenuItem, Select, SelectChangeEvent } from "@mui/material"
 import OnboardingSelect from "../component/selectInput.component";
 import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
 import { states } from "@/utils/asset.utils";
+import { useRouter } from "next/navigation";
 
 export default function BusinessInfomation() {
   const {
@@ -16,6 +17,7 @@ export default function BusinessInfomation() {
     onboardingModel,
     setOnboardingModel,
   } = useCached();
+  const router = useRouter();
   const [businessName, setBusinessName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
@@ -193,11 +195,7 @@ export default function BusinessInfomation() {
         </button>
         <button
           onClick={() => {
-            if (onboardingStepper + 1 < 3) {
-              setOnboardingStepper(onboardingStepper + 1);
-            } else {
-              alert("Last stepper");
-            }
+            router.push("/dashboard");
           }}
           className="w-full  text-[16px] font-[500] text-black"
         >
