@@ -42,7 +42,8 @@ const VerifyForm = () => {
         handleSubmit,
         formState: { errors },
         setValue,
-        watch
+        watch,
+        reset
     } = useForm({
         defaultValues: {
             otp: ''
@@ -88,17 +89,19 @@ const VerifyForm = () => {
             (res: any, error: any, smessage: any) => {
                 if (error) {
                     setLoading(false);
+                    setIsLoading(false);
                     toast.error(error);
                     return;
                 }
                 if (res) {
                     setLoading(false);
+                    setIsLoading(false);
                     toast.success(smessage);
                     setTimeout(() => {
                         if (name === 'sell'){
                             router.push('/dashboard/selleronboarding');
                         }else {
-                            router.push('/dashboard');
+                            router.push('/auth/login');
                         }
                     }, 1000);
                 }
@@ -125,11 +128,13 @@ const VerifyForm = () => {
             (res: any, error: any, smessage: any) => {
                 if (error) {
                     setLoading(false);
+                    setIsLoading(false);
                     toast.error(error);
                     return;
                 }
                 if (res) {
                     setLoading(false);
+                    setIsLoading(false);
                     toast.success(smessage);
                 }
             },

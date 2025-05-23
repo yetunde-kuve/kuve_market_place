@@ -88,8 +88,32 @@ const Page = () => {
     const onSubmitVerify = async (data: FormValues) => {
         setLoading(true);
         setIsLoadingV(true);
-        setLoading(false);
-        setStep(3)
+        const response = await (apiCaller() as HttpUtil).performApiCall(
+            "v1/Authorization/ValidateForgetPasswordOTP",
+            (res: any, error: any, smessage: any) => {
+                if (error) {
+                    setLoading(false);
+                    toast.error(error);
+                    setIsLoadingV(false);
+                    return;
+                }
+                if (res) {
+                    setLoading(false);
+                    toast.success(smessage);
+                    setIsLoading(false);
+                    setStep(3);
+                }
+            },
+            {
+                data: {
+                    Email: data.email,
+                    OTP: data.otp,
+
+                },
+                getMethod: false,
+                silently: true,
+            }
+        );
     };
 
     const onSubmitReset = async (data: FormValues) => {
