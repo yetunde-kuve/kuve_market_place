@@ -4,6 +4,7 @@ import { useCached } from "@/context/cached.context";
 import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
 import FullPageLoader from "@/components/loadingComponent/loader.component";
 import { useToast } from "@/context/toast.context";
+import { useRouter } from "next/navigation";
 
 interface ActiveDaysState {
   sunday: boolean;
@@ -68,23 +69,25 @@ export default function StoreOperatingTime(): JSX.Element {
   const http = new HttpUtilNoSecure();
   const [loading, setLoading] = useState(false);
   const toast = useToast();
-
+  const router = useRouter();
   const handleSubmit = async () => {
     setLoading(true);
     http.post(
       "v1/ServiceProvider/CreateProvider",
       {
-        IsVerified: false,
-        BusinessName: onboardingModel["businessName"],
-        BusinessPhoneNumber: onboardingModel["phoneNumber"],
-        BusinessEmail: onboardingModel["email"],
-        BusinessTypeId: onboardingModel["businessType"],
-        BusinessLocationId: onboardingModel["businessLocation"],
-        BuinessAddress: onboardingModel["businessAddress"],
-        TeamSize: onboardingModel["teamSize"],
-        BusinessWebsite: onboardingModel["businessWebsite"],
-        ImageUrl: onboardingModel["coverimg"],
-        StoreColorId: onboardingModel["selectedColor"],
+        isVerified: false,
+        businessName: onboardingModel["businessName"],
+        businessPhoneNumber: onboardingModel["phoneNumber"],
+        businessEmail: onboardingModel["email"],
+        businessTypeId: onboardingModel["businessType"],
+        businessLocationId: onboardingModel["businessLocation"],
+        buinessAddress: onboardingModel["businessAddress"],
+        teamSize: onboardingModel["teamSize"],
+        businessWebsite: onboardingModel["businessWebsite"],
+
+        profileImage: onboardingModel["profileImg"],
+        backdropImage: onboardingModel["coverimg"],
+        storeColorId: onboardingModel["selectedColor"],
       },
       {},
       (result: any, error: any) => {
@@ -94,8 +97,12 @@ export default function StoreOperatingTime(): JSX.Element {
           toast.error(error);
           // Handle the error, e.g., display an error message to the user
         } else {
+          toast.success(result.message);
           setLoading(false);
           console.log("Users fetched successfully:", result);
+          setTimeout(() => {
+            router.push("/dashboard");
+          }, 2000);
           // Process the fetched user data
         }
       }
