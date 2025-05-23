@@ -143,14 +143,15 @@ const SignUpForm = () => {
         if (error) {
           setLoading(false);
           toast.error(error);
+          setIsLoading(false);
           return;
         }
         if (res) {
           setLoading(false);
           toast.success(smessage);
-          setTimeout(() => {
+          // setTimeout(() => {
             router.push(`/auth/verify/?type=${activityParam}`);
-          }, 1000);
+          // }, 1000);
         }
       },
       {
@@ -162,7 +163,7 @@ const SignUpForm = () => {
           password: data.password,
           dateOfBirth: "2025-05-19",
           gender: "M",
-          residentialCountryId: 1,
+          residentialCountryId: '1748bdc6-4bdd-4f13-a8c4-48d325fbdc61',
           userPurpose: data.activity,
         },
         getMethod: false,
