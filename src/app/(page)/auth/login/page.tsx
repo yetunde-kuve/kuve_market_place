@@ -59,6 +59,9 @@ const Login = () => {
         if (error) {
           setIsLoading(false);
           setLoading(false);
+          if (error === 'Account locked, use the \'Forget Password feature.\''){
+            router.push("/auth/forgotPassword");
+          }
           toast.error(error);
           return;
         }
