@@ -63,6 +63,7 @@ const Login = () => {
           return;
         }
         if (res) {
+          console.log(res, 'resssssssss');
           let token = res.Token;
 
           saveToLocal("token", token);
@@ -70,8 +71,12 @@ const Login = () => {
           setLoading(false);
           toast.success(smessage);
           setTimeout(() => {
-            router.push("/dashboard");
-          }, 2000);
+            if(res.UserPurpose === 'Sell'){
+              router.push("/dashboard/selleronboarding");
+            }else{
+              router.push("/dashboard");
+            }
+          }, 1000);
         }
       },
       {
