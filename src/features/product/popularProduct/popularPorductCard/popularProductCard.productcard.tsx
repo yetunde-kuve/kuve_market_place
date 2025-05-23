@@ -22,7 +22,7 @@ export default function PopularProductCard({
   const isValidImage = typeof image === "string" && image.trim() !== "";
 
   return (
-    <div className="w-[186.28px] flex flex-col md:gap-[10px] gap-[6px] rounded-[14px] p-4 md:rounded-[24px] md:w-[298px] xl:w-full lg:w-full bg-white">
+    <div className="w-[186.28px] flex flex-col md:gap-[10px] gap-[6px] rounded-[14px] px-[14px] py-[10px] md:rounded-[24px] md:w-[298px] xl:w-full lg:w-full bg-white">
       <div className="relative">
         <span className="md:w-[24px] z-50 shadow-md bg-white absolute lg:top-[16px] lg:right-[7px] top-[7.85px] right-[5.85px] md:h-[24px] h-[18px] w-[18px] rounded-full flex justify-center items-center">
           <i className="ri-verified-badge-fill text-primary text-[13px] md:text-[17px]"></i>

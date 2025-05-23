@@ -6,7 +6,7 @@ import Layouts from "../layouts/main.layout";
 import "react-toastify/dist/ReactToastify.css";
 import "remixicon/fonts/remixicon.css";
 import Head from "next/head";
-
+export const dynamic = "force-dynamic";
 const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
