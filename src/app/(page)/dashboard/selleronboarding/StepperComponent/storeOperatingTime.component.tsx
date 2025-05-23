@@ -136,10 +136,7 @@ export default function StoreOperatingTime(): JSX.Element {
           </button>
           <button
             onClick={() => {
-              if (onboardingStepper + 1 < totalSteps) {
-                setOnboardingStepper(onboardingStepper + 1);
-              } else {
-              }
+              router.push("/dashboard");
             }}
             className="w-full  text-[16px] font-[500] text-black"
           >
