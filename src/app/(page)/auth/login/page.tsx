@@ -74,7 +74,7 @@ const Login = () => {
             if(res.UserPurpose === 'Sell'){
               router.push("/dashboard/selleronboarding");
             }else{
-              router.push("/dashboard");
+              router.push("/");
             }
           }, 1000);
         }
