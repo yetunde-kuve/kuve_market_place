@@ -24,9 +24,9 @@ interface ToggleProps {
 export default function StoreOperatingTime(): JSX.Element {
   const [activeDays, setActiveDays] = useState<ActiveDaysState>({
     sunday: false,
-    monday: true,
-    tuesday: true,
-    wednesday: true,
+    monday: false,
+    tuesday: false,
+    wednesday: false,
     thursday: false,
     friday: false,
     saturday: false,
