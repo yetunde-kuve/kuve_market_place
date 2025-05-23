@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useMediaQuery } from "react-responsive";
 import {MPHttpUtilNoSecure} from "@/utils/MPHttpNosecure.utils";
+import HeroSliderSkeleton from "@/components/skeleton/slider/slider.skeleton";
 
 interface product {
   id: number;
@@ -74,54 +75,7 @@ const Slider = () => {
   // Show loading state with skeleton
   if (loading) {
     return (
-        <div className="relative w-full lg:h-[310px] md:h-auto h-[168px]">
-          {/* Skeleton Background */}
-          <div className="absolute top-0 left-0 w-full h-full bg-gray-200 animate-pulse shadow-xl rounded-2xl" />
-
-          {/* Skeleton Content */}
-          <div className="relative flex items-center justify-between w-full h-full gap-6 lg:gap-20 md:gap-10">
-
-            {/* Skeleton Left Button */}
-            <div className="absolute top-1/2 md:left-[-30px] left-[-10px] transform -translate-y-1/2 z-10">
-              <div className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
-            </div>
-
-            {/* Skeleton Text Content (Left Side) */}
-            <div className="z-10 flex flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 lg:pl-28 md:pl-14 space-y-4">
-              {/* Skeleton Title */}
-              <div className="h-6 bg-gray-300 rounded animate-pulse w-32"></div>
-
-              {/* Skeleton Description */}
-              <div className="space-y-2">
-                <div className="h-8 bg-gray-300 rounded animate-pulse w-64 lg:h-12"></div>
-                <div className="h-8 bg-gray-300 rounded animate-pulse w-48 lg:h-12"></div>
-              </div>
-
-              {/* Skeleton Button */}
-              <div className="h-10 bg-gray-300 rounded-full animate-pulse w-32 mt-4"></div>
-            </div>
-
-            {/* Skeleton Image (Right Side) */}
-            <div className="md:block  hidden justify-end flex-shrink-0 md:pr-16 lg:pr-28 py-4">
-              <div className="lg:w-[200px] lg:h-[200px] md:w-[192px] md:h-[212px] w-[83px] h-[82px] bg-gray-300 rounded-lg animate-pulse"></div>
-            </div>
-
-            {/* Skeleton Right Button */}
-            <div className="absolute top-1/2 md:right-[-30px] right-[-10px] transform -translate-y-1/2 z-10">
-              <div className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"></div>
-            </div>
-          </div>
-
-          {/* Skeleton Indicator Circles */}
-          <div className="absolute left-0 right-0 z-10 flex justify-center gap-2 bottom-4">
-            {[1, 2, 3].map((_, index) => (
-                <div
-                    key={index}
-                    className="w-2 h-2 bg-gray-300 rounded-full animate-pulse"
-                ></div>
-            ))}
-          </div>
-        </div>
+        <HeroSliderSkeleton/>
     );
   }
 

@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import CountdownTimer from "./component/countDown.component";
 import Button from "@/components/widgets/Button.widget";
 import {MPHttpUtilNoSecure} from "@/utils/MPHttpNosecure.utils";
+import FeatureProductSkeleton from "@/components/skeleton/featureProduct/featureProduct.skeleton";
 
 interface FeatureProductList {
   id: number;
@@ -49,13 +50,7 @@ export default function FutureProduct() {
   // Loading state
   if (loading) {
     return (
-        <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
-          <div className="animate-pulse">
-            <div className="h-4 bg-gray-300 rounded w-24 mb-4"></div>
-            <div className="h-8 bg-gray-300 rounded w-32 mb-4"></div>
-            <div className="h-12 bg-gray-300 rounded w-2/4 mb-4"></div>
-          </div>
-        </div>
+       <FeatureProductSkeleton/>
     );
   }
 
