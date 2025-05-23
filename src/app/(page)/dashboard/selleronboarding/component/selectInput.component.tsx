@@ -8,7 +8,7 @@ type OnboardingSelectProps = {
   name: string;
   value: string;
   onChange: (e: SelectChangeEvent<string>) => void;
-  options: { label: string; value: string | number }[];
+  options: { label: string; value: any }[];
   error?: string;
   required?: boolean;
   placeholder?: string;
@@ -59,6 +59,7 @@ export default function OnboardingSelect({
   placeholder,
   required = false,
 }: OnboardingSelectProps) {
+  console.log(options);
   return (
     <div className="w-full text-start">
       <p className="text-[16px] font-[400] text-[#121212]">
@@ -74,13 +75,6 @@ export default function OnboardingSelect({
           IconComponent={CustomIcon}
           sx={{
             position: "relative",
-          }}
-          renderValue={(selected) => {
-            if (!selected) {
-              return <p className="text-[#1d3c72]">{placeholder}</p>;
-            }
-            const selectedOption = options.find((opt) => String(opt.value) === String(selected));
-            return <p>{selectedOption?.label ?? ""}</p>;
           }}
           input={<CustomSelectInput error={!!error} />}
         >
