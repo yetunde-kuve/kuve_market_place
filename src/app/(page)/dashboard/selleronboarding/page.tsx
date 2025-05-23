@@ -9,7 +9,7 @@ import BusinessInfomation from "./StepperComponent/busnessInfo.component";
 import BusinessMoreInformation from "./StepperComponent/businesMoreinfo.component";
 import StorefrontSetup from "@/app/(page)/dashboard/selleronboarding/StepperComponent/storeFrontSetup.component";
 import StoreOperatingTime from "@/app/(page)/dashboard/selleronboarding/StepperComponent/storeOperatingTime.component";
-
+import { useRouter } from "next/navigation";
 type StepType = {
   label: string;
   icon: ReactNode;
@@ -54,6 +54,7 @@ export default function SellerOnboarding() {
     onboardingModel,
     setOnboardingModel,
   } = useCached();
+  const router = useRouter();
 
   useEffect(() => {
     setOnboardingStepper(0);
@@ -79,11 +80,7 @@ export default function SellerOnboarding() {
 
                 <button
                   onClick={() => {
-                    if (onboardingStepper + 1 < stepsCount) {
-                      setOnboardingStepper(onboardingStepper + 1);
-                    } else {
-                      alert("Last stepper");
-                    }
+                    router.push("/dashboard");
                   }}
                   className="text-[16px] font-[500] text-[#212844]"
                 >

@@ -7,7 +7,7 @@ import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
 import UploadStoreCoverImg from "@/components/storeCoverModal/uploadStoreCoverModal.component";
 import StoreProfileImg from "@/components/storeProfilePicture/storeProfilePicture.component";
 import { Skeleton } from "@mui/material";
-
+import { useRouter } from "next/navigation";
 export default function StorefrontSetup() {
   const [selectedColor, setSelectedColor] = useState("");
   const {
@@ -18,6 +18,7 @@ export default function StorefrontSetup() {
     onboardingModel,
     setOnboardingModel,
   } = useCached();
+  const router = useRouter();
   const http = new HttpUtilNoSecure();
   const [allColors, setAllColors] = useState<any>([]);
 
@@ -233,11 +234,7 @@ export default function StorefrontSetup() {
           </button>
           <button
             onClick={() => {
-              if (onboardingStepper + 1 < 4) {
-                setOnboardingStepper(onboardingStepper + 1);
-              } else {
-                alert("Last stepper");
-              }
+              router.push("/dashboard");
             }}
             className="w-full  text-[16px] font-[500] text-black"
           >
