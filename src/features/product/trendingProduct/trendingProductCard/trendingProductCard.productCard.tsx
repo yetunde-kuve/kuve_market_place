@@ -18,7 +18,7 @@ const  TrendingProductCard: React.FC<trendingProductCardProps> = ({
     setLoved(!loved);
   };
   return (
-    <div className="w-[178.85px] h-[198.37px] flex flex-col md:gap-x-[16px] gap-[9.52px] rounded-[14px] pt-[15px] px-[15px] md:rounded-[24px] lg:w-[335px] lg:h-[274px] md:w-[286.64px] md:h-[271.91px] bg-white">
+    <div className="w-[186.28px] flex flex-col md:gap-[10px] gap-[6px] rounded-[14px] px-[14px] py-[10px] md:rounded-[24px] md:w-[286.64px] xl:w-full lg:w-[286.64px] bg-white">
       <div className="relative">
         <span className="lg:w-[34px] lg:h-[34px] md:w-[32.35px] md:h-[32.45px] bg-white absolute lg:top-[7px] lg:right-[7px] top-[3.85px] right-[3.85px]  h-[20.23px] w-[20.23px] rounded-full flex justify-center items-center">
           <button
