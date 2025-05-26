@@ -74,7 +74,7 @@ const UnusedItemSection = () => {
         );
     }
     return (
-        <section className="bg-white md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
+        <section className="bg-white  md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center">
                 <div className="flex flex-col gap-4 lg:w-[513px] md:w-[364.8px] order-2 md:order-1">
                     <h2 className="text-[34.18px] md:text-[40px]text-text lg:text-[56px] font-[700]">

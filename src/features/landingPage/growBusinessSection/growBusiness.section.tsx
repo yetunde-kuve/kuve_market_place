@@ -31,7 +31,7 @@ const GrowBusinessSection = () => {
         router.push("/auth/signUp?activity=sell");
     }
     return (
-        <section className="md:py-[48px] md:px-[32px] py-[39px] px-[14px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
+        <section className="md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
             <div>
                 {/* Header Section */}
                 <div className="text-center mb-12 md:mb-16">
@@ -44,7 +44,7 @@ const GrowBusinessSection = () => {
                 </div>
 
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 lg:gap-6 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-6 xl:gap-6 mb-12">
                     {features.map((feature, index) => (
                         <div
                             key={index}

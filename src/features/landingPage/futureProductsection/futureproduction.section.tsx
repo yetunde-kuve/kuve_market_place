@@ -77,7 +77,7 @@ export default function FutureProduct() {
   }
 
   return (
-      <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
+      <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
         <p className="text-white font-[600] text-[11px] absolute top-4 right-4">
           Featured Post
         </p>
