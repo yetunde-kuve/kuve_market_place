@@ -8,6 +8,8 @@ import UploadStoreCoverImg from "@/components/storeCoverModal/uploadStoreCoverMo
 import StoreProfileImg from "@/components/storeProfilePicture/storeProfilePicture.component";
 import { Skeleton } from "@mui/material";
 import { useRouter } from "next/navigation";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
+import { useToast } from "@/context/toast.context";
 export default function StorefrontSetup() {
   const [selectedColor, setSelectedColor] = useState("");
   const {
@@ -27,12 +29,47 @@ export default function StorefrontSetup() {
   const [profileImg, setProfileImg] = useState("");
   const [openProfile, setOpenProfile] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const toast = useToast();
+  const postStoreFront = async () => {
+    setLoading(true);
+    http.post(
+      "v1/ServiceProvider/SetUpStoreFront",
+      {
+        stroreFrontImageUrl: coverimg,
+        stroreProfileImageUrl: profileImg,
+        serviceProviderStoreColorId: selectedColor,
+      },
+      {},
+      (result: any, error: any) => {
+        if (error) {
+          setLoading(false);
+          toast.error(error);
+          console.error("Error fetching users:", error);
+          // Handle the error, e.g., display an error message to the user
+        } else {
+          toast.success(result.message);
+          setOnboardingStepper(3);
+          setLoading(false);
+          // const transformedOptions = result.map((type: any) => ({
+          //   value: type.id,
+          //   label: type.businessTypeName,
+          // }));
+          setOnboardingStepper(onboardingStepper + 1);
+          // setBuisnessTypes(transformedOptions);
+          console.log("Users fetched successfully:", result);
+          // Process the fetched user data
+        }
+      }
+    );
+  };
+
   const handleSubmit = () => {
-    onboardingModel.coverimg = coverimg;
-    onboardingModel.profileImg = profileImg;
-    onboardingModel.selectedColor = selectedColor;
-    setOnboardingModel(onboardingModel);
-    setOnboardingStepper(3);
+    // onboardingModel.coverimg = coverimg;
+    // onboardingModel.profileImg = profileImg;
+    // onboardingModel.selectedColor = selectedColor;
+    // setOnboardingModel(onboardingModel);
+    postStoreFront();
   };
 
   const colors = [
@@ -65,6 +102,7 @@ export default function StorefrontSetup() {
   console.log(onboardingModel);
   return (
     <div className="flex flex-col items-center gap-[15px] text-start w-full pt-4 ">
+      <FullPageLoader open={loading} />
       {/* Main Content */}
       {openCover && (
         <UploadStoreCoverImg

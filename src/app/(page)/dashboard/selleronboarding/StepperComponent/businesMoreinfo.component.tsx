@@ -4,6 +4,9 @@ import OnboardingInput from "../component/input.component";
 import { useCached } from "@/context/cached.context";
 import OnboardingSelect from "../component/selectInput.component";
 import { useRouter } from "next/navigation";
+import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
+import { useToast } from "@/context/toast.context";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
 export default function BusinessMoreInformation() {
   const [businessAddress, setBusinessAddres] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
@@ -18,17 +21,53 @@ export default function BusinessMoreInformation() {
     setOnboardingModel,
   } = useCached();
   const router = useRouter();
+  const http = new HttpUtilNoSecure();
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
   console.log(onboardingModel);
+
+  const postBusnessMoreInfo = async () => {
+    setLoading(true);
+    http.post(
+      "v1/ServiceProvider/NeedMoreInformation",
+      {
+        businessAddress: businessAddress,
+        teamSize: teamSize,
+        businessWebsite: businessWebsite,
+      },
+      {},
+      (result: any, error: any) => {
+        if (error) {
+          setLoading(false);
+          toast.error(error);
+          console.error("Error fetching users:", error);
+          // Handle the error, e.g., display an error message to the user
+        } else {
+          toast.success(result.message);
+          setLoading(false);
+          // const transformedOptions = result.map((type: any) => ({
+          //   value: type.id,
+          //   label: type.businessTypeName,
+          // }));
+          setOnboardingStepper(2);
+          // setBuisnessTypes(transformedOptions);
+          console.log("Users fetched successfully:", result);
+          // Process the fetched user data
+        }
+      }
+    );
+  };
   const handleSubmit = () => {
-    onboardingModel.businessAddress = businessAddress;
-    onboardingModel.teamSize = teamSize;
-    onboardingModel.businessWebsite = businessWebsite;
-    setOnboardingModel(onboardingModel);
-    setOnboardingStepper(2);
+    postBusnessMoreInfo();
+    // onboardingModel.businessAddress = businessAddress;
+    // onboardingModel.teamSize = teamSize;
+    // onboardingModel.businessWebsite = businessWebsite;
+    // setOnboardingModel(onboardingModel);
   };
 
   return (
     <div className="  flex flex-col gap-[15px]  w-full   ">
+      <FullPageLoader open={loading} />
       <OnboardingInput
         label="Business Address"
         name="businessName"
