@@ -238,7 +238,7 @@ export default function NavBar() {
           boxShadow: "none",
         }}
       >
-        <div className="bg-white flex flex-col gap-[12px] lg:px-[88px] md:px-[30px] px-4 md:py-[24px] py-[5px]">
+        <div className="bg-white flex flex-col gap-[12px] xl:px-[88px] lg:px-[25px] md:px-[30px] px-4 md:py-[24px] py-[5px]">
           <div className="flex items-center justify-between">
             <div>
               <img src="/img/logo.svg" alt="KuVE-LOGO" />

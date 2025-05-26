@@ -101,7 +101,7 @@ const Slider = () => {
   const currentProduct = productList[currentIndex];
 
   return (
-    <div className="relative w-full lg:h-[310px] md:h-auto h-[168px]">
+    <div className="relative w-full xl:h-[316px] lg:h-auto md:h-auto h-[186px]">
       {/* Slider Background */}
       <div
         className="absolute top-0 left-0 w-full h-full bg-center bg-cover shadow-xl rounded-2xl bg-text"
@@ -111,7 +111,7 @@ const Slider = () => {
       />
 
       {/* Slider Content */}
-      <div className="relative flex items-center justify-between w-full h-full gap-6 lg:gap-20 md:gap-10">
+      <div className="relative flex items-center justify-between w-full h-full gap-6 xl:gap-20 lg:gap-2 md:gap-10">
         {/* Left Button */}
         <div className="absolute top-1/2 md:left-[-30px] left-[-10px]  transform -translate-y-1/2 z-10">
           <SliderButton
@@ -122,12 +122,12 @@ const Slider = () => {
 
         {/* Product Text and Button (Left Side) */}
         <div className="z-10 flex  flex-col lg:w-[60%] sm:w-[100%] md:w-[100%] items-start justify-center p-6 text-white lg:pl-28 md:pl-14">
-          <p className="font-[600] text-white text-[clamp(10px, 3vw, 24px)]">
+          <p className="font-[600] text-white text-[clamp(10px, 3vw, 24px)] text-[10.87px] md:text-[17.27px]">
             {currentProduct?.title}
           </p>
           <h2
             style={{ fontSize: isSmallerScreen ? "10px" : "" }}
-            className="font-[700] text-white  lg:text-[48px] md:text-[24px]  text-[16px]"
+            className="font-[700] text-white tracking-normal xl:text-[48px] xl:leading-[63px] md:text-[34.53px] md:leading-[45.32px]  text-[21.75px] leading-[22px]"
           >
             {currentProduct?.bannerDescription}
           </h2>
@@ -137,7 +137,7 @@ const Slider = () => {
               Start Shopping
             </button>
           ) : (
-            <button className="mt-2 text-[8px] font-[600] text-black-primary px-[24px] py-[9.5px] rounded-full bg-primary md:text-[10px] lg:text-[14px]">
+            <button className="mt-3 text-[8px] font-[600] text-black-primary px-[24px] py-[9.5px] rounded-full bg-primary md:text-[10px] lg:text-[14px]">
               {" "}
               Start Shopping
             </button>
