@@ -7,6 +7,8 @@ import OnboardingSelect from "../component/selectInput.component";
 import { HttpUtilNoSecure } from "@/utils/httpNosecure.utils";
 import { states } from "@/utils/asset.utils";
 import { useRouter } from "next/navigation";
+import FullPageLoader from "@/components/loadingComponent/loader.component";
+import { useToast } from "@/context/toast.context";
 
 export default function BusinessInfomation() {
   const {
@@ -27,6 +29,42 @@ export default function BusinessInfomation() {
   const [businessTypes, setBuisnessTypes] = useState<any>([]);
   const [businessLocation, setBusinessLocation] = useState("");
   const [allStates, setAllStates] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
+  const toast = useToast();
+
+  const postBusnessInfo = async () => {
+    setLoading(true);
+    http.post(
+      "v1/ServiceProvider/CreateBusinessInformation",
+      {
+        businessName: businessName,
+        businessPhoneNumber: phoneNumber,
+        businessEmail: email,
+        businessTypeId: businessType,
+        businessLocationId: businessLocation,
+      },
+      {},
+      (result: any, error: any) => {
+        if (error) {
+          setLoading(false);
+          toast.error(error);
+          console.error("Error fetching users:", error);
+          // Handle the error, e.g., display an error message to the user
+        } else {
+          toast.success(result.message);
+          setLoading(false);
+          // const transformedOptions = result.map((type: any) => ({
+          //   value: type.id,
+          //   label: type.businessTypeName,
+          // }));
+          setOnboardingStepper(onboardingStepper + 1);
+          // setBuisnessTypes(transformedOptions);
+          console.log("Users fetched successfully:", result);
+          // Process the fetched user data
+        }
+      }
+    );
+  };
   const handleSubmit = () => {
     const newErrors: { [key: string]: string } = {};
 
@@ -48,13 +86,13 @@ export default function BusinessInfomation() {
 
     setErrors(newErrors);
     if (Object.keys(newErrors).length === 0) {
-      onboardingModel.businessName = businessName;
-      onboardingModel.phoneNumber = phoneNumber;
-      onboardingModel.email = email;
-      onboardingModel.businessType = businessType;
-      onboardingModel.businessLocation = businessLocation;
-      setOnboardingModel(onboardingModel);
-      setOnboardingStepper(onboardingStepper + 1);
+      postBusnessInfo();
+      // onboardingModel.businessName = businessName;
+      // onboardingModel.phoneNumber = phoneNumber;
+      // onboardingModel.email = email;
+      // onboardingModel.businessType = businessType;
+      // onboardingModel.businessLocation = businessLocation;
+      // setOnboardingModel(onboardingModel);
     }
     // Return true if no errors
   };
@@ -107,6 +145,7 @@ export default function BusinessInfomation() {
   }, []);
   return (
     <div className="  flex flex-col gap-[15px] text-start w-full ">
+      <FullPageLoader open={loading} />
       <OnboardingInput
         label="Business name"
         name="businessName"
