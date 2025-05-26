@@ -14,6 +14,7 @@ import { useToast } from "@/context/toast.context";
 import { useUtils } from "@/context/utils.context";
 import { useGoogleLogin } from "@react-oauth/google";
 import { saveToLocal } from "@/utils/app.utils";
+import { useAuth } from "@/context/auth.context";
 
 // Define types for our form values
 interface FormValues {
@@ -29,6 +30,7 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const { apiCaller } = useUtils();
+  const { login } = useAuth();
 
   // Initialize react-hook-form
   const {
@@ -66,17 +68,17 @@ const Login = () => {
           return;
         }
         if (res) {
-          console.log(res, 'resssssssss');
+          console.log(res, "resssssssss");
           let token = res.Token;
-
+          login();
           saveToLocal("token", token);
           setIsLoading(false);
           setLoading(false);
           toast.success(smessage);
           setTimeout(() => {
-            if(res.UserPurpose === 'Sell'){
+            if (res.UserPurpose === "Sell") {
               router.push("/dashboard/selleronboarding");
-            }else{
+            } else {
               router.push("/");
             }
           }, 1000);
@@ -108,8 +110,8 @@ const Login = () => {
           return;
         }
         if (res) {
-          let token = res.token;
-
+          let token = res.Token;
+          login();
           saveToLocal("token", token);
           setIsLoading(false);
           setLoading(false);
