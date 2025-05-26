@@ -132,7 +132,16 @@ const SignUpForm = () => {
     />
   );
 
-  const password = watch("password");
+  const getSelectedInterestName = (activityId: string) => {
+    // If activityParam exists, map it to the interest name
+    if (activityParam) {
+      return activityParam === 'sell' ? 'Sell' : 'Buy'; // or get from interests array
+    }
+
+    // Otherwise, find by ID in interests array
+    const selectedInterest = interests.find(interest => interest.id === activityId);
+    return selectedInterest?.name || 'Unknown';
+  };
 
   const onSubmit = async (data: FormValues) => {
     setLoading(true);
@@ -149,9 +158,10 @@ const SignUpForm = () => {
         if (res) {
           setLoading(false);
           toast.success(smessage);
-          // setTimeout(() => {
-            router.push(`/auth/verify/?type=${activityParam}`);
-          // }, 1000);
+          const interestName = getSelectedInterestName(data.activity);
+          setTimeout(() => {
+            router.push(`/auth/verify/?type=${activityParam}&interest=${encodeURIComponent(interestName)}`);
+          }, 1000);
         }
       },
       {
