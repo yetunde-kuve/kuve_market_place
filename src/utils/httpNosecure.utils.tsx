@@ -57,7 +57,7 @@ export class HttpUtilNoSecure {
         default:
           throw new Error(`Unsupported HTTP method: ${method}`);
       }
-
+      console.log(response);
       const respData = response.data;
       if (NEXT_PUBLIC_DEBUG) {
         console.log(`Response [${method.toUpperCase()} ${url}]:`, respData);
