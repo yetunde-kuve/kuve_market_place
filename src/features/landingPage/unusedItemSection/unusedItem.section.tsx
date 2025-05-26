@@ -69,43 +69,43 @@ const UnusedItemSection = () => {
     );
   }
 
-  // Show empty state
-  if (data.length === 0) {
+    // Show empty state
+    if (data.length === 0) {
+        return (
+            <div className="relative w-full lg:h-[310px] md:h-auto h-[168px] flex items-center justify-center">
+                <div className="text-white">No banners available</div>
+            </div>
+        );
+    }
     return (
-      <div className="relative w-full lg:h-[310px] md:h-auto h-[168px] flex items-center justify-center">
-        <div className="text-white">No banners available</div>
-      </div>
-    );
-  }
-  return (
-    <section className="bg-white  md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center">
-        <div className="flex flex-col gap-4 lg:w-[513px] md:w-[364.8px] order-2 md:order-1">
-          <h2 className="text-[34.18px] md:text-[40px]text-text lg:text-[56px] font-[700]">
-            {data[0]?.title}
-          </h2>
-          <p className="md:text-[16px] text-[12.82px] font-[400] text-text-secondary">
-            {data[0]?.bannerDescription}
-          </p>
-          <div className="w-[159px]">
-            <Button size="medium" color="pink" onClick={routeToRegister}>
-              List an Item
-            </Button>
-          </div>
-        </div>
+        <section className="bg-white md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:items-center">
+                <div className="flex flex-col gap-4 xl:w-[513px] lg:w-[364.8px] order-2 md:order-1">
+                    <h2 className="text-[34.18px] md:text-[40px]text-text xl:text-[56px] font-[700] lg:leading-[45.51px] xl:leading-[64px] tracking-normal">
+                        {data[0]?.title}
+                    </h2>
+                    <p className="xl:text-[16px] lg:text-[15px] md:text-[15px] text-[12.82px] font-[400] text-text-secondary leading-[20px] tracking-normal">
+                        {data[0]?.bannerDescription}
+                    </p>
+                    <div className="w-[159px]">
+                        <Button size="medium" color="pink" onClick={routeToRegister}>
+                            List an Item
+                        </Button>
+                    </div>
+                </div>
 
-        <div className="order-1 md:order-2">
-          <Image
-            src={"/img/camera.png"}
-            className="lg:h-[410px] lg:w-[620px] md:w-[440.89px] md:h-[291.56px] w-[376.73px] h-[240.13px]"
-            alt="unused product"
-            width={620}
-            height={410}
-          />
-        </div>
-      </div>
-    </section>
-  );
+                <div className="order-1 md:order-2">
+                    <Image
+                        src={"/img/camera.png"}
+                        className="lg:h-[410px] lg:w-[620px] md:w-[440.89px] md:h-[291.56px] w-full h-[240.13px]"
+                        alt="unused product"
+                        width={620}
+                        height={410}
+                    />
+                </div>
+            </div>
+        </section>
+    );
 };
 
 export default UnusedItemSection;
