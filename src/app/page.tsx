@@ -1,51 +1,47 @@
-"use client";
-
-import DropdownList from "@/components/dropDownMenu/dropDownMenu.dropdown.menu";
-import NavBar from "@/components/navBar/navBar.navBar";
-import SearchBar from "@/components/serachBar/searchBar.searchBar";
-import SliderButton from "@/components/sliderButton/sliderButton.sliderButton";
-import { useCartStore } from "@/features/cart/store/useCartStore.store";
-import FutureProduct from "@/features/landingPage/futureProductsection/futureproduction.section";
+// This is a Server Component (default in the app/ directory)
+import dynamic from "next/dynamic";
+import LandingPageWrapper from "@/layouts/landingPageWrapper/landingPageWrapper.wrapper";
 import PopularProductSection from "@/features/landingPage/poppularProductSection/popularproduct.section";
-import Slider from "@/features/landingPage/slider/slider/slider";
-import PopularProductCard from "@/features/product/popularProduct/popularPorductCard/popularProductCard.productcard";
-import { useThemeStore } from "@/store/useThemeStore.store";
-import { useState } from "react";
-import { MdLogout, MdSettings } from "react-icons/md";
+import FutureProduct from "@/features/landingPage/futureProductsection/futureproduction.section";
 import TrendingProduct from "@/features/landingPage/trendingProductSection/trendingProduct";
 import UnusedItemSection from "@/features/landingPage/unusedItemSection/unusedItem.section";
 import GrowBusinessSection from "@/features/landingPage/growBusinessSection/growBusiness.section";
-import LandingPageWrapper from "@/layouts/landingPageWrapper/landingPageWrapper.wrapper";
+import { MPHttpUtilNoSecure } from "@/utils/MPHttpNosecure.utils";
 
-export default function Login() {
-  const theme = useThemeStore((state) => state.theme);
-  const toggleTheme = useThemeStore((state) => state.toggleTheme);
-  const { cart, addToCart, removeFromCart, updateQuantity, clearCart, cartTotal } = useCartStore();
-  const [newItem, setNewItem] = useState({
-    id: "123",
-    name: "Cake",
-    price: 10,
-    quantity: 1,
-    image: "https://sugargeekshow.com/wp-content/uploads/2023/10/easy_chocolate_cake_slice.jpg",
+// Dynamically import client-only slider
+const SliderClient = dynamic(
+  () => import("@/features/landingPage/slider/slider/sliderCLient.client"),
+  { ssr: false }
+);
+
+async function fetchBanners(): Promise<{ banners: any; error: string | null }> {
+  const mpHttp = new MPHttpUtilNoSecure();
+
+  return new Promise((resolve) => {
+    mpHttp.get("TopBanner/GetAllTopBanner", {}, {}, (result: any, err: any) => {
+      if (err) {
+        console.error("Banner fetch error:", err);
+        resolve({ banners: [], error: "Failed to load banners" });
+      } else if (Array.isArray(result) && result.length > 0) {
+        resolve({ banners: result, error: null });
+      } else {
+        resolve({ banners: [], error: "No banners available" });
+      }
+    });
   });
+}
 
-  const handleAddToCart = () => {
-    addToCart(newItem);
-  };
-  const handleRemoveFromCart = (id: string) => {
-    removeFromCart(id);
-  };
-  const handleUpdateQuantity = (id: string, quantity: number) => {
-    updateQuantity(id, quantity);
-  };
-  const handleClearCart = () => {
-    clearCart();
-  };
+export default async function HomePage() {
+  const { banners, error } = await fetchBanners();
 
   return (
     <LandingPageWrapper>
-      <div className="flex flex-col lg:gap-[52px] md:gap-[39px] gap-[26px] ">
-        <Slider />
+      <div className="flex flex-col lg:gap-[52px] md:gap-[39px] gap-[26px]">
+        {error ? (
+          <p className="text-center text-red-500">{error}</p>
+        ) : (
+          <SliderClient products={banners} />
+        )}
         <PopularProductSection />
         <FutureProduct />
         <TrendingProduct />

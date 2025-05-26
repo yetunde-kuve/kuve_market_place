@@ -1,3 +1,4 @@
+"use client";
 import ViewAll from "@/components/widgets/ViewAll.widget";
 import PopularProductCard from "@/features/product/popularProduct/popularPorductCard/popularProductCard.productcard";
 import P1 from "../../../../public/svg/p1.svg";

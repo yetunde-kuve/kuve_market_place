@@ -1,8 +1,9 @@
+"use client";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import CountdownTimer from "./component/countDown.component";
 import Button from "@/components/widgets/Button.widget";
-import {MPHttpUtilNoSecure} from "@/utils/MPHttpNosecure.utils";
+import { MPHttpUtilNoSecure } from "@/utils/MPHttpNosecure.utils";
 import FeatureProductSkeleton from "@/components/skeleton/featureProduct/featureProduct.skeleton";
 
 interface FeatureProductList {
@@ -16,7 +17,7 @@ interface FeatureProductList {
 }
 export default function FutureProduct() {
   const [bannerData, setBannerData] = useState<FeatureProductList[]>([]);
-  const mpHttp = new MPHttpUtilNoSecure()
+  const mpHttp = new MPHttpUtilNoSecure();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -25,23 +26,28 @@ export default function FutureProduct() {
       setLoading(true);
       setError(null);
 
-      mpHttp.get("FeatureBanner/GetAllFeatureBanner", {}, {}, (result: any, error: any) => {
-        if (error) {
-          console.error("Error fetching banners:", error);
-          setError("Failed to load banners");
-          setLoading(false);
-        } else {
-          console.log("Banner fetched successfully:", result);
-
-          // Check if result is an array and has items
-          if (Array.isArray(result) && result.length > 0) {
-            setBannerData(result);
+      mpHttp.get(
+        "FeatureBanner/GetAllFeatureBanner",
+        {},
+        {},
+        (result: any, error: any) => {
+          if (error) {
+            console.error("Error fetching banners:", error);
+            setError("Failed to load banners");
+            setLoading(false);
           } else {
-            setError("No banners available");
+            console.log("Banner fetched successfully:", result);
+
+            // Check if result is an array and has items
+            if (Array.isArray(result) && result.length > 0) {
+              setBannerData(result);
+            } else {
+              setError("No banners available");
+            }
+            setLoading(false);
           }
-          setLoading(false);
         }
-      });
+      );
     };
 
     fetchBanner();
@@ -49,30 +55,28 @@ export default function FutureProduct() {
 
   // Loading state
   if (loading) {
-    return (
-       <FeatureProductSkeleton/>
-    );
+    return <FeatureProductSkeleton />;
   }
 
   // Error state
   if (error) {
     return (
-        <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
-          <div className="text-white text-center">
-            <p>Error loading banner: {error}</p>
-          </div>
+      <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
+        <div className="text-center text-white">
+          <p>Error loading banner: {error}</p>
         </div>
+      </div>
     );
   }
 
   // No data state
   if (!bannerData) {
     return (
-        <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
-          <div className="text-white text-center">
-            <p>No banner data available</p>
-          </div>
+      <div className="relative bg-[linear-gradient(0deg,rgba(0,0,0,0.2),rgba(0,0,0,0.2)),linear-gradient(180deg,#000222_0%,#292B47_100%)] md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] lg:px-[88px] lg:mx-[-88px] md:mx-[-32px] mx-[-16px]">
+        <div className="text-center text-white">
+          <p>No banner data available</p>
         </div>
+      </div>
     );
   }
 
@@ -89,7 +93,7 @@ export default function FutureProduct() {
             <p className="text-[16px] font-[600] text-white">
               ${bannerData[0]?.productPrice}
             </p>
-            <h2 className="text-[20px] md:text-[34px] text-white lg:text-[48px] font-[700]">
+            <h2 className="text-[20px] md:text-[34.13px] lg:text-[34.13px] text-white xl:text-[48px] font-[700] lg:leading-[42.67px] lg:tracking-wider">
               {bannerData[0]?.bannerDescription}
             </h2>
             <div>
@@ -98,8 +102,8 @@ export default function FutureProduct() {
                   endDate={bannerData[0]?.endDate}
               />
             </div>
-            <div className="w-[127px]">
-              <Button size="medium" color="pink">
+            <div className="mt-4">
+              <Button size="medium" color="pink" className="px-10 py-4">
                 Buy Now
               </Button>
             </div>

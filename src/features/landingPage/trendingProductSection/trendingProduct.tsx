@@ -1,3 +1,4 @@
+"use client";
 import React, { useRef } from "react";
 import TrendingProductCard from "@/features/product/trendingProduct/trendingProductCard/trendingProductCard.productCard";
 import ViewAll from "@/components/widgets/ViewAll.widget";
@@ -11,25 +12,25 @@ const TrendingProduct = () => {
       id: 1,
       image: T1,
       productName: "Breed Dry Dog Food",
-      price: "₦ 1’500,000.00"
+      price: "₦ 1’500,000.00",
     },
     {
       id: 2,
       image: T2,
       productName: "Breed Dry Dog Food",
-      price: "₦ 1’500,000.00"
+      price: "₦ 1’500,000.00",
     },
     {
       id: 3,
       image: T3,
       productName: "Breed Dry Dog Food",
-      price: "₦ 1’500,000.00"
+      price: "₦ 1’500,000.00",
     },
     {
       id: 4,
       image: T4,
       productName: "Breed Dry Dog Food",
-      price: "₦ 1’500,000.00"
+      price: "₦ 1’500,000.00",
     },
   ];
   return (
