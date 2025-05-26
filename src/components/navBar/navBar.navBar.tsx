@@ -1,7 +1,7 @@
 import { AppBar, Divider } from "@mui/material";
 import SearchBar from "../serachBar/searchBar.searchBar";
 import Button from "../widgets/Button.widget";
-import { BsChatSquare } from "react-icons/bs";
+import { BsChatSquare, BsPerson } from "react-icons/bs";
 import { IoNotificationsOutline } from "react-icons/io5";
 import DropDownMenuDropdownMenu from "../dropDownMenu/dropDownMenu.dropdown.menu";
 import { useEffect, useRef, useState } from "react";
@@ -9,6 +9,7 @@ import IconDropdown from "../dropDownIcon/dropDownIcon.component";
 import { useRouter } from "next/navigation";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useAuth } from "@/context/auth.context";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -16,6 +17,7 @@ export default function NavBar() {
   const [showRightButton, setShowRightButton] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
+  const { login, isLoggedIn } = useAuth();
   const router = useRouter();
   const checkOverflow = () => {
     if (scrollRef.current) {
@@ -67,8 +69,6 @@ export default function NavBar() {
     { id: 5, name: "Electronics" },
     { id: 6, name: "Beauty" },
     { id: 7, name: "Home Improvement" },
-    { id: 8, name: "All Categories" },
-    { id: 8, name: "All Categories" },
     { id: 8, name: "All Categories" },
   ];
   const freshProduceSubcategories = [
@@ -187,6 +187,47 @@ export default function NavBar() {
     };
   }, []);
 
+  const options = [
+    !isLoggedIn && (
+      <button
+        onClick={() => {
+          router.push("/auth/signUp");
+        }}
+        key={"signup"}
+        className="w-full mt-[23px] hover:bg-[#B47072] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
+      >
+        Sign Up
+      </button>
+    ),
+    !isLoggedIn && (
+      <button
+        onClick={() => {
+          router.push("/auth/login");
+        }}
+        key={"login"}
+        className="w-full mb-[16px] hover:bg-slate-50  text-[14px] font-[500] h-[40px]  rounded-md border border-[#000222] text-text"
+      >
+        Sign In
+      </button>
+    ),
+    isLoggedIn && ( // Conditionally render Message if logged in
+      <button
+        key={"message"}
+        className="w-full hover:bg-slate-50 text-[14px]  gap-[12px] flex justify-center items-center font-[500] h-[40px] rounded-md border border-[#000222] text-text"
+      >
+        <BsPerson size={18} /> Profile
+      </button>
+    ),
+    isLoggedIn && ( // Conditionally render Message if logged in
+      <button
+        key={"message"}
+        className="w-full hover:bg-slate-50 text-[14px] mb-3 gap-[12px] flex justify-center items-center font-[500] h-[40px]  rounded-md border border-[#000222] text-text"
+      >
+        <BsChatSquare size={18} /> Message
+      </button>
+    ),
+  ].filter(Boolean);
+
   // @ts-ignore
   return (
     <div>
@@ -197,7 +238,7 @@ export default function NavBar() {
           boxShadow: "none",
         }}
       >
-        <div className="bg-white flex flex-col gap-[17px] lg:px-[88px] md:px-[30px] px-4 md:py-[33px] py-[10px]">
+        <div className="bg-white flex flex-col gap-[12px] lg:px-[88px] md:px-[30px] px-4 md:py-[24px] py-[5px]">
           <div className="flex items-center justify-between">
             <div>
               <img src="/img/logo.svg" alt="KuVE-LOGO" />
@@ -268,32 +309,7 @@ export default function NavBar() {
                       />
                     }
                     title="Account"
-                    options={[
-                      <button
-                        onClick={() => {
-                          router.push("/auth/signUp");
-                        }}
-                        key={"signup"}
-                        className="w-full mt-[23px] hover:bg-[#B47072] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
-                      >
-                        Sign Up
-                      </button>,
-                      <button
-                        onClick={() => {
-                          router.push("/auth/login");
-                        }}
-                        key={"login"}
-                        className="w-full hover:bg-slate-50  text-[14px] font-[500] h-[40px]  rounded-md border border-[#000222] text-text"
-                      >
-                        Sign In
-                      </button>,
-                      <button
-                        key={"login"}
-                        className="w-full hover:bg-slate-50 text-[14px] gap-[12px] flex justify-center items-center font-[500] h-[40px] mb-[23px] rounded-md border border-[#000222] text-text"
-                      >
-                        <BsChatSquare /> Message
-                      </button>,
-                    ]}
+                    options={options}
                   />
                 </button>
               </div>
@@ -306,12 +322,12 @@ export default function NavBar() {
             <SearchBar />
           </div>
           <div
-            className={`transition-all duration-300 ${isScrolling ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"}`}
+          // className={`transition-all duration-300 ${isScrolling ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"}`}
           >
             <div className="relative">
               <div
-                onScroll={handleScroll}
-                ref={scrollRef}
+                // onScroll={handleScroll}
+                // ref={scrollRef}
                 className="flex gap-[7px] items-center px-1 py-1 overflow-x-auto scrollbar-none whitespace-nowrap transition-all duration-300 ease-in-out"
                 style={{ paddingBottom: "10px" }}
               >
@@ -324,7 +340,7 @@ export default function NavBar() {
                   />
                 ))}
               </div>
-              {showLeftButton && (
+              {/* {showLeftButton && (
                 <button
                   onClick={scrollLeft}
                   className="absolute left-0 h-[24px] w-[24px] hidden lg:flex justify-center items-center hover:bg-primary transform -translate-y-1/2 bg-gray-500 rounded-full top-1/2 opacity-70 hover:opacity-100"
@@ -339,7 +355,7 @@ export default function NavBar() {
                 >
                   &gt;
                 </button>
-              )}
+              )} */}
             </div>
           </div>
         </div>
