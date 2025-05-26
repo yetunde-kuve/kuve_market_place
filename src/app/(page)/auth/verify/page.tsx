@@ -101,7 +101,7 @@ const VerifyForm = () => {
                         if (name === 'sell'){
                             router.push('/dashboard/selleronboarding');
                         }else {
-                            router.push('/auth/login');
+                            router.push('/dashboard');
                         }
                     }, 1000);
                 }

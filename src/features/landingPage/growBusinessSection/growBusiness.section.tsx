@@ -36,7 +36,7 @@ const GrowBusinessSection = () => {
     router.push("/auth/signUp?activity=sell");
   };
   return (
-    <section className="md:py-[48px] md:px-[32px] py-[39px] px-[20px] lg:py-[73px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
+    <section className="md:py-[8px] md:px-[32px] py-[39px] px-[20px] xl:py-[43px] xl:px-[88px] lg:px-[38px] xl:mx-[-88px] lg:mx-[-38px]  md:mx-[-32px] mx-[-16px]">
       <div>
         {/* Header Section */}
         <div className="mb-12 text-center md:mb-16">
