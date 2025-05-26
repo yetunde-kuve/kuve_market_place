@@ -21,6 +21,7 @@ interface UserDetails {
     UserId?: string,
     Email?: string,
 }
+
 // Client Components that use useSearchParams
 const VerifyForm = () => {
     // Move the code that uses useSearchParams into this component
@@ -31,10 +32,12 @@ const VerifyForm = () => {
     const [email, setEmail] = useState('');
     const [resendDisabled, setResendDisabled] = useState(false);
     const [countdown, setCountdown] = useState(0);
+    const [selectedInterest, setSelectedInterest] = useState<string>('');
     const searchParams = useSearchParams();
     const toast = useToast();
     const { apiCaller } = useUtils();
     const name = searchParams.get('type');
+    const interestFromUrl = searchParams.get("interest");
     const [user, setUser] = useState<UserDetails | null>(null);
 
     const {
@@ -66,6 +69,7 @@ const VerifyForm = () => {
         const formattedValue = value.replace(/[^\d]/g, '').substring(0, 6);
         setValue('otp', formattedValue);
     };
+
     // Fetch user data from localStorage on client side
     useEffect(() => {
         const storedUser = localStorage.getItem('userDetails');
@@ -98,7 +102,7 @@ const VerifyForm = () => {
                     setIsLoading(false);
                     toast.success(smessage);
                     setTimeout(() => {
-                        if (name === 'sell'){
+                        if (name === 'sell' || interestFromUrl === 'Sell' ){
                             router.push('/dashboard/selleronboarding');
                         }else {
                             router.push('/dashboard');
@@ -111,7 +115,6 @@ const VerifyForm = () => {
                     OTP: data.otp || user?.OTP,
                     UniqueId: user?.UniqueId,
                     UserId: user?.UserId
-
                 },
                 getMethod: false,
                 silently: true,
@@ -141,7 +144,6 @@ const VerifyForm = () => {
             {
                 data: {
                     Email: user?.Email,
-
                 },
                 getMethod: false,
                 silently: true,
