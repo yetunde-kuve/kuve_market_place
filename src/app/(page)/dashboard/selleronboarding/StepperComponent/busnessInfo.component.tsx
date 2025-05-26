@@ -44,14 +44,14 @@ export default function BusinessInfomation() {
         businessLocationId: businessLocation,
       },
       {},
-      (result: any, error: any) => {
+      (result: any, error: any, message: any) => {
         if (error) {
           setLoading(false);
           toast.error(error);
           console.error("Error fetching users:", error);
           // Handle the error, e.g., display an error message to the user
         } else {
-          toast.success(result.message);
+          toast.success(message);
           setLoading(false);
           // const transformedOptions = result.map((type: any) => ({
           //   value: type.id,
