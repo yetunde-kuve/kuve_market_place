@@ -108,7 +108,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
           open && "bg-primary text-white"
         )}
       >
-        <span className="flex items-center gap-1 text-[14px] dark:text-text-dark font-[500]">
+        <span className="flex items-center gap-1 text-[13px] dark:text-text-dark font-[500]">
           {icon} {label}
         </span>
         {open ? (
