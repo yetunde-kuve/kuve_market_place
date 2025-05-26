@@ -73,36 +73,72 @@ export default function StoreOperatingTime(): JSX.Element {
   const handleSubmit = async () => {
     setLoading(true);
     http.post(
-      "v1/ServiceProvider/CreateProvider",
+      "v1/ServiceProvider/UpdateServiceProviderOperatingTime",
       {
-        isVerified: false,
-        businessName: onboardingModel["businessName"],
-        businessPhoneNumber: onboardingModel["phoneNumber"],
-        businessEmail: onboardingModel["email"],
-        businessTypeId: onboardingModel["businessType"],
-        businessLocationId: onboardingModel["businessLocation"],
-        buinessAddress: onboardingModel["businessAddress"],
-        teamSize: onboardingModel["teamSize"],
-        businessWebsite: onboardingModel["businessWebsite"],
-
-        profileImage: onboardingModel["profileImg"],
-        backdropImage: onboardingModel["coverimg"],
-        storeColorId: onboardingModel["selectedColor"],
+        operatingTimes: [
+          {
+            dayOfWeek: "Monday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.monday,
+          },
+          {
+            dayOfWeek: "Tuesday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.tuesday,
+          },
+          {
+            dayOfWeek: "Wednesday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.wednesday,
+          },
+          {
+            dayOfWeek: "Thursday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.thursday,
+          },
+          {
+            dayOfWeek: "Friday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.friday,
+          },
+          {
+            dayOfWeek: "Saturday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.saturday,
+          },
+          {
+            dayOfWeek: "Sunday",
+            startTime: "string",
+            endTime: "string",
+            isActive: activeDays.sunday,
+          },
+        ],
       },
       {},
       (result: any, error: any) => {
         if (error) {
           setLoading(false);
-          console.error("Error fetching users:", error);
           toast.error(error);
+          console.error("Error fetching users:", error);
           // Handle the error, e.g., display an error message to the user
         } else {
           toast.success(result.message);
+          // setOnboardingStepper(3);
+          router.push("/dashboard");
           setLoading(false);
+          // const transformedOptions = result.map((type: any) => ({
+          //   value: type.id,
+          //   label: type.businessTypeName,
+          // }));
+          setOnboardingStepper(onboardingStepper + 1);
+          // setBuisnessTypes(transformedOptions);
           console.log("Users fetched successfully:", result);
-          setTimeout(() => {
-            router.push("/dashboard");
-          }, 2000);
           // Process the fetched user data
         }
       }
