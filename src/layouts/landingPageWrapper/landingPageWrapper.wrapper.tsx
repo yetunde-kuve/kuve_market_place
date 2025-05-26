@@ -30,7 +30,7 @@ export default function LandingPageWrapper({
       </Head>
       <main>
         <NavBar />
-        <div className=" lg:px-[88px] md:px-[32px] px-4  lg:mt-[228px] md:mt-[228px] mt-[240px]">
+        <div className=" xl:px-[88px] lg:px-[38px] md:px-[32px] px-4  lg:mt-[208px] md:mt-[228px] mt-[240px]">
           {children}
         </div>
         <Footer />
