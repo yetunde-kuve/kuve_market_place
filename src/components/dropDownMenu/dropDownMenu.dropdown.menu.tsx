@@ -33,6 +33,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const closeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const router = useRouter();
+  const [iconState, setIconState] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -96,25 +97,38 @@ const DropdownList: React.FC<DropdownListProps> = ({
       // onMouseLeave={handleMouseLeave}
     >
       <button
+        onMouseEnter={() => setIconState(true)}
+        onMouseLeave={() => setIconState(false)}
         ref={buttonRef}
         onClick={handleClick}
         className={cn(
-          "flex text-text w-full h-[36px] focus:shadow-none justify-between px-[12px] py-[9px] gap-[9px] items-center rounded-full ",
+          "flex text-text w-full h-[36px] focus:shadow-none justify-between px-[12px] py-[9px] gap-[9px] items-center rounded-full",
           "bg-background-Secondary dark:bg-background-Tertiary-dark",
           "transition-colors duration-200",
           "focus:outline-none focus:ring-2 focus:ring-primary focus:ring-opacity-50",
           "active:bg-primary active:text-white",
           "hover:bg-primary hover:text-white",
-          open && "bg-primary text-white"
+          open && "bg-primary text-white",
+          "min-w-0" // (optional if inside flex parent)
         )}
       >
-        <span className="flex items-center gap-1 text-[13px] dark:text-text-dark font-[500]">
+        <span className="flex items-center gap-1 text-[13px] dark:text-text-dark font-[500] whitespace-nowrap">
           {icon} {label}
         </span>
         {open ? (
-          <i className="ri-arrow-up-s-line"></i>
+          <i
+            style={{
+              color: iconState ? "white" : "#ff9d98",
+            }}
+            className="ri-arrow-up-s-line"
+          ></i>
         ) : (
-          <i className="ri-arrow-down-s-line"></i>
+          <i
+            style={{
+              color: iconState ? "white" : "#ff9d98",
+            }}
+            className="ri-arrow-down-s-line"
+          ></i>
         )}
       </button>
 

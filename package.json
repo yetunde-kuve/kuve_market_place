@@ -82,6 +82,7 @@
     "react-toastify": "^10.0.5",
     "react-use": "^17.5.1",
     "react-use-clipboard": "^1.0.9",
+    "react-use-measure": "^2.1.7",
     "remixicon": "^4.6.0",
     "sha": "^3.0.0",
     "sharp": "^0.33.5",
