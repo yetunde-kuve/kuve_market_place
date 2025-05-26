@@ -10,6 +10,7 @@ import BusinessMoreInformation from "./StepperComponent/businesMoreinfo.componen
 import StorefrontSetup from "@/app/(page)/dashboard/selleronboarding/StepperComponent/storeFrontSetup.component";
 import StoreOperatingTime from "@/app/(page)/dashboard/selleronboarding/StepperComponent/storeOperatingTime.component";
 import { useRouter } from "next/navigation";
+import WhatYouWant from "./StepperComponent/whatyouwant.component";
 type StepType = {
   label: string;
   icon: ReactNode;
@@ -20,24 +21,30 @@ type StepType = {
 // Define the stepContent object with a proper type
 const stepContent: Record<number, StepType> = {
   0: {
+    label: "What Are You Here For?",
+    sub: "What do you want to do on Kuve?",
+    icon: <i className="ri-mail-line"></i>,
+    component: <WhatYouWant />,
+  },
+  1: {
     label: "Business Information",
     sub: "Tell us a little bit about your business",
     icon: <i className="ri-mail-line"></i>,
     component: <BusinessInfomation />,
   },
-  1: {
+  2: {
     label: "We Need More Information",
     sub: "Tell us more about your business",
     icon: <i className="ri-lock-password-line"></i>,
     component: <BusinessMoreInformation />,
   },
-  2: {
+  3: {
     label: "Set Up Your Storefront ",
     sub: "Tell us more about your business",
     icon: "icon",
     component: <StorefrontSetup />,
   },
-  3: {
+  4: {
     label: "Store Operating Time",
     sub: "What days in a week does your store operate?",
     icon: "icon",
@@ -72,22 +79,25 @@ export default function SellerOnboarding() {
         <AuthBannerBanner2 />
         <div className="relative flex flex-col h-screen overflow-y-auto ">
           <div className="flex gap-[40px] lg:gap-[55px] relative flex-col items-center justify-center flex-grow lg:pb-[60px] lg:pt-[60px] md:pb-[60px] md:pt-[60px] pb-[40px] pt-[40px] ">
-            <div className="absolute top-0 items-center justify-between hidden w-full px-4 py-3 lg:flex ">
-              <>
-                <p className="text-[14px] font-[700] text-[#808287]">
-                  {onboardingStepper + 1}/{stepsCount}
-                </p>
+            {onboardingStepper > 0 && (
+              <div className="absolute top-0 items-center justify-between hidden w-full px-10 py-3 lg:flex ">
+                <>
+                  <p className="text-[14px] font-[700] text-[#808287]">
+                    {onboardingStepper + 1 - 1}/{stepsCount - 1}
+                  </p>
 
-                <button
-                  onClick={() => {
-                    router.push("/dashboard");
-                  }}
-                  className="text-[16px] font-[500] text-[#212844]"
-                >
-                  SKIP
-                </button>
-              </>
-            </div>
+                  <button
+                    onClick={() => {
+                      router.push("/dashboard");
+                    }}
+                    className="text-[16px] font-[500] text-[#212844]"
+                  >
+                    SKIP
+                  </button>
+                </>
+              </div>
+            )}
+
             <div className="absolute top-[32px] flex items-center justify-between w-full lg:hidden px-3 ">
               {onboardingStepper > 0 && (
                 <button

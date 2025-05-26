@@ -10,6 +10,8 @@ import { useRouter } from "next/navigation";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useAuth } from "@/context/auth.context";
+import useMeasure from "react-use-measure";
+import CategoryList from "./component/categoryList.component";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -19,6 +21,7 @@ export default function NavBar() {
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
   const { login, isLoggedIn } = useAuth();
   const router = useRouter();
+
   const checkOverflow = () => {
     if (scrollRef.current) {
       const { scrollWidth, clientWidth, scrollLeft } = scrollRef.current;
@@ -61,90 +64,6 @@ export default function NavBar() {
     checkOverflow();
   };
 
-  const list = [
-    { id: 1, name: "Groceries" },
-    { id: 2, name: "Premium Fruits" },
-    { id: 3, name: "Home & Kitchen" },
-    { id: 4, name: "Fashion" },
-    { id: 5, name: "Electronics" },
-    { id: 6, name: "Beauty" },
-    { id: 7, name: "Home Improvement" },
-    { id: 8, name: "All Categories" },
-  ];
-  const freshProduceSubcategories = [
-    {
-      title: "Leafy Greens",
-      categories: [
-        { id: 1, label: "Spinach" },
-        { id: 2, label: "Lettuce" },
-        { id: 3, label: "Kale" },
-        { id: 4, label: "Arugula" },
-      ],
-    },
-    {
-      title: "Root Vegetables",
-      categories: [
-        { id: 5, label: "Carrots" },
-        { id: 6, label: "Beets" },
-        { id: 7, label: "Radishes" },
-        { id: 8, label: "Turnips" },
-      ],
-    },
-    {
-      title: "Fruits",
-      categories: [
-        { id: 9, label: "Apples" },
-        { id: 10, label: "Bananas" },
-        { id: 11, label: "Grapes" },
-        { id: 12, label: "Oranges" },
-      ],
-    },
-    {
-      title: "Herbs",
-      categories: [
-        { id: 13, label: "Basil" },
-        { id: 14, label: "Cilantro" },
-        { id: 15, label: "Mint" },
-        { id: 16, label: "Parsley" },
-      ],
-    },
-    {
-      title: "Cruciferous",
-      categories: [
-        { id: 17, label: "Broccoli" },
-        { id: 18, label: "Cauliflower" },
-        { id: 19, label: "Cabbage" },
-        { id: 20, label: "Brussels Sprouts" },
-      ],
-    },
-    {
-      title: "Tubers",
-      categories: [
-        { id: 21, label: "Potatoes" },
-        { id: 22, label: "Yams" },
-        { id: 23, label: "Sweet Potatoes" },
-        { id: 24, label: "Cassava" },
-      ],
-    },
-    {
-      title: "Gourds",
-      categories: [
-        { id: 25, label: "Pumpkin" },
-        { id: 26, label: "Zucchini" },
-        { id: 27, label: "Squash" },
-        { id: 28, label: "Cucumber" },
-      ],
-    },
-    {
-      title: "Exotics",
-      categories: [
-        { id: 29, label: "Dragon Fruit" },
-        { id: 30, label: "Passion Fruit" },
-        { id: 31, label: "Durian" },
-        { id: 32, label: "Rambutan" },
-      ],
-    },
-  ];
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -321,43 +240,7 @@ export default function NavBar() {
           <div className="block md:hidden lg:hidden">
             <SearchBar />
           </div>
-          <div
-          // className={`transition-all duration-300 ${isScrolling ? "opacity-0 h-0 overflow-hidden" : "opacity-100 h-auto"}`}
-          >
-            <div className="relative">
-              <div
-                // onScroll={handleScroll}
-                // ref={scrollRef}
-                className="flex gap-[7px] items-center px-1 py-1 overflow-x-auto scrollbar-none whitespace-nowrap transition-all duration-300 ease-in-out"
-                style={{ paddingBottom: "10px" }}
-              >
-                {list.map((item) => (
-                  <DropDownMenuDropdownMenu
-                    mobileRedirectPath=""
-                    label={item.name}
-                    key={item.id}
-                    items={freshProduceSubcategories}
-                  />
-                ))}
-              </div>
-              {/* {showLeftButton && (
-                <button
-                  onClick={scrollLeft}
-                  className="absolute left-0 h-[24px] w-[24px] hidden lg:flex justify-center items-center hover:bg-primary transform -translate-y-1/2 bg-gray-500 rounded-full top-1/2 opacity-70 hover:opacity-100"
-                >
-                  &lt;
-                </button>
-              )}
-              {showRightButton && (
-                <button
-                  onClick={scrollRight}
-                  className="absolute right-0 h-[24px] w-[24px] hidden lg:flex justify-center items-center hover:bg-primary transform -translate-y-1/2 bg-gray-500 rounded-full top-1/2 opacity-70 hover:opacity-100"
-                >
-                  &gt;
-                </button>
-              )} */}
-            </div>
-          </div>
+          <CategoryList />
         </div>
       </AppBar>
     </div>

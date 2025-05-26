@@ -49,7 +49,7 @@ export default function BusinessMoreInformation() {
           //   value: type.id,
           //   label: type.businessTypeName,
           // }));
-          setOnboardingStepper(2);
+          setOnboardingStepper(3);
           // setBuisnessTypes(transformedOptions);
           console.log("Users fetched successfully:", result);
           // Process the fetched user data

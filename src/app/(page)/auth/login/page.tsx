@@ -61,7 +61,7 @@ const Login = () => {
         if (error) {
           setIsLoading(false);
           setLoading(false);
-          if (error === 'Account locked, use the \'Forget Password feature.\''){
+          if (error === "Account locked, use the 'Forget Password feature.'") {
             router.push("/auth/forgotPassword");
           }
           toast.error(error);
@@ -79,7 +79,7 @@ const Login = () => {
             if (res.UserPurpose === "Sell") {
               router.push("/dashboard/selleronboarding");
             } else {
-              router.push("/");
+              router.push("/dashboard");
             }
           }, 1000);
         }
