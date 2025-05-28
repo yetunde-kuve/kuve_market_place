@@ -93,8 +93,8 @@ const DropdownList: React.FC<DropdownListProps> = ({
     <div
       ref={containerRef}
       className="relative inline-block w-full"
-      // onMouseEnter={handleMouseEnter}
-      // onMouseLeave={handleMouseLeave}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
     >
       <button
         onMouseEnter={() => setIconState(true)}
