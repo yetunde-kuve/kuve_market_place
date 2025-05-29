@@ -799,6 +799,12 @@ export function reLogin(): boolean {
   if (now - time > 1000 * 60 * 60 * 24 * 7) return true;
   return false;
 }
+export const formatNaira = (amount: number): string => {
+  return new Intl.NumberFormat("en-NG", {
+    style: "currency",
+    currency: "NGN",
+  }).format(amount);
+};
 
 export function formatNumber(n: any) {
   // format number 1000000 to 1,234,567

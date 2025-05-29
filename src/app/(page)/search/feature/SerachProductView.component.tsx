@@ -13,6 +13,7 @@ import { useState } from "react";
 import PaginationComponent from "../component/paginationButton.component";
 import RelatedProduct from "../component/relatedProduct.component";
 import RecentlyViewdProduct from "../component/recentlyViewed.component";
+import TabletBannner from "../component/tabletBanner.component";
 
 export default function ProductSearcView() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -58,6 +59,12 @@ export default function ProductSearcView() {
           itemsPerPage={itemsPerPage}
           onItemsPerPageChange={setItemsPerPage}
         />
+        <div className="mb-6 md:hidden">
+          <SearchProductBanner />
+        </div>
+        <div className="hidden mb-6 lg:hidden md:block">
+          <TabletBannner />
+        </div>
         <div className="space-y-10">
           <RelatedProduct />
           <RecentlyViewdProduct />
