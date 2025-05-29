@@ -12,6 +12,9 @@ module.exports = {
       fontFamily: {
         poppins: ["var(--font-poppins)", "sans-serif"],
       },
+      screens: {
+        lg: "1025px", // push lg breakpoint forward
+      },
       colors: {
         // Semantic color tokens
         primary: {
