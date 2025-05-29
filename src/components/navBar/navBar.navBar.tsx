@@ -1,4 +1,4 @@
-import { AppBar, Divider } from "@mui/material";
+import { AppBar, Avatar, Divider } from "@mui/material";
 import SearchBar from "../serachBar/searchBar.searchBar";
 import Button from "../widgets/Button.widget";
 import { BsChatSquare, BsPerson } from "react-icons/bs";
@@ -12,6 +12,8 @@ import "react-multi-carousel/lib/styles.css";
 import { useAuth } from "@/context/auth.context";
 import useMeasure from "react-use-measure";
 import CategoryList from "./component/categoryList.component";
+import CartDropdown from "@/features/cart/component/cartHover.component";
+import WishListDropdown from "@/features/wishList/component/wishListHover.component";
 
 export default function NavBar() {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -19,7 +21,7 @@ export default function NavBar() {
   const [showRightButton, setShowRightButton] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimeout = useRef<NodeJS.Timeout | null>(null);
-  const { login, isLoggedIn } = useAuth();
+  const { login, isLoggedIn, logout } = useAuth();
   const router = useRouter();
 
   const checkOverflow = () => {
@@ -113,7 +115,7 @@ export default function NavBar() {
           router.push("/auth/signUp");
         }}
         key={"signup"}
-        className="w-full mt-[23px] hover:bg-[#B47072] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
+        className="w-full mt-[10px] hover:bg-[#B47072] text-[14px] font-[500] h-[40px] rounded-md bg-primary text-text"
       >
         Sign Up
       </button>
@@ -130,21 +132,119 @@ export default function NavBar() {
       </button>
     ),
     isLoggedIn && ( // Conditionally render Message if logged in
-      <button
-        key={"message"}
-        className="w-full hover:bg-slate-50 text-[14px]  gap-[12px] flex justify-center items-center font-[500] h-[40px] rounded-md border border-[#000222] text-text"
-      >
-        <BsPerson size={18} /> Profile
-      </button>
+      <div className="flex flex-col w-full gap-4">
+        <button className="flex items-center text-[#111928] w-full gap-2 hover:text-primary">
+          <i className="ri-account-circle-line text-primary text-[18px]"></i>
+          <p className="text-[14px]  font-[400]">My Kuve </p>
+        </button>
+        <button className="flex items-center w-full gap-2 text-[#111928] hover:text-primary">
+          <svg
+            width="14"
+            height="15"
+            viewBox="0 0 14 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M13.3 6.87474V5.25467C13.3 4.87744 13.1525 4.51565 12.8899 4.24891C12.6274 3.98217 12.2713 3.83231 11.9 3.83231H11.2805L8.8816 0.76855C8.76594 0.620863 8.59727 0.525905 8.4127 0.504566C8.22812 0.483226 8.04276 0.537253 7.8974 0.654761C7.75203 0.772269 7.65857 0.943633 7.63757 1.13115C7.61656 1.31867 7.66974 1.50699 7.7854 1.65468L9.4906 3.83231H8.4805L6.0816 0.76855C6.02278 0.694019 5.94986 0.632211 5.86714 0.586773C5.78443 0.541336 5.69359 0.513188 5.6 0.503991C5.41208 0.486782 5.22509 0.545845 5.0799 0.668274L1.3888 3.83231C1.01944 3.83531 0.666216 3.98649 0.406083 4.25291C0.145949 4.51933 -1.18193e-05 4.8794 7.17839e-10 5.25467V13.0776C7.17839e-10 13.4549 0.1475 13.8167 0.41005 14.0834C0.672601 14.3501 1.0287 14.5 1.4 14.5H11.9C12.2713 14.5 12.6274 14.3501 12.8899 14.0834C13.1525 13.8167 13.3 13.4549 13.3 13.0776V11.4576C13.5121 11.3337 13.6885 11.1554 13.8113 10.9404C13.9342 10.7255 13.9993 10.4815 14 10.2329V8.09939C13.9993 7.85082 13.9342 7.60682 13.8113 7.39188C13.6885 7.17693 13.5121 6.99858 13.3 6.87474ZM12.6 8.09939V10.2329H9.1C8.91435 10.2329 8.7363 10.158 8.60503 10.0246C8.47375 9.89125 8.4 9.71036 8.4 9.52175V8.81057C8.4 8.62195 8.47375 8.44106 8.60503 8.30769C8.7363 8.17431 8.91435 8.09939 9.1 8.09939H12.6ZM5.4341 2.22718L6.6913 3.83231H3.5616L5.4341 2.22718ZM1.4 13.0776V5.25467H11.9V6.67703H9.1C8.54305 6.67703 8.0089 6.90181 7.61508 7.30193C7.22125 7.70204 7 8.24472 7 8.81057V9.52175C7 10.0876 7.22125 10.6303 7.61508 11.0304C8.0089 11.4305 8.54305 11.6553 9.1 11.6553H11.9V13.0776H1.4Z"
+              fill="#FF9D98"
+            />
+            <path
+              d="M10.15 9.87733C10.5366 9.87733 10.85 9.55893 10.85 9.16615C10.85 8.77338 10.5366 8.45498 10.15 8.45498C9.7634 8.45498 9.45 8.77338 9.45 9.16615C9.45 9.55893 9.7634 9.87733 10.15 9.87733Z"
+              fill="#FF9D98"
+            />
+          </svg>
+
+          <p className="text-[14px]  font-[400]">Purchases </p>
+        </button>
+        <button className="flex items-center w-full gap-2  text-[#111928] hover:text-primary">
+          <svg
+            width="14"
+            height="13"
+            viewBox="0 0 14 13"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12.1575 2.18916C11.8596 1.89108 11.5059 1.65462 11.1165 1.4933C10.7272 1.33197 10.3098 1.24893 9.88838 1.24893C9.46693 1.24893 9.04961 1.33197 8.66026 1.4933C8.27091 1.65462 7.91716 1.89108 7.61922 2.18916L7.00088 2.8075L6.38255 2.18916C5.78073 1.58734 4.96449 1.24924 4.11338 1.24924C3.26228 1.24924 2.44604 1.58734 1.84422 2.18916C1.2424 2.79098 0.904297 3.60723 0.904297 4.45833C0.904297 5.30943 1.2424 6.12568 1.84422 6.7275L7.00088 11.8842L12.1575 6.7275C12.4556 6.42956 12.6921 6.07581 12.8534 5.68645C13.0147 5.2971 13.0978 4.87978 13.0978 4.45833C13.0978 4.03688 13.0147 3.61956 12.8534 3.23021C12.6921 2.84086 12.4556 2.4871 12.1575 2.18916Z"
+              stroke="#FF9D98"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+
+          <p className="text-[14px]  font-[400]">Wishlist </p>
+        </button>
+        <button className="flex items-center w-full gap-2  text-[#111928] hover:text-primary">
+          <svg
+            width="12"
+            height="11"
+            viewBox="0 0 12 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M1.33268 10.1667C1.01185 10.1667 0.737196 10.0524 0.508724 9.82397C0.280252 9.5955 0.166016 9.32084 0.166016 9.00001V2.00001C0.166016 1.67918 0.280252 1.40452 0.508724 1.17605C0.737196 0.94758 1.01185 0.833344 1.33268 0.833344H10.666C10.9868 0.833344 11.2615 0.94758 11.49 1.17605C11.7184 1.40452 11.8327 1.67918 11.8327 2.00001V9.00001C11.8327 9.32084 11.7184 9.5955 11.49 9.82397C11.2615 10.0524 10.9868 10.1667 10.666 10.1667H1.33268ZM5.99935 6.08334L1.33268 3.16668V9.00001H10.666V3.16668L5.99935 6.08334ZM5.99935 4.91668L10.666 2.00001H1.33268L5.99935 4.91668ZM1.33268 3.16668V2.00001V9.00001V3.16668Z"
+              fill="#FF9D98"
+            />
+          </svg>
+
+          <p className="text-[14px]  font-[400]">Inbox </p>
+        </button>
+        <button
+          onClick={() => logout()}
+          className="flex items-center w-full gap-2"
+        >
+          <svg
+            width="14"
+            height="15"
+            viewBox="0 0 14 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_38533_19573)">
+              <path
+                d="M13.9337 7.16575C13.8891 7.05813 13.8252 6.96187 13.7438 6.8805L10.2444 3.38138C9.90227 3.03925 9.34923 3.03925 9.00708 3.38138C8.66493 3.7235 8.66493 4.2765 9.00708 4.61862L11.0136 6.625H3.50027C3.01636 6.625 2.62521 7.017 2.62521 7.5C2.62521 7.983 3.01636 8.375 3.50027 8.375H11.0136L9.00708 10.3814C8.66493 10.7235 8.66493 11.2765 9.00708 11.6186C9.17772 11.7893 9.40173 11.875 9.62575 11.875C9.84977 11.875 10.0738 11.7893 10.2444 11.6186L13.7438 8.1195C13.8252 8.039 13.8891 7.94187 13.9337 7.83425C14.0221 7.62075 14.0221 7.37925 13.9337 7.16575Z"
+                fill="#E02424"
+              />
+              <path
+                d="M5.25041 12.75H2.62521C2.14217 12.75 1.75014 12.3571 1.75014 11.875V3.125C1.75014 2.64287 2.14217 2.25 2.62521 2.25H5.25041C5.73432 2.25 6.12548 1.858 6.12548 1.375C6.12548 0.892 5.73432 0.5 5.25041 0.5H2.62521C1.17784 0.5 0 1.67775 0 3.125V11.875C0 13.3223 1.17784 14.5 2.62521 14.5H5.25041C5.73432 14.5 6.12548 14.108 6.12548 13.625C6.12548 13.142 5.73432 12.75 5.25041 12.75Z"
+                fill="#E02424"
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_38533_19573">
+                <rect
+                  width="14"
+                  height="14"
+                  fill="white"
+                  transform="translate(0 0.5)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+
+          <p className="text-[14px] text-[#E02424] font-[400]">Log out </p>
+        </button>
+      </div>
     ),
-    isLoggedIn && ( // Conditionally render Message if logged in
-      <button
-        key={"message"}
-        className="w-full hover:bg-slate-50 text-[14px] mb-3 gap-[12px] flex justify-center items-center font-[500] h-[40px]  rounded-md border border-[#000222] text-text"
-      >
-        <BsChatSquare size={18} /> Message
-      </button>
-    ),
+    // isLoggedIn && ( // Conditionally render Message if logged in
+    //   <button
+    //     key={"message"}
+    //     className="w-full hover:bg-slate-50 text-[14px]  gap-[12px] flex justify-center items-center font-[500] h-[40px] rounded-md border border-[#000222] text-text"
+    //   >
+    //     <BsPerson size={18} /> Profile
+    //   </button>
+    // ),
+    // isLoggedIn && ( // Conditionally render Message if logged in
+    //   <button
+    //     key={"message"}
+    //     className="w-full hover:bg-slate-50 text-[14px] mb-3 gap-[12px] flex justify-center items-center font-[500] h-[40px]  rounded-md border border-[#000222] text-text"
+    //   >
+    //     <BsChatSquare size={18} /> Message
+    //   </button>
+    // ),
   ].filter(Boolean);
 
   // @ts-ignore
@@ -175,27 +275,8 @@ export default function NavBar() {
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
-                  <img
-                    src="/img/heart.svg"
-                    alt="heart"
-                    className="h-[23px] w-[23px]"
-                  />
-                </button>
-                <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
-                  <svg
-                    width="25"
-                    height="25"
-                    viewBox="0 0 25 25"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M19.1404 19.6026C19.8034 19.6026 20.4393 19.8659 20.9081 20.3348C21.377 20.8036 21.6404 21.4395 21.6404 22.1026C21.6404 22.7656 21.377 23.4015 20.9081 23.8703C20.4393 24.3392 19.8034 24.6026 19.1404 24.6026C18.4773 24.6026 17.8415 24.3392 17.3726 23.8703C16.9038 23.4015 16.6404 22.7656 16.6404 22.1026C16.6404 21.4395 16.9038 20.8036 17.3726 20.3348C17.8415 19.8659 18.4773 19.6026 19.1404 19.6026ZM19.1404 20.8526C18.8089 20.8526 18.4909 20.9842 18.2565 21.2187C18.0221 21.4531 17.8904 21.771 17.8904 22.1026C17.8904 22.4341 18.0221 22.752 18.2565 22.9864C18.4909 23.2209 18.8089 23.3526 19.1404 23.3526C19.4719 23.3526 19.7898 23.2209 20.0243 22.9864C20.2587 22.752 20.3904 22.4341 20.3904 22.1026C20.3904 21.771 20.2587 21.4531 20.0243 21.2187C19.7898 20.9842 19.4719 20.8526 19.1404 20.8526ZM7.89038 19.6026C8.55342 19.6026 9.18931 19.8659 9.65815 20.3348C10.127 20.8036 10.3904 21.4395 10.3904 22.1026C10.3904 22.7656 10.127 23.4015 9.65815 23.8703C9.18931 24.3392 8.55342 24.6026 7.89038 24.6026C7.22734 24.6026 6.59145 24.3392 6.12261 23.8703C5.65377 23.4015 5.39038 22.7656 5.39038 22.1026C5.39038 21.4395 5.65377 20.8036 6.12261 20.3348C6.59145 19.8659 7.22734 19.6026 7.89038 19.6026ZM7.89038 20.8526C7.55886 20.8526 7.24092 20.9842 7.0065 21.2187C6.77208 21.4531 6.64038 21.771 6.64038 22.1026C6.64038 22.4341 6.77208 22.752 7.0065 22.9864C7.24092 23.2209 7.55886 23.3526 7.89038 23.3526C8.2219 23.3526 8.53984 23.2209 8.77426 22.9864C9.00868 22.752 9.14038 22.4341 9.14038 22.1026C9.14038 21.771 9.00868 21.4531 8.77426 21.2187C8.53984 20.9842 8.2219 20.8526 7.89038 20.8526ZM21.6404 4.60255H4.47788L7.66538 12.1026H17.8904C18.3029 12.1026 18.6654 11.9026 18.8904 11.6026L22.6404 6.60255C22.8029 6.39005 22.8904 6.12755 22.8904 5.85255C22.8904 5.52103 22.7587 5.20309 22.5243 4.96867C22.2898 4.73425 21.9719 4.60255 21.6404 4.60255ZM17.8904 13.3526H7.72788L6.76538 15.3026L6.64038 15.8526C6.64038 16.1841 6.77208 16.502 7.0065 16.7364C7.24092 16.9709 7.55886 17.1026 7.89038 17.1026H21.6404V18.3526H7.89038C7.22734 18.3526 6.59145 18.0892 6.12261 17.6203C5.65377 17.1515 5.39038 16.5156 5.39038 15.8526C5.39001 15.4284 5.49755 15.0112 5.70288 14.6401L6.60288 12.8026L2.06538 2.10255H0.390381V0.852554H2.89038L3.95288 3.35255H21.6404C22.3034 3.35255 22.9393 3.61595 23.4081 4.08479C23.877 4.55363 24.1404 5.18951 24.1404 5.85255C24.1404 6.47755 23.9279 7.00255 23.5779 7.42755L19.9404 12.2901C19.4904 12.9276 18.7404 13.3526 17.8904 13.3526Z"
-                      fill="black"
-                    />
-                  </svg>
-                </button>
+                <WishListDropdown />
+                <CartDropdown />
                 <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
                   <svg
                     width="25"
@@ -227,7 +308,25 @@ export default function NavBar() {
                         className="h-[23px] w-[23px]"
                       />
                     }
-                    title="Account"
+                    title={
+                      <div>
+                        {!isLoggedIn ? (
+                          <p>Account</p>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <Avatar sx={{ width: 34, height: 34 }} />
+                            <div className="flex flex-col items-start">
+                              <p className="text-[14px] font-[700] text-[#111928]">
+                                Jese Leos
+                              </p>
+                              <p className="text-[12px] font-[400] text-[#828294]">
+                                Jese@gmail.com
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    }
                     options={options}
                   />
                 </button>

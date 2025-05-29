@@ -43,7 +43,7 @@ export default function SearchBar() {
   const noMatch = query.trim() !== "" && filteredSuggestions.length === 0;
 
   return (
-    <div className="relative w-full max-w-[480px] mx-auto">
+    <div className="relative w-full max-w-[480px] mx-auto z-20">
       <form onSubmit={handleSubmit}>
         <i className="ri-search-line text-primary text-[18px] absolute left-[12px] top-1/2 -translate-y-1/2"></i>
         {/* Error Icon (if no match) */}
