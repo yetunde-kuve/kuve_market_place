@@ -107,6 +107,7 @@ export function AuthProvider({ children }: any) {
     userLoaded,
     isLoggedIn, // Expose the isLoggedIn flag in the context
     kickOut,
+    logout,
   };
 
   return (
