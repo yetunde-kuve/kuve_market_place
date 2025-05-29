@@ -19,6 +19,12 @@ import PopularProductCardSkeleton from "@/components/skeleton/popularProduct/pop
 import TrendingProductCardSkeleton from "@/components/skeleton/trendingProduct/trending.skeleton";
 import FeaturedProductSkeleton from "@/components/skeleton/featureProduct/featureProduct.skeleton";
 import UnusedItemSkeleton from "@/components/skeleton/unusedItem/unusedItem.skeleton";
+import CartProductHoverCard from "@/features/cart/component/CartProductHoverCard.component";
+import CheckOutButton from "@/features/cart/component/checkOutButton.component";
+import ViewCartOutlineButton from "@/features/cart/component/viewCart.component";
+import EmptyCartWidget from "@/features/cart/component/emptyCart.component";
+import ContinueButton from "@/features/cart/component/continueButton.component";
+import CartDropdown from "@/features/cart/component/cartHover.component";
 
 export default function Page() {
   const { apiCaller } = useUtils();
@@ -81,6 +87,12 @@ export default function Page() {
   };
   return (
     <div className="p-8 space-y-8">
+      <CartDropdown />
+      <EmptyCartWidget />
+      <ContinueButton />
+      <CheckOutButton />
+      <ViewCartOutlineButton />
+      {/* <CartProductHoverCard /> */}
       <button onClick={handleAction}>Perform Action</button>
       <h1 className="mb-6 text-2xl font-bold">Button Component</h1>
 
