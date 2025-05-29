@@ -56,14 +56,10 @@ const SignUpForm = () => {
   const [showActivityField, setShowActivityField] = useState<boolean>(true);
   const activityParam = searchParams.get("activity");
   const { apiCaller } = useUtils();
-  const [status, setStatus] = useState(false);
-  const [openMessage, setOpenMessage] = useState(false);
-  const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
   const toast = useToast();
   const [interests, setInterests] = useState<UserInterest[]>([]);
   let baseUrl = process.env.NEXT_PUBLIC_BASED_URL;
-  const id = activityParam ===  'sell' ? interests[1]?.id : interests[0]?.id
   // Initialize react-hook-form
   const {
     control,
