@@ -30,7 +30,7 @@ export default function WishListDropdown() {
         onMouseOver={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
         onClick={handleToggle}
-        className="relative p-2 text-xl"
+        className="relative p-2 text-xl h-[40px] w-[40px]"
       >
         <img src="/img/heart.svg" alt="heart" className="h-[23px] w-[23px]" />
         {items.length > 0 && (

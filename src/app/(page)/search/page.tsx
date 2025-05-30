@@ -27,7 +27,7 @@ function SearchResult() {
           </div>
           <SearchStoreFontFeature />
         </div>
-        <div className="mt-[42px] md:mt-[61px]">
+        <div className="mt-[32px] md:mt-[31px]">
           <ProductSearcView />
         </div>
       </div>

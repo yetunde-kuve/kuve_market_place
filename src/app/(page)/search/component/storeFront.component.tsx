@@ -1,3 +1,4 @@
+import { truncateText } from "@/utils/app.utils";
 import Image from "next/image";
 
 interface SearchStoreFrontprop {
@@ -8,7 +9,7 @@ interface SearchStoreFrontprop {
 }
 export default function SearchStoreFront({ img, name, address, isVerified }: SearchStoreFrontprop) {
   return (
-    <div className="w-full rounded-[24px] p-4 flex items-center gap-[12px] bg-white">
+    <div className="w-full rounded-[18px] p-2 flex items-center gap-[12px] bg-white">
       <div className="relative h-[56px] w-[56px] flex justify-center items-center">
         {isVerified && (
           <div className="h-[24px] top-[-3px] right-[-3px] absolute z-40 bg-white w-[24px] rounded-full border border-primary flex justify-center items-center text-primary text-[17px]">
@@ -22,7 +23,7 @@ export default function SearchStoreFront({ img, name, address, isVerified }: Sea
 
       <div>
         <p className="text-[16px] font-[700]  text-#060619]">{name}</p>
-        <p className="text-[14px] font-[400] text-[#44445F]">{address}</p>
+        <p className="text-[14px] font-[400] text-[#44445F]">{truncateText(address, 20)}</p>
       </div>
     </div>
   );
