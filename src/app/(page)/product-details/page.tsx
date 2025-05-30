@@ -38,9 +38,10 @@ const Page = () => {
             'Fade-resistant print',
         ],
         shippingInfo: {
-            freeShipping: true,
-            estimatedDays: '3-5 business days',
-            returnPolicy: '30-day return policy',
+            courier: '2 - 4 days, free shipping',
+            localShipping: 'up to one week, $19.00',
+            upsGroundShipping: '4 - 6 days, $29.00',
+            unishopGlobalExport: '3 - 4 days, $39.00'
         },
         vendor: {
             id: '1',
@@ -72,24 +73,31 @@ const Page = () => {
 
     const sampleRelatedProducts: RelatedProduct[] = [
         {
-            id: '2',
+            id: '1',
             name: 'Classic Cotton Tee',
             price: 180,
-            image: '/api/placeholder/300/300',
+            image: '/img/shoe.png',
+            vendor: 'Fashion Co.',
+        },
+        {
+            id: '2',
+            name: 'Vintage Logo Shirt',
+            price: 220,
+            image: '/img/shoe.png',
             vendor: 'Fashion Co.',
         },
         {
             id: '3',
-            name: 'Vintage Logo Shirt',
-            price: 220,
-            image: '/api/placeholder/300/300',
+            name: 'Premium Polo',
+            price: 350,
+            image: '/img/shoe.png',
             vendor: 'Fashion Co.',
         },
         {
             id: '4',
             name: 'Premium Polo',
             price: 350,
-            image: '/api/placeholder/300/300',
+            image: '/img/shoe.png',
             vendor: 'Fashion Co.',
         },
     ];

@@ -23,7 +23,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPr
 
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                    <span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">${price}</span>
+                    <span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>
                     {originalPrice && (
                         <>
                             <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">${originalPrice}</span>

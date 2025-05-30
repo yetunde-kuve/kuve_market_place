@@ -5,17 +5,11 @@ import {RelatedProduct, RelatedProducts} from '../component/RelatedProducts';
 import {ProductGallery} from "@/app/(page)/product-details/component/ProductGallery";
 import { ProductInfo } from '../component/ProductInfo';
 import {AddToCartButton} from "@/app/(page)/product-details/component/AddToCartButton";
-import { ProductDetails } from '../component/ProductDetails';
+import { ProductDetails, ShippingInfo } from '../component/ProductDetails';
 import {ReviewsList} from "@/app/(page)/product-details/component/ReviewList";
 import {QuantitySelector} from "@/app/(page)/product-details/component/QuantitySelector";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
 import {Copy} from "lucide-react";
-
-export interface ShippingInfo {
-    freeShipping: boolean;
-    estimatedDays: string;
-    returnPolicy: string;
-}
 
 export interface Vendor {
     id: string;

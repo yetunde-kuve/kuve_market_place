@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Divider } from "@mui/material";
+import SerachFilterDropdown from "./component/filterIcon.component";
 
 const mockSuggestions = [
   "Bread",
@@ -50,7 +51,9 @@ export default function SearchBar() {
         {noMatch ? (
           <i className="ri-error-warning-line text-red-500 text-[18px] absolute right-[12px] top-1/2 -translate-y-1/2" />
         ) : (
-          <i className="ri-list-unordered text-primary text-[18px] absolute right-[12px] top-1/2 -translate-y-1/2"></i>
+          <div className="  text-primary text-[18px] absolute right-[12px] top-1/2 -translate-y-1/2">
+            <SerachFilterDropdown />
+          </div>
         )}
         <input
           type="text"
