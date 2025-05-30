@@ -805,7 +805,9 @@ export const formatNaira = (amount: number): string => {
     currency: "NGN",
   }).format(amount);
 };
-
+export const truncateText = (text: string, maxLength: number) => {
+  return text.length > maxLength ? `${text.slice(0, maxLength)}...` : text;
+};
 export function formatNumber(n: any) {
   // format number 1000000 to 1,234,567
   return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",");

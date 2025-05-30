@@ -29,7 +29,7 @@ export default function CartDropdown() {
         onMouseOver={() => setOpen(true)}
         onMouseLeave={() => setOpen(false)}
         onClick={handleToggle}
-        className="relative p-2 text-xl"
+        className="relative p-2 text-xl h-[40px] w-[40px]"
       >
         <svg
           width="25"
@@ -71,9 +71,9 @@ export default function CartDropdown() {
       >
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
-            <Paper className=" md:mx-0 m-auto w-screen sm:w-[320px] md:w-[376px] lg:w-[464px] max-h-[70vh] rounded-xl shadow-lg overflow-hidden">
+            <Paper className=" md:mx-0 m-auto w-screen sm:w-[320px] md:w-[376px] lg:w-[464px] max-h-[90vh] rounded-xl shadow-lg overflow-hidden">
               <ClickAwayListener onClickAway={handleClose}>
-                <div className="flex flex-col h-[70vh] sm:h-[464px] md:h-[464px] ">
+                <div className="flex flex-col h-[80vh] sm:h-[464px] md:h-[464px] ">
                   {/* Sticky Header */}
                   {cart.length > 0 && (
                     <div className="sticky top-0 z-10 px-[24px] py-3 bg-white border-b">

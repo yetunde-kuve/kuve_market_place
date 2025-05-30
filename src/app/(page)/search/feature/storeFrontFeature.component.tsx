@@ -12,7 +12,7 @@ export default function SearchStoreFontFeature() {
   const visibleProducts = isTablet ? products.slice(0, 3) : products;
 
   return (
-    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-[10px] md:gap-[20px] lg:gap-[36px]">
+    <div className="grid lg:grid-cols-4 md:grid-cols-3 grid-cols-1 gap-[10px] md:gap-[20px] lg:gap-[16px]">
       {visibleProducts.map((_, index) => (
         <SearchStoreFront
           key={index}
