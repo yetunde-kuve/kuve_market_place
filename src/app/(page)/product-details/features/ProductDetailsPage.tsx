@@ -240,11 +240,6 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                 />
             </div>
 
-            {/* Reviews Section */}
-            <div className="mt-16">
-                <ReviewsList reviews={reviews} />
-            </div>
-
             {/* Related Products */}
             <div className="mt-16">
                 <RelatedProducts
