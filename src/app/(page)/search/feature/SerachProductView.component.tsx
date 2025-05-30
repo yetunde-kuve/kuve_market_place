@@ -14,6 +14,7 @@ import PaginationComponent from "../component/paginationButton.component";
 import RelatedProduct from "../component/relatedProduct.component";
 import RecentlyViewdProduct from "../component/recentlyViewed.component";
 import TabletBannner from "../component/tabletBanner.component";
+import ProductRequestBanner from "../component/requestProduct.component";
 
 export default function ProductSearcView() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -59,6 +60,10 @@ export default function ProductSearcView() {
           itemsPerPage={itemsPerPage}
           onItemsPerPageChange={setItemsPerPage}
         />
+        <div className="py-4">
+          <ProductRequestBanner />
+        </div>
+
         <div className="mb-6 md:hidden">
           <SearchProductBanner />
         </div>
