@@ -3,7 +3,7 @@ import { Search } from "lucide-react"; // or use your own search icon
 
 export default function ProductRequestBanner() {
   return (
-    <div className="flex flex-col items-center justify-between gap-4 px-6 py-4 bg-white shadow-sm rounded-xl md:rounded-full sm:flex-row sm:py-5 sm:gap-6">
+    <div className="flex flex-col items-center justify-between gap-4 px-6 py-4 bg-white border shadow-sm shadow-xl border-slate-200 rounded-xl md:rounded-full sm:flex-row sm:py-5 sm:gap-6">
       {/* Left section */}
       <div className="flex items-start flex-1 gap-3 sm:items-center sm:gap-4">
         <div className="flex-shrink-0 p-2 bg-white border border-gray-200 rounded-full">

@@ -18,6 +18,7 @@ export function useAuth(): any {
 export function AuthProvider({ children }: any) {
   const { showAccessDialog } = useUtils();
   const pathname = usePathname();
+
   const router = useRouter();
   const { apiCaller } = useUtils();
   const { setCachedHomeData } = useCached();
@@ -77,6 +78,7 @@ export function AuthProvider({ children }: any) {
 
   async function logout() {
     localStorage.removeItem("token");
+
     setIsLoggedIn(false); // Update isLoggedIn on logout
   }
 
