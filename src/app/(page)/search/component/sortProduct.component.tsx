@@ -23,7 +23,10 @@ export default function SearchSortProduct() {
       )}
 
       <button
-        onClick={() => setOpenMobileFilter(true)}
+        onClick={() => {
+          console.log("can open");
+          setOpenMobileFilter(true);
+        }}
         className="h-[32px] w-[32px] lg:hidden rounded-full bg-primary text-[13px] text-white flex justify-center items-center"
       >
         <i className="ri-filter-3-fill"></i>

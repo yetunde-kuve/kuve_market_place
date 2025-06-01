@@ -14,14 +14,14 @@ interface FilterResponsiveDrawerprop {
 }
 export default function FilterResponsiveDrawer({ open, onClose }: FilterResponsiveDrawerprop) {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
-  const isTablet = useMediaQuery(theme.breakpoints.between("sm", "md"));
+  const isMobile = useMediaQuery("(max-width:599px)");
+  const isTablet = useMediaQuery("(min-width:600px) and (max-width:1024px)");
 
   if (!isMobile && !isTablet) return null; // Hide on desktop
 
   return (
     <Drawer
-      anchor="left"
+      anchor="right"
       open={open}
       onClose={onClose}
       PaperProps={{
