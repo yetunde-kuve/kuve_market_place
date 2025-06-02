@@ -108,7 +108,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-8">
                 <button
                     className="text-black font-medium px-8 py-3"
                 >

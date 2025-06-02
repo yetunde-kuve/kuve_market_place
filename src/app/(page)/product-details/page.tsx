@@ -16,6 +16,8 @@ const Page = () => {
             '/img/t-shirt.png',
             '/img/t-shirt-back.png',
             '/img/t-shirt-front.png',
+            '/img/t-shirt-front.png',
+            '/img/t-shirt-front.png',
         ],
         colors: [
             { id: '1', name: 'Olive Green', value: '#6B7280' },
@@ -39,9 +41,9 @@ const Page = () => {
         ],
         shippingInfo: {
             courier: '2 - 4 days, free shipping',
-            localShipping: 'up to one week, $19.00',
-            upsGroundShipping: '4 - 6 days, $29.00',
-            unishopGlobalExport: '3 - 4 days, $39.00'
+            localShipping: 'up to one week, ₦19.00',
+            upsGroundShipping: '4 - 6 days, ₦29.00',
+            unishopGlobalExport: '3 - 4 days, ₦39.00'
         },
         vendor: {
             id: '1',
