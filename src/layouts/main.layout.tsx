@@ -11,6 +11,7 @@ import AppLogout from "@/services/logoutinactive/logoutInactive.service";
 import ThemeProvider from "@/store/themeProvider/themeProvider.provider";
 import { ToastProvider } from "@/context/toast.context";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import WishlistModal from "@/features/wishList/component/addtoWishlist.component";
 
 type Props = {
   children: ReactNode;
