@@ -25,6 +25,7 @@ import ViewCartOutlineButton from "@/features/cart/component/viewCart.component"
 import EmptyCartWidget from "@/features/cart/component/emptyCart.component";
 import ContinueButton from "@/features/cart/component/continueButton.component";
 import CartDropdown from "@/features/cart/component/cartHover.component";
+import ProductNotFound from "../search/component/productNotFound.component";
 
 export default function Page() {
   const { apiCaller } = useUtils();
@@ -87,6 +88,7 @@ export default function Page() {
   };
   return (
     <div className="p-8 space-y-8">
+      <ProductNotFound />
       <CartDropdown />
       <EmptyCartWidget />
       <ContinueButton />
