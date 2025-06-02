@@ -275,7 +275,28 @@ export default function NavBar() {
                 </button>
               </div>
               <div className="flex items-center gap-2">
-                <WishListDropdown />
+                {isLoggedIn ? (
+                  <WishListDropdown />
+                ) : (
+                  <svg
+                    className="cursor-pointer"
+                    onClick={() => router.push("/auth/login")}
+                    width="35"
+                    height="36"
+                    viewBox="0 0 35 36"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M11.75 8.10254C8.57485 8.10254 6 10.712 6 13.9314C6 16.5303 7.00625 22.6984 16.9112 28.9335C17.0886 29.0441 17.2923 29.1025 17.5 29.1025C17.7077 29.1025 17.9114 29.0441 18.0888 28.9335C27.9937 22.6984 29 16.5303 29 13.9314C29 10.712 26.4251 8.10254 23.25 8.10254C20.0748 8.10254 17.5 11.6352 17.5 11.6352C17.5 11.6352 14.9251 8.10254 11.75 8.10254Z"
+                      stroke="#000222"
+                      stroke-width="1.5"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    />
+                  </svg>
+                )}
+
                 <CartDropdown />
                 <button className="h-[43px] text-text-secondary text-[23px] w-[43px] flex justify-center items-center">
                   <svg
