@@ -22,7 +22,7 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({colors, selectedCol
                     <button
                         key={color.id}
                         onClick={() => onColorChange(color.id)}
-                        className={`w-8 h-8 rounded-full border-2 transition-all ${
+                        className={`w-[27.94px] h-[27.94px] xl:w-[37px] xl:h-[37px] rounded-full border-2 transition-all ${
                             selectedColor === color.id
                                 ? 'border-gray-900 ring-2 ring-gray-200'
                                 : 'border-gray-300 hover:border-gray-400'

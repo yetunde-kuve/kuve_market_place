@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+
+import React, {useState} from 'react';
 import StoreLogo from "../../../../../public/svg/sStoreLogo.svg";
 import SearchStoreFront from "@/app/(page)/search/component/storeFront.component";
 import Image from "next/image";
@@ -26,7 +28,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPr
                     <span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>
                     {originalPrice && (
                         <>
-                            <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">${originalPrice}</span>
+                            <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">₦{originalPrice}</span>
                             <span className="bg-red-100 text-[#FF3333] text-sm xl:text-[16px] text-[12.08px] font-medium px-3 py-1 rounded-full">
                 -{discount}%
               </span>
