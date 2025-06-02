@@ -14,6 +14,7 @@ import PaginationComponent from "../component/paginationButton.component";
 import RelatedProduct from "../component/relatedProduct.component";
 import RecentlyViewdProduct from "../component/recentlyViewed.component";
 import TabletBannner from "../component/tabletBanner.component";
+import ProductRequestBanner from "../component/requestProduct.component";
 
 export default function ProductSearcView() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -22,6 +23,11 @@ export default function ProductSearcView() {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   return (
     <div className="lg:flex lg:gap-6">
+      {/* <div className="flex top-[50%] justify-center mb-4 md:mb-0 md:absolute md:z-50 md:h-screen">
+        <div className="md:w-[100%] lg:w-[65%] w-full">
+          <ProductRequestBanner />
+        </div>
+      </div> */}
       {/* Filter Sidebar: hidden on tablets and smaller */}
       <aside className="hidden lg:block lg:w-1/4">
         <div className="p-4 space-y-4 bg-white ">
@@ -59,6 +65,7 @@ export default function ProductSearcView() {
           itemsPerPage={itemsPerPage}
           onItemsPerPageChange={setItemsPerPage}
         />
+
         <div className="mb-6 md:hidden">
           <SearchProductBanner />
         </div>
