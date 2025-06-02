@@ -124,7 +124,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                 </div>
 
                 {/* Product Information */}
-                <div className="xl:space-y-6 md:space-y-2">
+                <div className="xl:space-y-6 md:space-y-2 space-y-4">
                     <ProductInfo
                         name={product.name}
                         price={product.price}
@@ -140,7 +140,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
 
 
                     {/* Product Options */}
-                    <div className="xl:space-y-6 md:space-y-2">
+                    <div className="xl:space-y-6 md:space-y-2 space-y-3">
                         {product.colors.length > 0 && (
                             <ColorSelector
                                 colors={product.colors}
@@ -178,7 +178,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="xl:space-y-3 md:space-y-2">
+                    <div className="xl:space-y-3 md:space-y-2 space-y-3">
                         <div className="flex gap-3">
                             <button className="flex-1 border-[0.76px] border-[#000222] hover:border-gray-400 text-[#000222] md:text-[12.19px] text-[12px] font-medium py-3 px-3 rounded-full transition-colors">
                                 Make an offer
