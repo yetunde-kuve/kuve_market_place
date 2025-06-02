@@ -40,16 +40,16 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
             <div className="
                 grid grid-cols-2 gap-4
                 md:flex md:gap-4 md:overflow-x-auto md:scrollbar-none md:whitespace-nowrap md:pb-4
-                lg:grid lg:grid-cols-4 lg:pb-0
+                lg:grid lg:grid-cols-4 lg:pb-0 scrollbar-hide
             ">
                 {products.map((product) => (
                     <div key={product.id} className="
-                        w-full bg-white rounded-2xl p-2
+                        w-full bg-white rounded-[30px] p-2
                         md:flex-shrink-0 md:w-64 md:p-4
                         lg:w-full lg:p-4
                     ">
                         <div className="
-                            relative w-full rounded-xl
+                            relative w-full rounded-[15px]
                             h-40 md:h-48 lg:h-52
                         ">
                             <Image
@@ -57,6 +57,11 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
                                 alt={product.name}
                                 layout="fill"
                                 objectFit="cover"
+                                className="rounded-[15px]"
+                                onClick={() => onProductClick(product.id)}
+                                title={product.name}
+                                loading="lazy"
+                                quality={100}
                             />
 
                             {/* Verified Badge */}
@@ -108,9 +113,9 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
                     </div>
                 ))}
             </div>
-            <div className="flex justify-center">
+            <div className="flex justify-center mt-4">
                 <button
-                    className="text-black font-medium px-8 py-3"
+                    className="text-black font-medium px-8"
                 >
                     View All
                 </button>

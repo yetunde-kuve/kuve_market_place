@@ -10,6 +10,8 @@ import {ReviewsList} from "@/app/(page)/product-details/component/ReviewList";
 import {QuantitySelector} from "@/app/(page)/product-details/component/QuantitySelector";
 import {FaHeart, FaRegHeart} from "react-icons/fa";
 import {Copy} from "lucide-react";
+import {MessageIcon} from "@/app/(page)/product-details/component/MessageIcon";
+import ReportProductModal from "@/app/(page)/product-details/component/ReportProductModal";
 
 export interface Vendor {
     id: string;
@@ -63,6 +65,15 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
     const [selectedSize, setSelectedSize] = useState('');
     const [quantity, setQuantity] = useState(1);
     const [isAddingToCart, setIsAddingToCart] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
 
     const handleAddToCart = async () => {
         if (!selectedSize) {
@@ -106,14 +117,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                 <span className="text-gray-900">{product.name}</span>
             </nav>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+            <div className="grid grid-cols-1 xl:grid-cols-2 md:grid-cols-2 gap-8 md:gap-12 lg:gap-12 xl:gap-6">
                 {/* Product Gallery */}
-                <div className="order-1">
+                <div>
                     <ProductGallery images={product.images} productName={product.name} />
                 </div>
 
                 {/* Product Information */}
-                <div className="order-2 space-y-6">
+                <div className="xl:space-y-6 md:space-y-2 space-y-4">
                     <ProductInfo
                         name={product.name}
                         price={product.price}
@@ -129,7 +140,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
 
 
                     {/* Product Options */}
-                    <div className="space-y-6">
+                    <div className="xl:space-y-6 md:space-y-2 space-y-3">
                         {product.colors.length > 0 && (
                             <ColorSelector
                                 colors={product.colors}
@@ -167,7 +178,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                     </div>
 
                     {/* Action Buttons */}
-                    <div className="space-y-3">
+                    <div className="xl:space-y-3 md:space-y-2 space-y-3">
                         <div className="flex gap-3">
                             <button className="flex-1 border-[0.76px] border-[#000222] hover:border-gray-400 text-[#000222] md:text-[12.19px] text-[12px] font-medium py-3 px-3 rounded-full transition-colors">
                                 Make an offer
@@ -222,7 +233,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                         </div>
                     </div>
 
-                    <div className="flex gap-1 items-center">
+                    <div className="flex gap-1 items-center cursor-pointer" onClick={openModal}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <path d="M5 21V4H14L14.4 6H20V16H13L12.6 14H7V21H5Z" fill="#FF0000"/>
                         </svg>
@@ -247,6 +258,12 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({product, re
                     onProductClick={onProductClick}
                 />
             </div>
+
+            <div>
+                <MessageIcon />
+            </div>
+            
+            <ReportProductModal isOpen={isModalOpen} onClose={closeModal} />
         </div>
     );
 };

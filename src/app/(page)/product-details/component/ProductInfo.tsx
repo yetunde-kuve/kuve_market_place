@@ -1,4 +1,6 @@
-import React from 'react';
+'use client'
+
+import React, {useState} from 'react';
 import StoreLogo from "../../../../../public/svg/sStoreLogo.svg";
 import SearchStoreFront from "@/app/(page)/search/component/storeFront.component";
 import Image from "next/image";
@@ -26,7 +28,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPr
                     <span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>
                     {originalPrice && (
                         <>
-                            <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">${originalPrice}</span>
+                            <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">₦{originalPrice}</span>
                             <span className="bg-red-100 text-[#FF3333] text-sm xl:text-[16px] text-[12.08px] font-medium px-3 py-1 rounded-full">
                 -{discount}%
               </span>
@@ -38,7 +40,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPr
                 <p className="xl:text-[16px] text-[12.08px] font-normal text-gray-500">{description}</p>
             </div>
             <div>
-                <div className="w-[167.98px] rounded-[17.68px] flex items-center gap-[10px] bg-white border-[0.89px] border-[#D1D5DB]">
+                <div className="w-[160.98px] rounded-[17.68px] flex items-center gap-[10px] bg-white border-[0.89px] border-[#D1D5DB]">
                     <div className="relative h-[56px] w-[56px] flex justify-center items-center">
                         {isVerified && (
                             <div className="h-[14.48px] top-[5px] right-[6px] absolute z-20 bg-white w-[14.68px] rounded-full border border-primary flex justify-center items-center text-primary text-[17px]">
