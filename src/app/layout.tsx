@@ -6,6 +6,8 @@ import Layouts from "../layouts/main.layout";
 import "react-toastify/dist/ReactToastify.css";
 import "remixicon/fonts/remixicon.css";
 import Head from "next/head";
+import WishlistModal from "@/features/wishList/component/addtoWishlist.component";
+
 export const dynamic = "force-dynamic";
 const poppins = Poppins({
   subsets: ["latin"],
@@ -37,7 +39,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.className} suppressHydrationWarning={true}>
-        <Layouts>{children}</Layouts>
+        <Layouts>
+          <WishlistModal />
+          {children}
+        </Layouts>
       </body>
     </html>
   );
