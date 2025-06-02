@@ -139,7 +139,7 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({ images, productN
           {images.length > 3 && (
             <button
               onClick={() => scrollThumbnails("right")}
-              className="absolute xl:right-20 right-0 md:right-2 top-1/2 -translate-y-1/2 z-10 border border-white bg-[#FF9D98] hover:bg-[#FF8A84] p-2 rounded-full shadow-md transition-all duration-200"
+              className="absolute right-0 top-1/2 -translate-y-1/2 z-10 border border-white bg-[#FF9D98] hover:bg-[#FF8A84] p-2 rounded-full shadow-md transition-all duration-200"
               aria-label="Scroll thumbnails right"
             >
               <ArrowRight className="w-[18.12px] h-[18.12px] text-white" />

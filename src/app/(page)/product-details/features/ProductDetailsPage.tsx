@@ -126,7 +126,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         <span className="text-gray-900">{product.name}</span>
       </nav>
 
-      <div className="grid grid-cols-1 gap-8 xl:grid-cols-2 md:grid-cols-2 md:gap-12 lg:gap-12 xl:gap-6">
+      <div className="grid grid-cols-1 gap-8 xl:grid-cols-2 md:grid-cols-2 md:gap-12 lg:gap-12 xl:gap-12">
         {/* Product Gallery */}
         <div>
           <ProductGallery images={product.images} productName={product.name} />
