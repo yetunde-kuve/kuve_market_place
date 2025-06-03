@@ -47,14 +47,14 @@ export const EmptyWishlist: React.FC<{ onGoBack: () => void; onGoHome: () => voi
             <div className="flex gap-4">
                 <button
                     onClick={onGoBack}
-                    className="px-6 py-3 bg-[#FF9D98] text-white rounded-[6px] hover:bg-[#FF9D98] flex items-center gap-2"
+                    className="px-4 py-2 md:px-6 md:py-3 text-[12.7px] md:text-[14px] bg-[#FF9D98] text-white rounded-[6px] hover:bg-[#FF9D98] flex items-center gap-2"
                 >
                     <ArrowLeft className="w-4 h-4" />
                     GO BACK
                 </button>
                 <button
                     onClick={onGoHome}
-                    className="px-6 py-3 border border-[#FFE7D6] text-[#FF9D98] rounded-[6px] hover:bg-gray-50 flex items-center gap-2"
+                    className="px-4 py-2 md:px-6 md:py-3 text-[12.7px] md:text-[14px] border border-[#FFE7D6] text-[#FF9D98] rounded-[6px] hover:bg-gray-50 flex items-center gap-2"
                 >
                     <Home className="w-4 h-4" />
                     GO TO HOME

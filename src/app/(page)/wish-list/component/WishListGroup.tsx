@@ -27,7 +27,7 @@ export const WishlistGroup: React.FC<{
     return (
         <div className="mb-12">
             <div className="flex items-center justify-between mb-4">
-                <h2 className="text-[24px] font-medium text-[#000000]">
+                <h2 className="text-[16.49] md:text-[24px] font-medium text-[#000000]">
                     {group.name}
                 </h2>
                 <div className="flex items-center gap-2">
@@ -35,14 +35,14 @@ export const WishlistGroup: React.FC<{
                         onClick={() => onShareList(group.id)}
                         className="flex items-center gap-2 text-sm text-[#000222] hover:text-gray-800"
                     >
-                        <Pencil className="w-[24px] h-[24px]" />
+                        <Pencil className="w-[16.49px] h-[16.49px] md:w-[24px] md:h-[24px]" />
                     </button>
                     <button
                         onClick={() => onShareList(group.id)}
                         className="flex items-center gap-2 text-sm text-[#000222] hover:text-gray-800"
                     >
-                        <Share2 className="w-[18px] h-[20px]" />
-                        <span className="text-[20px] text-[#828294] font-medium">Share list</span>
+                        <Share2 className="w-[12.37px] h-[13.74px] md:w-[18px] md:h-[20px]" />
+                        <span className="text-[13.19px] md:text-[20px] text-[#828294] font-medium">Share list</span>
                     </button>
                 </div>
 
@@ -80,7 +80,7 @@ export const WishlistGroup: React.FC<{
                     </tbody>
                 </table>
             </div>
-            <div className="md:hidden block grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="md:hidden block grid grid-cols-2 gap-4">
                 {group.items.map((item) => (
                     <WishlistCard
                         key={item.id}

@@ -30,7 +30,7 @@ const sampleWishlistGroups: WishlistGroup[] = [
                 id: '1',
                 name: 'Bose Sport Earbuds - Wireless Earphones - Bluetooth in Ear',
                 price: 19999,
-                image: '/img/wishlistImg.png',
+                image: '/img/shoe.png',
                 vendor: 'Ikeja',
                 vendorLogo: '/img/vendor.png',
                 stockStatus: 'IN STOCK'
@@ -85,7 +85,7 @@ const curatedProducts: CuratedProduct[] = [
         id: '2',
         name: 'Red & White Sneakers',
         price: 150000.00,
-        image: '/api/placeholder/200/200',
+        image: '/img/shoe.png',
         condition: 'Used',
         isVerified: true
     },
@@ -93,7 +93,7 @@ const curatedProducts: CuratedProduct[] = [
         id: '3',
         name: 'Orange and White Sneakers',
         price: 150000.00,
-        image: '/api/placeholder/200/200',
+        image: '/img/shoe.png',
         condition: 'Brand New',
         isVerified: true
     },
@@ -101,7 +101,7 @@ const curatedProducts: CuratedProduct[] = [
         id: '4',
         name: 'Orange and White Sneakers',
         price: 150000.00,
-        image: '/api/placeholder/200/200',
+        image: '/img/shoe.png',
         condition: 'Brand New',
         isVerified: true
     }
@@ -141,7 +141,7 @@ const WishlistPage: React.FC = () => {
 
     return (
         <div className="min-h-screen">
-            <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="w-full md:max-w-8xl md:mx-auto mx-1 md:px-8">
                  Demo Toggle Button
                 <div className="mb-4">
                     <button
@@ -161,11 +161,11 @@ const WishlistPage: React.FC = () => {
                 ) : (
                     <div>
                         <div className="mb-8">
-                            <h1 className="text-[32px] font-medium text-[#000000]">
+                            <h1 className="text-[24px] md:text-[32px] font-medium text-[#000000]">
                                 Wishlist
                             </h1>
                             {!isEmpty && (
-                                <span className="text-[20px] font-medium text-[#505050]">
+                                <span className="text-[16px] md:text-[20px] font-medium text-[#505050]">
                              {totalItems} items
                         </span>
                             )}

@@ -47,9 +47,9 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({description, feat
             {/* Tab Content */}
             <div className="mt-6">
                 {activeTab === 'details' && (
-                    <div className="grid grid-cols-1 gap-4 mb-12 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 lg:gap-4 xl:gap-2">
+                    <div className="grid grid-cols-1 gap-4 mb-12 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 md:gap-12">
                         <div>
-                            <p className="text-[#191C1F] text-[16px] font-semibold leading-relaxed pb-2 w-full md:w-[576px] ">Description</p>
+                            <p className="text-[#191C1F] text-[16px] font-semibold leading-relaxed pb-2 w-full">Description</p>
                             <p className="text-gray-700 leading-relaxed">{description}</p>
                         </div>
                         <div>

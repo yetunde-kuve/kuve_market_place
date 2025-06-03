@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState } from 'react';
-import {Heart, Share2, Plus, ArrowLeft, Home, ShoppingCart, CircleX} from 'lucide-react';
+import React from 'react';
+import {ShoppingCart, CircleX} from 'lucide-react';
 import Image from 'next/image';
 
 // Types
@@ -51,7 +51,7 @@ export const WishlistItemRow: React.FC<{ item: WishlistItem; onRemove: (id: stri
                 </span>
             </td>
             <td className="py-4 px-4">
-                <div className="flex items-center p-2 gap-2 w-[170.61px] rounded-[20.39px] border border-[#D1D5DB]">
+                <div className="flex items-center p-1 gap-2 w-[170.61px] rounded-[20.39px] border border-[#D1D5DB]">
                     <div className="flex items-center justify-center">
                         <Image src={item.vendorLogo} alt={item.vendor} width={47.24} height={47.24} className="rounded-full" />
                     </div>
@@ -78,11 +78,6 @@ export const WishlistItemRow: React.FC<{ item: WishlistItem; onRemove: (id: stri
                                 ? 'text-[#FF9D98] hover:bg-orange-600'
                                 : 'text-[#D1D5DB] cursor-not-allowed'
                         }`} />
-                        {/*<ShoppingCart  className={`px-4 py-2 w-[21.05px] h-[21.05px] ${*/}
-                        {/*    item.stockStatus === 'IN STOCK'*/}
-                        {/*        ? 'text-[#FF9D98] hover:bg-orange-600'*/}
-                        {/*        : 'text-[#D1D5DB] cursor-not-allowed'*/}
-                        {/*}`} />*/}
                     </div>
 
                     <button

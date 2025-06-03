@@ -3,6 +3,7 @@
 import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { ArrowLeft, ArrowRight, Eye, X } from "lucide-react";
+import { Backdrop } from "@mui/material";
 
 interface ProductGalleryProps {
   images: string[];
@@ -150,56 +151,54 @@ export const ProductGallery: React.FC<ProductGalleryProps> = ({ images, productN
 
       {/* Modal */}
       {showModal && (
-        <div>
-          <div
-            className="fixed inset-0 bg-black-light backdrop-blur-sm z-[9998]"
-            onClick={closeModal}
-          />
-          <div className="fixed inset-0 z-[9999] flex items-center justify-center">
-            {/* Close Button */}
-            <button
-              onClick={closeModal}
-              className="absolute z-10 p-2 transition-colors rounded-full top-2 right-6"
-              aria-label="Close modal"
-            >
-              <X className="w-[30px] h-[30px] md:w-[60px] md:h-[60px] text-white" />
-            </button>
+          <Backdrop sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })} open={showModal}>
+            <div>
+              <div className="fixed inset-0 z-[9999] flex items-center justify-center">
+                {/* Close Button */}
+                <button
+                    onClick={closeModal}
+                    className="absolute z-10 p-2 transition-colors rounded-full top-2 right-6"
+                    aria-label="Close modal"
+                >
+                  <X className="w-[30px] h-[30px] md:w-[60px] md:h-[60px] text-white" />
+                </button>
 
-            {/* Previous Button */}
-            {images.length > 1 && (
-              <button
-                onClick={() => navigateModal("prev")}
-                className="absolute left-2 xl:left-44 md:left-16 top-1/2 -translate-y-1/2 border border-white bg-[#FF9D98] hover:bg-[#FF8A84] md:p-3 p-1 rounded-full transition-colors z-10 shadow-lg"
-                aria-label="Previous image"
-              >
-                <ArrowLeft className="w-[18.12px] h-[18.12px] md:w-[25.49px] md:h-[25.49px]  text-white" />
-              </button>
-            )}
+                {/* Previous Button */}
+                {images.length > 1 && (
+                    <button
+                        onClick={() => navigateModal("prev")}
+                        className="absolute left-2 xl:left-44 md:left-16 top-1/2 -translate-y-1/2 border border-white bg-[#FF9D98] hover:bg-[#FF8A84] md:p-3 p-1 rounded-full transition-colors z-10 shadow-lg"
+                        aria-label="Previous image"
+                    >
+                      <ArrowLeft className="w-[18.12px] h-[18.12px] md:w-[25.49px] md:h-[25.49px]  text-white" />
+                    </button>
+                )}
 
-            {/* Modal Image Container */}
-            <div className="flex items-center justify-center w-full p-16 mt-20 mb-20">
-              <div className="relative w-[300px] h-[332px] md:w-[737px] md:h-[700px] aspect-square">
-                <Image
-                  src={images[modalImageIndex]}
-                  alt={`${productName} ${modalImageIndex + 1}`}
-                  fill
-                  className="rounded-[20px]"
-                />
+                {/* Modal Image Container */}
+                <div className="flex items-center justify-center w-full p-16 mt-20 mb-20">
+                  <div className="relative w-[300px] h-[332px] md:w-[737px] md:h-[700px] aspect-square">
+                    <Image
+                        src={images[modalImageIndex]}
+                        alt={`${productName} ${modalImageIndex + 1}`}
+                        fill
+                        className="rounded-[20px]"
+                    />
+                  </div>
+                </div>
+
+                {/* Next Button */}
+                {images.length > 1 && (
+                    <button
+                        onClick={() => navigateModal("next")}
+                        className="absolute right-2 xl:right-44 md:right-16 top-1/2 -translate-y-1/2 border border-white bg-[#FF9D98] hover:bg-[#FF8A84] md:p-3 p-1 rounded-full transition-colors z-10 shadow-lg"
+                        aria-label="Next image"
+                    >
+                      <ArrowRight className="w-[18.12px] h-[18.12px] md:w-[25.49px] md:h-[25.49px] text-white" />
+                    </button>
+                )}
               </div>
             </div>
-
-            {/* Next Button */}
-            {images.length > 1 && (
-              <button
-                onClick={() => navigateModal("next")}
-                className="absolute right-2 xl:right-44 md:right-16 top-1/2 -translate-y-1/2 border border-white bg-[#FF9D98] hover:bg-[#FF8A84] md:p-3 p-1 rounded-full transition-colors z-10 shadow-lg"
-                aria-label="Next image"
-              >
-                <ArrowRight className="w-[18.12px] h-[18.12px] md:w-[25.49px] md:h-[25.49px] text-white" />
-              </button>
-            )}
-          </div>
-        </div>
+          </Backdrop>
       )}
     </>
   );
