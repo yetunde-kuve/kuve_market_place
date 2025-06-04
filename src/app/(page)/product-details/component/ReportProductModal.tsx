@@ -1,5 +1,6 @@
-import React, {useRef, useState} from "react";
-import {Backdrop, Divider} from "@mui/material";
+import React, {useEffect, useRef, useState} from "react";
+import {Backdrop, Divider, MenuItem, Select} from "@mui/material";
+import {MPHttpUtilNoSecure} from "@/utils/MPHttpNosecure.utils";
 
 interface ModalProps {
     isOpen: boolean;
@@ -12,12 +13,10 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [file, setFile] = useState<File | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [base64Image, setBase64Image] = useState<string | null>(null);
+    const mpHttp = new MPHttpUtilNoSecure();
+    const [reasonsList, setReasonsList] = useState<string[]>([]);
     const handleDivClick = () => {
         fileInputRef.current?.click();
-    };
-    // Handle reason selection
-    const handleReasonChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setReason(e.target.value);
     };
 
     // Handle description change
@@ -49,41 +48,91 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         reader.readAsDataURL(file);
     };
 
-    // Close the modal
-    const handleClose = () => {
-        onClose();
+    const fetchData = async () => {
+        mpHttp.get("v1/Product/ProductReportReason/GetAllProductReportReasons", {}, {}, (result: any, error: any) => {
+            if (error) {
+                console.error("Error fetching users:", error);
+                // Handle the error, e.g., display an error message to the user
+            } else {
+                // const transformedOptions = result?.items?.map((type: any) => ({
+                //     value: type.id,
+                //     label: type.reportReason,
+                // }));
+                setReasonsList(result?.items);
+                console.log("Users fetched successfully:", result);
+            }
+        });
     };
+
+
+    useEffect(() => {
+        fetchData()
+        console.log(reasonsList, "reasonlistttttt")
+    }, []);
 
     return (
         <Backdrop sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })} open={isOpen}>
             <div className="md:w-[500px] w-full px-4 md:px-0">
-                <div className="w-full bg-white rounded-[20px] p-6 md:p-[20px] flex flex-col gap-7 h-[90vh] relative overflow-hidden">
+                <div className="w-full bg-white rounded-[20px] p-6 md:p-[20px] flex flex-col gap-7 xl:h-[90vh] lg:h-[55vh] h-[90vh] relative overflow-hidden">
                     {/* Header */}
-                    <h2 className="text-xl font-bold">Report Product</h2>
+                    <h2 className="text-[20px] text-center font-bold">Report Product</h2>
                     <Divider />
                     {/* Form */}
                     <form className="space-y-4">
                         {/* Select Reason */}
-                        <div>
-                            <label
-                                htmlFor="reason"
-                                className="block text-[16px] font-normal text-[#121212]"
-                            >
-                                Select your reason <span className="text-red-600">*</span>
-                            </label>
-                            <select
-                                id="reason"
-                                value={reason}
-                                onChange={handleReasonChange}
-                                className="mt-1 block w-full py-2 px-3 border border-[#828294] bg-white rounded-[12px] shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-                            >
-                                <option value="">Select option</option>
-                                <option value="reason1">Reason 1</option>
-                                <option value="reason2">Reason 2</option>
-                                <option value="reason3">Reason 3</option>
-                            </select>
-                        </div>
+                        <Select
+                            fullWidth
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                            displayEmpty
+                            MenuProps={{
+                                disablePortal: true,
+                                PaperProps: {
+                                    sx: {
+                                        zIndex: 13000,
+                                    },
+                                },
+                            }}
+                            sx={{
+                                height: "40px",
+                                width: "100%",
+                                borderRadius: "12px", // less rounded
+                                border: "1px solid #828294",
+                                padding: '10px 12px',
+                                fontSize: "14px",
+                                fontWeight: 400,
+                                backgroundColor: "white",
 
+                                // override outline border radius & border
+                                "& .MuiOutlinedInput-notchedOutline": {
+                                    borderRadius: "12px",
+                                    border: "none",
+                                },
+
+                                // override root input border radius if needed
+                                "&.MuiOutlinedInput-root": {
+                                    borderRadius: "12px",
+                                },
+
+                                // select box styles
+                                "& .MuiSelect-select": {
+                                    display: "flex",
+                                    alignItems: "center",
+                                    height: "40px",
+                                },
+
+                                "&:focus-visible": {
+                                    outline: "none",
+                                },
+                            }}
+                        >
+                            <MenuItem value="">Select option</MenuItem>
+                            {reasonsList.map((name:any) => (
+                                <MenuItem key={name.id} value={name.id}>
+                                    {name.reportReason}
+                                </MenuItem>
+                            ))}
+                        </Select>
                         {/* Description */}
                         <div>
                             <label
