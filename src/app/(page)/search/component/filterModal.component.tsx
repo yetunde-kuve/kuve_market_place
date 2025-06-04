@@ -56,14 +56,6 @@ export default function FilterResponsiveDrawer({ open, onClose }: FilterResponsi
         <SaerchTagFilterAccordion />
 
         <SearchProductBanner />
-      </div>
-
-      <div
-        className="fixed bottom-0 left-0 z-10 p-4 bg-white border-t"
-        style={{
-          width: isMobile ? "100%" : "70%",
-        }}
-      >
         <button
           className="w-full mt-6 py-2 rounded-lg bg-[#FF8F8F] text-[#000222] font-[500] hover:opacity-90 transition-all"
           // onClick={() => alert(`Applied tags: ${selectedTags.join(", ")}`)}
@@ -71,6 +63,15 @@ export default function FilterResponsiveDrawer({ open, onClose }: FilterResponsi
           Apply Filter
         </button>
       </div>
+
+      {/* <div
+        className="fixed bottom-0 left-0 z-10 p-4 bg-white border-t"
+        style={{
+          width: isMobile ? "100%" : "70%",
+        }}
+      >
+        
+      </div> */}
     </Drawer>
   );
 }

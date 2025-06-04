@@ -63,7 +63,7 @@ export default function WishListDropdown() {
       >
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
-            <Paper className=" md:mx-0 m-auto w-screen sm:w-[320px] md:w-[376px] lg:w-[464px] max-h-[90vh] rounded-xl shadow-lg overflow-hidden">
+            <Paper className=" md:mx-0 m-auto w-screen  md:w-[376px] lg:w-[376x]  max-h-[90vh] rounded-xl shadow-lg overflow-hidden">
               <ClickAwayListener onClickAway={handleClose}>
                 <div className="flex flex-col h-[80vh] sm:h-[464px] md:h-[464px] ">
                   {/* Sticky Header */}
