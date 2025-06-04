@@ -12,7 +12,7 @@ export const AddToCartButton: React.FC<AddToCartButtonProps> = ({onAddToCart, is
         <button
             onClick={onAddToCart}
             disabled={disabled || isLoading}
-            className={`w-full border-[0.76px] border-[#000222] hover:bg-red-600  disabled:bg-gray-300 text-[#000222] md:text-[12.19px] text-[12px] font-medium py-3 px-3 rounded-full transition-colors ${className}`}
+            className={`w-full border-[0.76px] border-[#000222] hover:bg-[#FF9D98]  text-[#000222] md:text-[12.19px] text-[12px] font-medium py-3 px-3 rounded-full transition-colors ${className}`}
         >
             {isLoading ? 'Adding...' : 'Add to Cart'}
         </button>

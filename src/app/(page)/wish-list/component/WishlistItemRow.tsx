@@ -42,7 +42,7 @@ export const WishlistItemRow: React.FC<{ item: WishlistItem; onRemove: (id: stri
                 {formatPrice(item.price)}
             </td>
             <td className="py-4 px-4">
-                <span className={`text-[14.74px] font-semibold px-2 py-1 rounded ${
+                <span className={`text-[14.74px] font-semibold px-2 py-1 rounded text-wrap ${
                     item.stockStatus === 'IN STOCK'
                         ? ' text-[#2DB224]'
                         : ' text-[#C80003]'
@@ -52,10 +52,10 @@ export const WishlistItemRow: React.FC<{ item: WishlistItem; onRemove: (id: stri
             </td>
             <td className="py-4 px-4">
                 <div className="flex items-center p-1 gap-2 w-[170.61px] rounded-[20.39px] border border-[#D1D5DB]">
-                    <div className="flex items-center justify-center">
+                    <div>
                         <Image src={item.vendorLogo} alt={item.vendor} width={47.24} height={47.24} className="rounded-full" />
                     </div>
-                    <span className="text-sm text-gray-600">{item.vendor}</span>
+                    <span className="text-sm text-gray-600 truncate hover:text-clip">{item.vendor}</span>
                 </div>
             </td>
             <td className="py-4 px-4">
@@ -64,7 +64,7 @@ export const WishlistItemRow: React.FC<{ item: WishlistItem; onRemove: (id: stri
                         <button
                             className={`flex gap-2 items-center px-4 py-2 rounded-full text-sm font-medium ${
                                 item.stockStatus === 'IN STOCK'
-                                    ? 'border border-[#FF9D98] text-[#FF9D98] hover:bg-[#FF9D98]'
+                                    ? 'border border-[#FF9D98] text-[#FF9D98] hover:bg-[#FF9D98] hover:text-white'
                                     : 'border border-[#D1D5DB] text-[#D1D5DB] cursor-not-allowed'
                             }`}
                             disabled={item.stockStatus === 'OUT OF STOCK'}
@@ -75,7 +75,7 @@ export const WishlistItemRow: React.FC<{ item: WishlistItem; onRemove: (id: stri
                     <div className="xl:hidden block">
                         <ShoppingCart className={`${
                             item.stockStatus === 'IN STOCK'
-                                ? 'text-[#FF9D98] hover:bg-orange-600'
+                                ? 'text-[#FF9D98] cursor-pointer'
                                 : 'text-[#D1D5DB] cursor-not-allowed'
                         }`} />
                     </div>

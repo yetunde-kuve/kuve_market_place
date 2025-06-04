@@ -20,7 +20,7 @@ export const WishlistCard: React.FC<{ item: WishlistItem; onRemove: (id: string)
 
     return (
         <div className="bg-white rounded-[20.4px] overflow-hidden p-2">
-            <div className="relative rounded-[15px] h-40 md:h-48 lg:h-52">
+            <div className="relative rounded-[15px] h-[122.41px] md:h-[180px]">
                 <Image
                     src={item.image}
                     alt={item.name}

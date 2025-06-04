@@ -64,7 +64,7 @@ const sampleWishlistGroups: WishlistGroup[] = [
                 name: 'Bose Sport Earbuds - Wireless Earphones - Bluetooth in Ear',
                 price: 19999,
                 image: '/img/wishlistImg.png',
-                vendor: 'Lamborghini',
+                vendor: 'Lamborghiniiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii',
                 vendorLogo: '/img/vendor.png',
                 stockStatus: 'OUT OF STOCK'
             }
@@ -141,17 +141,7 @@ const WishlistPage: React.FC = () => {
 
     return (
         <div className="min-h-screen">
-            <div className="w-full md:max-w-8xl md:mx-auto mx-1 md:px-8">
-                 Demo Toggle Button
-                <div className="mb-4">
-                    <button
-                        onClick={() => setShowEmpty(!showEmpty)}
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg text-sm"
-                    >
-                        Toggle {showEmpty ? 'Populated' : 'Empty'} State
-                    </button>
-                </div>
-
+            <div className="w-full md:max-w-8xl md:mx-auto">
                 {isEmpty ? (
                     <>
                         <EmptyWishlist onGoBack={handleGoBack} onGoHome={handleGoHome} />

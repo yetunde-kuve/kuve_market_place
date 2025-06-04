@@ -54,7 +54,7 @@ export const CuratedProducts: React.FC<{ products: CuratedProduct[] }> = ({ prod
                         md:flex-shrink-0 md:w-64 md:p-4
                         lg:w-full lg:p-4
                     ">
-                        <div className="relative w-full rounded-[15px] h-40 md:h-48 lg:h-52">
+                        <div className="relative w-full rounded-[15px] h-[122.41px] md:h-[180px]">
                             <Image
                                 src={product.image}
                                 alt={product.name}
