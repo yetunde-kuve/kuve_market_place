@@ -3,7 +3,7 @@
 
 import { Avatar } from "@mui/material";
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuth } from "@/context/auth.context";
 import { BsChevronDown } from "react-icons/bs";
@@ -12,6 +12,7 @@ export default function BuyerDashboardLayout({ children }: any) {
   const pathName = usePathname();
   const [isExpanded, setIsExpanded] = useState(false);
   const { login, isLoggedIn, logout } = useAuth();
+  const router = useRouter();
   useEffect(() => {
     // Optional: Add resize or layout logic
   }, []);
@@ -182,7 +183,14 @@ export default function BuyerDashboardLayout({ children }: any) {
               <div className="font-[400] text-[#1C1C1C66] text-[14px]">
                 MY ACCOUNT
               </div>
-              <button className="w-full flex items-center hover:bg-[#C8EAE94D] gap-[12px] rounded-[12px] py-[8px] px-[10px] text-[14px] text-[#1C1C1C] font-[400]">
+              <button
+                style={{
+                  backgroundColor:
+                    "/dashboard/buyer/profile" === pathName ? "#C8EAE94D" : "",
+                }}
+                onClick={() => router.push("/dashboard/buyer/profile")}
+                className="w-full flex items-center hover:bg-[#C8EAE94D] gap-[12px] rounded-[12px] py-[8px] px-[10px] text-[14px] text-[#1C1C1C] font-[400]"
+              >
                 <svg
                   width="18"
                   height="18"
