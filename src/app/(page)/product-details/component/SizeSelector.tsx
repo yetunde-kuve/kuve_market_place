@@ -2,7 +2,7 @@ import React from 'react';
 
 export interface SizeOption {
     id: string;
-    name: string;
+    size: string;
     available: boolean;
 }
 
@@ -27,12 +27,11 @@ export const SizeSelector: React.FC<SizeSelectorProps> = ({sizes, selectedSize, 
                         className={`py-2 px-2 md:px-6 md:text-sm text-[12.08px] font-medium rounded-full border transition-colors ${
                             selectedSize === size.id
                                 ? 'bg-[#FF9D98] text-black'
-                                : size.available
-                                    ? 'bg-[#F0F0F0] hover:border-gray-400 text-gray-500'
-                                    : 'border-gray-200 text-gray-400 cursor-not-allowed line-through'
+                                : 'bg-[#F0F0F0] hover:border-gray-400 text-gray-500'
+                                
                         }`}
                     >
-                        {size.name}
+                        {size.size}
                     </button>
                 ))}
             </div>

@@ -25,7 +25,11 @@ import ViewCartOutlineButton from "@/features/cart/component/viewCart.component"
 import EmptyCartWidget from "@/features/cart/component/emptyCart.component";
 import ContinueButton from "@/features/cart/component/continueButton.component";
 import CartDropdown from "@/features/cart/component/cartHover.component";
+import ProductNotFound from "../search/component/productNotFound.component";
+// import ReportProduct from "../search/component/reportProduct.component"; 
+import dynamic from 'next/dynamic';
 
+const ReportProduct = dynamic(() => import('../search/component/reportProduct.component'), { ssr: false });
 export default function Page() {
   const { apiCaller } = useUtils();
   const http = new HttpUtilNoSecure();
@@ -87,6 +91,10 @@ export default function Page() {
   };
   return (
     <div className="p-8 space-y-8">
+        <div className="min-h-screen bg-gray-50 py-10 px-4 flex items-center justify-center">
+            <ReportProduct />
+        </div>
+      <ProductNotFound />
       <CartDropdown />
       <EmptyCartWidget />
       <ContinueButton />

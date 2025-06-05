@@ -1066,6 +1066,7 @@ export function isLinkRestricted(path: string): boolean {
   if (path.includes("/reset_password/")) return false;
   if (path.includes("/search")) return false;
   if (path.includes("/product-details")) return false;
+  if (path.includes("/wish-list")) return false;
   if (path.includes("/cookie-policy")) return false;
   if (path.includes("/business/onboarding")) return false;
 

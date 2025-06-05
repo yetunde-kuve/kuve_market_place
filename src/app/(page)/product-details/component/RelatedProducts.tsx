@@ -49,9 +49,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
                         lg:w-full lg:p-4
                     ">
                         <div className="
-                            relative w-full rounded-[15px]
-                            h-40 md:h-48 lg:h-52
-                        ">
+                            relative w-full rounded-[15px] h-[122.41px] md:h-[180px]">
                             <Image
                                 src={product.image}
                                 alt={product.name}
@@ -97,7 +95,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
                                 <p className="
                                     font-bold text-black
                                     text-[10px] md:text-[14px] lg:text-[16px]
-                                ">${product.price}</p>
+                                ">₦{product.price}</p>
                                 <span className="
                                     inline-block bg-[#E6F6FB] text-[#212844] font-[300] rounded-full
                                     text-[8px] px-[6px] py-[4px]

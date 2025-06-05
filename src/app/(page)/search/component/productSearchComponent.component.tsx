@@ -1,9 +1,14 @@
 import Image from "next/image";
 import Sneakers from "../../../../../public/svg/sneaker.svg";
 import { useWishlistStore } from "@/features/wishList/store/wishlistStore";
-
+import { useWishlistModal } from "@/features/wishList/store/wishListModal.store";
+import { useAuth } from "@/context/auth.context";
+import { useRouter } from "next/navigation";
 export default function SearchProductCard() {
   const addToWishlist = useWishlistStore((state) => state.addToWishlist);
+  const openModal = useWishlistModal((state) => state.openModal);
+  const { login, isLoggedIn, logout } = useAuth();
+  const router = useRouter();
   const handleAddToWishlist = () => {
     const item = {
       id: "1234",
@@ -16,7 +21,7 @@ export default function SearchProductCard() {
   return (
     <div className="w-full max-w-sm md:p-[15px] p-[9px] mx-auto bg-white rounded-2xl">
       {/* Image Section */}
-      <div className="relative w-full overflow-hidden h-52 rounded-xl">
+      <div className="relative w-full overflow-hidden md:h-[152px] h-[113px] rounded-xl">
         <Image
           src={Sneakers} // Replace with actual image path
           alt="Ladies Nike Sneakers"
@@ -32,7 +37,18 @@ export default function SearchProductCard() {
 
         {/* Like Icon */}
         <button
-          onClick={handleAddToWishlist}
+          onClick={() => {
+            if (isLoggedIn) {
+              openModal({
+                id: "1234",
+                name: "Sneakers",
+                image: Sneakers,
+                price: 1500,
+              });
+            } else {
+              router.push("/auth/login");
+            }
+          }}
           className="absolute md:h-[34px] md:w-[34px] h-[21px] w-[21px] text-[8px] md:text-[16px]  flex justify-center items-center p-1 bg-white rounded-full shadow top-2 right-2"
         >
           <i className="ri-heart-3-line"></i>

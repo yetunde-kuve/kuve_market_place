@@ -2,8 +2,8 @@ import React from 'react';
 
 export interface ColorOption {
     id: string;
-    name: string;
-    value: string; // hex color
+    colorCode: string;
+    colorName: string; // hex color
     image?: string;
 }
 
@@ -27,8 +27,8 @@ export const ColorSelector: React.FC<ColorSelectorProps> = ({colors, selectedCol
                                 ? 'border-gray-900 ring-2 ring-gray-200'
                                 : 'border-gray-300 hover:border-gray-400'
                         }`}
-                        style={{ backgroundColor: color.value }}
-                        title={color.name}
+                        style={{ backgroundColor: color.colorCode }}
+                        title={color.colorName}
                     />
                 ))}
             </div>
