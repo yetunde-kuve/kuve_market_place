@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from "react";
 import { ColorOption, ColorSelector } from "../component/ColorSelector";
 import { SizeOption, SizeSelector } from "../component/SizeSelector";
@@ -32,17 +34,22 @@ export interface Review {
 export interface Product {
   id: string;
   name: string;
-  price: number;
+  discountPrice: number;
   originalPrice?: number;
+  availableQuantity: number;
+  timeOfListing: string;
   images: string[];
   colors: ColorOption[];
   sizes: SizeOption[];
   description: string;
   productDescription: string;
   features: string[];
+  brandName: string;
   shippingInfo: ShippingInfo;
   vendor: Vendor;
   inStock: boolean;
+  location: string;
+  productCode: string;
   rating?: number;
   reviewCount?: number;
   isVerified: boolean;
@@ -63,13 +70,7 @@ interface ProductDetailPageProps {
   onProductClick: (productId: string) => void;
 }
 
-export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
-  product,
-  reviews,
-  relatedProducts,
-  onAddToCart,
-  onProductClick,
-}) => {
+const ProductDetailsClient = ({product, relatedProducts, onAddToCart, onProductClick,}: ProductDetailPageProps) => {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.id || "");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
@@ -136,9 +137,14 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
         <div className="space-y-4 xl:space-y-6 md:space-y-2">
           <ProductInfo
             name={product.name}
-            price={product.price}
+            discountPrice={product.discountPrice}
             originalPrice={product.originalPrice}
+            location={product.location}
+            productCode={product.productCode}
+            availableQuantity={product.availableQuantity}
+            timeOfListing={product.timeOfListing}
             rating={product.rating}
+            brandName={product.brandName}
             reviewCount={product.reviewCount}
             inStock={product.inStock}
             description={product.description}
@@ -327,3 +333,5 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
     </div>
   );
 };
+
+export default ProductDetailsClient;

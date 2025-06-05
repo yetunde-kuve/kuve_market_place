@@ -4,20 +4,32 @@ import React, {useState} from 'react';
 import StoreLogo from "../../../../../public/svg/sStoreLogo.svg";
 import SearchStoreFront from "@/app/(page)/search/component/storeFront.component";
 import Image from "next/image";
+import {formatDistanceToNow} from "date-fns";
 
 interface ProductInfoProps {
     name: string;
-    price: number;
+    discountPrice: number;
     originalPrice?: number;
     rating?: number;
     reviewCount?: number;
     inStock: boolean;
     description: string
     isVerified: boolean;
+    brandName: string;
+    location: string;
+    productCode: string;
+    availableQuantity: number;
+    timeOfListing: string;
 }
 
-export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPrice, rating, reviewCount, inStock, description, isVerified}) => {
-    const discount = originalPrice ? Math.round(((originalPrice - price) / originalPrice) * 100) : 0;
+export const ProductInfo: React.FC<ProductInfoProps> = ({name, discountPrice, originalPrice, location, productCode, brandName, description, availableQuantity, isVerified, timeOfListing}) => {
+    const discount:number = originalPrice ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100) : 0;
+
+
+    const formatTimeAgo = (dateString: string): string => {
+        const date = new Date(dateString);
+        return formatDistanceToNow(date, { addSuffix: true });
+    };
 
     return (
         <div className="space-y-2">
@@ -25,7 +37,7 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPr
 
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                    <span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>
+                    {/*<span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>*/}
                     {originalPrice && (
                         <>
                             <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">₦{originalPrice}</span>
@@ -53,21 +65,21 @@ export const ProductInfo: React.FC<ProductInfoProps> = ({name, price, originalPr
                     </div>
 
                     <div>
-                        <p className="text-[12.47px] font-[700] text-[#060619]">ShopPoint</p>
+                        <p className="text-[12.47px] font-[700] text-[#060619]">{brandName}</p>
                     </div>
                 </div>
             </div>
 
             <div className="flex justify-between items-center">
                 <div>
-                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Sku: <span className='font-semibold text-[#000000]'>A264671</span></p>
-                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Brand: <span className='font-semibold text-[#000000]'>Outlitters</span></p>
-                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Location: <span className='font-semibold text-[#000000]'>Lagos</span></p>
+                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Sku: <span className='font-semibold text-[#000000]'>{productCode}</span></p>
+                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Brand: <span className='font-semibold text-[#000000]'>{brandName}</span></p>
+                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Location: <span className='font-semibold text-[#000000]'>{location}</span></p>
                 </div>
                 <div>
-                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Availability:  <span className='font-semibold text-green-500'>20 left</span></p>
+                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Availability:  <span className='font-semibold text-green-500'>{availableQuantity} left</span></p>
                     <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Category:  <span className='font-semibold text-[#000000]'>T-shirt</span></p>
-                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Time of listing:  <span className='font-semibold text-[#000000]'>2 days ago</span></p>
+                    <p className="text-[10.57px] md:text-[14px] font-normal text-gray-500 py-1">Time of listing:  <span className='font-semibold text-[#000000]'>{formatTimeAgo(timeOfListing)}</span></p>
                 </div>
             </div>
         </div>

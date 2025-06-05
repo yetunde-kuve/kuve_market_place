@@ -27,19 +27,15 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     // Handle file upload
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
-
         if (!file) return;
-
         if (!file.type.startsWith("image/")) {
             alert("Only image files are allowed.");
             return;
         }
-
         if (file.size > 25 * 1024 * 1024) {
             alert("File size must be less than 25MB.");
             return;
         }
-
         const reader = new FileReader();
         reader.onloadend = () => {
             setBase64Image(reader.result as string);
@@ -80,7 +76,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 htmlFor="description"
                                 className="block text-[12.57px] md:text-[16px] font-normal text-[#121212] pb-1"
                             >
-                                Tell us more about the reason (Optional)
+                                Select your reason
                             </label>
                             <Select
                                 fullWidth

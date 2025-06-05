@@ -95,7 +95,7 @@ export const RelatedProducts: React.FC<RelatedProductsProps> = ({products, onPro
                                 <p className="
                                     font-bold text-black
                                     text-[10px] md:text-[14px] lg:text-[16px]
-                                ">${product.price}</p>
+                                ">₦{product.price}</p>
                                 <span className="
                                     inline-block bg-[#E6F6FB] text-[#212844] font-[300] rounded-full
                                     text-[8px] px-[6px] py-[4px]
