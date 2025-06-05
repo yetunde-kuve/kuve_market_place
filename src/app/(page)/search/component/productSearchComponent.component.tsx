@@ -21,7 +21,7 @@ export default function SearchProductCard() {
   return (
     <div className="w-full max-w-sm md:p-[15px] p-[9px] mx-auto bg-white rounded-2xl">
       {/* Image Section */}
-      <div className="relative w-full overflow-hidden h-52 rounded-xl">
+      <div className="relative w-full overflow-hidden md:h-[152px] h-[113px] rounded-xl">
         <Image
           src={Sneakers} // Replace with actual image path
           alt="Ladies Nike Sneakers"

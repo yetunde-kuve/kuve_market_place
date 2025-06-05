@@ -58,7 +58,7 @@ export default function CartDropdown() {
         anchorEl={anchorRef.current}
         placement="bottom-end"
         transition
-        className="z-[9999]"
+        className="z-[9999] "
         disablePortal
         modifiers={[
           {
@@ -71,12 +71,12 @@ export default function CartDropdown() {
       >
         {({ TransitionProps }) => (
           <Grow {...TransitionProps}>
-            <Paper className=" md:mx-0 m-auto w-screen sm:w-[320px] md:w-[376px] lg:w-[464px] max-h-[90vh] rounded-xl shadow-lg overflow-hidden">
+            <Paper className=" md:mx-0 m-auto w-screen  md:w-[376px] lg:w-[376x]  max-h-[90vh] rounded-xl shadow-lg overflow-hidden">
               <ClickAwayListener onClickAway={handleClose}>
-                <div className="flex flex-col h-[80vh] sm:h-[464px] md:h-[464px] ">
+                <div className="flex flex-col h-[80vh] sm:h-[464px] md:h-[464px]  ">
                   {/* Sticky Header */}
                   {cart.length > 0 && (
-                    <div className="sticky top-0 z-10 px-[24px] py-3 bg-white border-b">
+                    <div className="sticky top-0 z-10 px-[24px] py-3 bg-white border-b ">
                       <p className="text-[16px] font-[500] text-[#191C1F]">
                         SHOPPING CART{" "}
                         <span className="text-[#5F6C72]">{`(${cart.length})`}</span>

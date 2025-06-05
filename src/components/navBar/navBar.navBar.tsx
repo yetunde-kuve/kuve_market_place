@@ -278,23 +278,46 @@ export default function NavBar() {
                 {isLoggedIn ? (
                   <WishListDropdown />
                 ) : (
-                  <svg
-                    className="cursor-pointer"
-                    onClick={() => router.push("/auth/login")}
-                    width="35"
-                    height="36"
-                    viewBox="0 0 35 36"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M11.75 8.10254C8.57485 8.10254 6 10.712 6 13.9314C6 16.5303 7.00625 22.6984 16.9112 28.9335C17.0886 29.0441 17.2923 29.1025 17.5 29.1025C17.7077 29.1025 17.9114 29.0441 18.0888 28.9335C27.9937 22.6984 29 16.5303 29 13.9314C29 10.712 26.4251 8.10254 23.25 8.10254C20.0748 8.10254 17.5 11.6352 17.5 11.6352C17.5 11.6352 14.9251 8.10254 11.75 8.10254Z"
-                      stroke="#000222"
-                      stroke-width="1.5"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    />
-                  </svg>
+                  <IconDropdown
+                    key={"account_id"}
+                    icon={
+                      <svg
+                        width="25"
+                        height="23"
+                        viewBox="0 0 25 23"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <path
+                          d="M6.75 1.10254C3.57485 1.10254 1 3.71201 1 6.93145C1 9.53032 2.00625 15.6984 11.9112 21.9335C12.0886 22.0441 12.2923 22.1025 12.5 22.1025C12.7077 22.1025 12.9114 22.0441 13.0888 21.9335C22.9937 15.6984 24 9.53032 24 6.93145C24 3.71201 21.4251 1.10254 18.25 1.10254C15.0748 1.10254 12.5 4.63521 12.5 4.63521C12.5 4.63521 9.92515 1.10254 6.75 1.10254Z"
+                          stroke="#000222"
+                          stroke-width="1.5"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                        />
+                      </svg>
+                    }
+                    title={
+                      <div>
+                        {!isLoggedIn ? (
+                          <p>Account</p>
+                        ) : (
+                          <div className="flex items-center gap-2">
+                            <Avatar sx={{ width: 34, height: 34 }} />
+                            <div className="flex flex-col items-start">
+                              <p className="text-[14px] font-[700] text-[#111928]">
+                                Jese Leos
+                              </p>
+                              <p className="text-[12px] font-[400] text-[#828294]">
+                                Jese@gmail.com
+                              </p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    }
+                    options={options}
+                  />
                 )}
 
                 <CartDropdown />
