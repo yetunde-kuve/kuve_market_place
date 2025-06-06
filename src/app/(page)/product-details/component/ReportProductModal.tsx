@@ -7,6 +7,12 @@ interface ModalProps {
     onClose: () => void;
 }
 
+type ReasonItem = {
+    id: string;
+    reportReason: string;
+};
+
+
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const [reason, setReason] = useState("");
     const [description, setDescription] = useState("");
@@ -14,7 +20,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [base64Image, setBase64Image] = useState<string | null>(null);
     const mpHttp = new MPHttpUtilNoSecure();
-    const [reasonsList, setReasonsList] = useState<string[]>([]);
+    const [reasonsList, setReasonsList] = useState<ReasonItem[]>([]);
     const handleDivClick = () => {
         fileInputRef.current?.click();
     };
@@ -57,12 +63,22 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
     };
 
     useEffect(() => {
-        fetchData()
+        let isMounted = true;
+        fetchData().then((data:any) => {
+            if (isMounted) {
+                setReasonsList(data);
+            }
+        });
+        return () => {
+            isMounted = false;
+        };
     }, []);
 
-    const report = () => {
+
+    const report = (e: React.FormEvent) => {
+        e.preventDefault(); // Prevent page reload
         console.log(reason, description, file);
-    }
+    };
 
     return (
         <Backdrop sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })} open={isOpen}>
@@ -72,7 +88,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                     <h2 className="text-[20px] text-center font-bold">Report Product</h2>
                     <Divider />
                     {/* Form */}
-                    <form className="space-y-4 overflow-y-auto">
+                    <form className="space-y-4 overflow-y-auto" onSubmit={report}>
                         {/* Select Reason */}
                         <div>
                             <label
@@ -128,11 +144,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                                 }}
                             >
                                 <MenuItem value="">Select option</MenuItem>
-                                {reasonsList.map((name:any) => (
-                                    <MenuItem key={name.id} value={name.id}>
-                                        {name.reportReason}
-                                    </MenuItem>
-                                ))}
+                                {Array.isArray(reasonsList) &&
+                                    reasonsList.map((name: any) => (
+                                        <MenuItem key={name.id} value={name.id}>
+                                            {name.reportReason}
+                                        </MenuItem>
+                                    ))}
                             </Select>
                         </div>
 
@@ -214,7 +231,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         {/* Actions */}
                         <div className="sticky bottom-[-100px] z-10 bg-white">
                             <button
-                                onClick={report}
+                                type={"submit"}
                                 className="w-full bg-[#000222] text-white text-[14px] font-[400] h-[40px] rounded-lg"
                             >
                                 Report Product

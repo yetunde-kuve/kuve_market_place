@@ -14,6 +14,7 @@ import { FaHeart, FaRegHeart } from "react-icons/fa";
 import { Copy } from "lucide-react";
 import { MessageIcon } from "@/app/(page)/product-details/component/MessageIcon";
 import ReportProductModal from "@/app/(page)/product-details/component/ReportProductModal";
+import {Product} from "@/app/(page)/product-details/types/product";
 
 export interface Vendor {
   id: string;
@@ -31,29 +32,7 @@ export interface Review {
   verified: boolean;
 }
 
-export interface Product {
-  id: string;
-  name: string;
-  discountPrice: number;
-  originalPrice?: number;
-  availableQuantity: number;
-  timeOfListing: string;
-  images: string[];
-  colors: ColorOption[];
-  sizes: SizeOption[];
-  description: string;
-  productDescription: string;
-  features: string[];
-  brandName: string;
-  shippingInfo: ShippingInfo;
-  vendor: Vendor;
-  inStock: boolean;
-  location: string;
-  productCode: string;
-  rating?: number;
-  reviewCount?: number;
-  isVerified: boolean;
-}
+
 
 interface ProductDetailPageProps {
   product: Product;
@@ -68,22 +47,17 @@ interface ProductDetailPageProps {
     }
   ) => Promise<void>;
   onProductClick: (productId: string) => void;
+  productId: string
+  isModalOpen: boolean;
+  onOpenModal: () => void;
+  onCloseModal: () => void;
 }
 
-const ProductDetailsClient = ({product, relatedProducts, onAddToCart, onProductClick,}: ProductDetailPageProps) => {
+const ProductDetailsClient = ({product, relatedProducts, onAddToCart, onProductClick,productId, isModalOpen, onCloseModal, onOpenModal}: ProductDetailPageProps) => {
   const [selectedColor, setSelectedColor] = useState(product.colors[0]?.id || "");
   const [selectedSize, setSelectedSize] = useState("");
   const [quantity, setQuantity] = useState(1);
   const [isAddingToCart, setIsAddingToCart] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
 
   const handleAddToCart = async () => {
     if (!selectedSize) {
@@ -294,7 +268,7 @@ const ProductDetailsClient = ({product, relatedProducts, onAddToCart, onProductC
             </div>
           </div>
 
-          <div className="flex items-center gap-1 cursor-pointer" onClick={openModal}>
+          <div className="flex items-center gap-1 cursor-pointer" onClick={onOpenModal}>
             <svg
               width="24"
               height="24"
@@ -317,6 +291,7 @@ const ProductDetailsClient = ({product, relatedProducts, onAddToCart, onProductC
           description={product.productDescription}
           features={product.features}
           shippingInfo={product.shippingInfo}
+          productId={productId}
         />
       </div>
 
@@ -329,7 +304,7 @@ const ProductDetailsClient = ({product, relatedProducts, onAddToCart, onProductC
         <MessageIcon />
       </div>
 
-      <ReportProductModal isOpen={isModalOpen} onClose={closeModal} />
+      <ReportProductModal isOpen={isModalOpen} onClose={onCloseModal} />
     </div>
   );
 };
