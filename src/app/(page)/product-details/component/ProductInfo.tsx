@@ -23,17 +23,17 @@ interface ProductInfoProps {
 }
 
 export const ProductInfo: React.FC<ProductInfoProps> = ({name, discountPrice, originalPrice, location, productCode, brandName, description, availableQuantity, isVerified, timeOfListing}) => {
-    const calculateDiscountPercentage = (originalPrice: number | undefined, discountAmount: number): string => {
+    const calculateDiscountPercentage = (originalPrice: number, discountAmount: number): string => {
         const percentage = (discountAmount / originalPrice) * 100;
         return `${Math.round(percentage)}%`;
     };
-    const calculateNewPrice = (originalPrice: number | undefined, discountPrice: number): number => {
+
+    const calculateNewPrice = (originalPrice: number, discountPrice: number): number => {
         return originalPrice - discountPrice;
     };
 
-    const price = calculateNewPrice(originalPrice,discountPrice)
-
-    const discount = calculateDiscountPercentage(originalPrice, discountPrice)
+    const price = originalPrice ? calculateNewPrice(originalPrice, discountPrice) : discountPrice;
+    const discount = originalPrice ? calculateDiscountPercentage(originalPrice, discountPrice) : null;
 
     const formatTimeAgo = (dateString: string): string => {
         const date = new Date(dateString);
