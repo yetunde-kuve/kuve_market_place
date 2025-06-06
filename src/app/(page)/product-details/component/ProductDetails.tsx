@@ -12,9 +12,10 @@ interface ProductDetailsProps {
     description: string;
     features: string[];
     shippingInfo: ShippingInfo;
+    productId: string;
 }
 
-export const ProductDetails: React.FC<ProductDetailsProps> = ({description, features, shippingInfo,}) => {
+export const ProductDetails: React.FC<ProductDetailsProps> = ({description, features, shippingInfo, productId}) => {
     const [activeTab, setActiveTab] = useState<'details' | 'feedbacks'>('details');
 
     const tabs = [
@@ -134,7 +135,7 @@ export const ProductDetails: React.FC<ProductDetailsProps> = ({description, feat
                 )}
 
                 {activeTab === 'feedbacks' && (
-                   <FeedbackComponent />
+                   <FeedbackComponent productId={productId}/>
                 )}
             </div>
         </div>

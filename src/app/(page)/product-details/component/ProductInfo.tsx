@@ -23,27 +23,39 @@ interface ProductInfoProps {
 }
 
 export const ProductInfo: React.FC<ProductInfoProps> = ({name, discountPrice, originalPrice, location, productCode, brandName, description, availableQuantity, isVerified, timeOfListing}) => {
-    const discount:number = originalPrice ? Math.round(((originalPrice - discountPrice) / originalPrice) * 100) : 0;
+    const calculateDiscountPercentage = (originalPrice: number, discountAmount: number): string => {
+        const percentage = (discountAmount / originalPrice) * 100;
+        return `${Math.round(percentage)}%`;
+    };
 
+    const calculateNewPrice = (originalPrice: number, discountPrice: number): number => {
+        return originalPrice - discountPrice;
+    };
+
+    const price = originalPrice ? calculateNewPrice(originalPrice, discountPrice) : discountPrice;
+    const discount = originalPrice ? calculateDiscountPercentage(originalPrice, discountPrice) : null;
 
     const formatTimeAgo = (dateString: string): string => {
         const date = new Date(dateString);
-        return formatDistanceToNow(date, { addSuffix: true });
+        const result = formatDistanceToNow(date, { addSuffix: true });
+        return result.replace('about ', '');
     };
 
+
+    // @ts-ignore
     return (
         <div className="space-y-2">
             <h1 className="text-2xl xl:text-[32px] text-[24.16px] font-normal text-[#000000]">{name}</h1>
 
             <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                    {/*<span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>*/}
+                    <span className="xl:text-[40.73px] text-[30.75px] font-bold text-[#000000]">₦{price}</span>
                     {originalPrice && (
                         <>
                             <span className="xl:text-[40.73px] text-[30.75px] font-bold text-gray-300 line-through">₦{originalPrice}</span>
                             <span className="bg-red-100 text-[#FF3333] text-sm xl:text-[16px] text-[12.08px] font-medium px-3 py-1 rounded-full">
-                -{discount}%
-              </span>
+                                -{discount}
+                            </span>
                         </>
                     )}
                 </div>

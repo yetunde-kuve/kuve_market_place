@@ -2,100 +2,24 @@
 
 import React, { useState, useEffect } from 'react';
 import LandingPageWrapper from "@/layouts/landingPageWrapper/landingPageWrapper.wrapper";
-import {Product, Review} from "@/app/(page)/product-details/features/productDetailsClient.client";
+import {Review} from "@/app/(page)/product-details/features/productDetailsClient.client";
 import {RelatedProduct} from "@/app/(page)/product-details/component/RelatedProducts";
 import dynamic from "next/dynamic";
 import {MPHttpUtilNoSecure} from "@/utils/MPHttpNosecure.utils";
+import {useProductDetailStore} from "@/store/productDetails/productDetailStore.store";
+import {Product} from "@/app/(page)/product-details/types/product";
+
 
 // Dynamically import the client component with no SSR
 const ProductDetailsClient = dynamic(() => import("./features/productDetailsClient.client"), {
     ssr: false,
 });
 
-// Define the API response type
-interface ApiResponse {
-    status: boolean;
-    message: string;
-    statusCode: string;
-    data: {
-        id: string;
-        isAvailable: boolean;
-        productCategoryId: string;
-        productConditionId: string;
-        minimumPrice: number;
-        maximumPrice: number;
-        actualPrice: number;
-        productName: string;
-        productCode: string;
-        productDescription: string;
-        brandName: string;
-        productLocation: string | null;
-        sellerId: string;
-        productCurrencyId: string;
-        defaultImageUrl: string;
-        productBrandId: string;
-        popularTagId: string;
-        oldPrice: number;
-        discount: number;
-        availableColours: Array<{
-            id: string;
-            name: string;
-            value: string;
-        }>;
-        availableSizes: Array<{
-            id: string;
-            name: string;
-            available: boolean;
-        }>;
-        paymentOption: Array<{
-            optionName: string;
-            optionId: string;
-        }>;
-    };
-}
-
-interface RelatedProductsApiResponse {
-    status: boolean;
-    message: string;
-    statusCode: string;
-    data: {
-        items: Array<{
-            id: string;
-            isAvailable: boolean;
-            productCategoryId: string;
-            productConditionId: string;
-            minimumPrice: number;
-            maximumPrice: number;
-            actualPrice: number;
-            productName: string;
-            productCode: string;
-            productDescription: string;
-            brandName: string;
-            productLocation: string | null;
-            sellerId: string;
-            productCurrencyId: string;
-            defaultImageUrl: string;
-            productBrandId: string;
-            popularTagId: string;
-            oldPrice: number;
-            discount: number;
-            availableColours: Array<any>;
-            availableSizes: Array<any>;
-            paymentOption: Array<{
-                optionName: string;
-                optionId: string;
-            }>;
-        }>;
-        totalCount: number;
-        pageNumber: number;
-        pageSize: number;
-    };
-}
-
 interface FetchProductResult {
     product: Product | null;
     error: string | null;
 }
+// ... (Keep all your existing interfaces and fetch functions)
 
 const fetchProduct = (productId: string): Promise<FetchProductResult> => {
     const mpHttp = new MPHttpUtilNoSecure();
@@ -134,14 +58,14 @@ const fetchProduct = (productId: string): Promise<FetchProductResult> => {
                         id: productData.id,
                         name: productData.productName || 'Unknown Product',
                         discountPrice: productData.discount || 0,
-                        originalPrice: productData.actualPrice,
+                        originalPrice: productData.actualPrice ?? 0,
                         isVerified: productData.isVerified,
                         brandName: productData.brandName,
-                        location: productData.location,
+                        location: productData.productLocation,
                         productCode: productData.productCode,
-                        availableQuantity: productData.avilableQuantity,
+                        availableQuantity: productData.availableQuantity,
                         timeOfListing: productData.timeOfListing,
-                        images: productData.defaultImageUrl ? [productData.defaultImageUrl] : ['/img/placeholder.png'],
+                        images: productData?.additionalImages,
                         colors: productData.availableColours && productData.availableColours.length > 0
                             ? productData.availableColours
                             : [
@@ -156,7 +80,7 @@ const fetchProduct = (productId: string): Promise<FetchProductResult> => {
                                 { id: 'xl', size: 'X-Large', available: true },
                             ],
                         description: productData.productDescription || 'No description available',
-                        productDescription: productData.productDescription || 'No description available',
+                        productDescription: productData.additionalDescription,
                         features: [
                             'Premium quality',
                             productData.brandName ? `Brand: ${productData.brandName}` : 'Brand: Unknown',
@@ -187,38 +111,29 @@ const fetchProduct = (productId: string): Promise<FetchProductResult> => {
     });
 };
 
-    const fetchReviews = (): Promise<Review[]> => {
-        return Promise.resolve([
-            {
-                id: '1',
-                author: 'Sarah M.',
-                rating: 5,
-                comment: 'Great quality product! Exactly as described.',
-                date: 'August 14, 2023',
-                verified: true,
-            },
-            {
-                id: '2',
-                author: 'Mike D.',
-                rating: 4,
-                comment: 'Good value for money. Fast delivery.',
-                date: 'August 10, 2023',
-                verified: true,
-            },
-        ]);
-    };
-
+const fetchReviews = (): Promise<Review[]> => {
+    return Promise.resolve([
+        {
+            id: '1',
+            author: 'Sarah M.',
+            rating: 5,
+            comment: 'Great quality product! Exactly as described.',
+            date: 'August 14, 2023',
+            verified: true,
+        },
+        {
+            id: '2',
+            author: 'Mike D.',
+            rating: 4,
+            comment: 'Good value for money. Fast delivery.',
+            date: 'August 10, 2023',
+            verified: true,
+        },
+    ]);
+};
 
 const fetchRelatedProducts = (sellerId: string, currentProductId?: string): Promise<RelatedProduct[]> => {
-    if (!sellerId) {
-        // Return empty array if no sellerId is provided
-        console.log('No sellerId provided for related products');
-        return Promise.resolve([]);
-    }
-
     const mpHttp = new MPHttpUtilNoSecure();
-
-    console.log('Fetching related products for sellerId:', sellerId);
 
     return new Promise<RelatedProduct[]>((resolve) => {
         mpHttp.get(
@@ -226,35 +141,13 @@ const fetchRelatedProducts = (sellerId: string, currentProductId?: string): Prom
             {},
             {},
             (result: any, err: any) => {
-                console.log('=== RELATED PRODUCTS API DEBUG ===');
-                console.log('Error parameter:', err);
-                console.log('Result parameter:', result);
-                console.log('Result type:', typeof result);
-                console.log('Result status:', result?.status);
-                console.log('Result data exists:', !!result?.data);
-                console.log('Items count:', result?.data?.items?.length);
-                console.log('=== END DEBUG ===');
-
                 if (err) {
                     console.error("Error fetching related products:", err);
                     resolve([]);
                     return;
                 }
-
-                if (!result) {
-                    console.error("No result returned from related products API");
-                    resolve([]);
-                    return;
-                }
-
                 // Handle both wrapped and direct response formats
                 const responseData = result.data || result; // Use result.data if it exists, otherwise use result directly
-
-                if (!responseData || !responseData.items) {
-                    console.error("No items in related products API response");
-                    resolve([]);
-                    return;
-                }
 
                 try {
                     // Transform API data to RelatedProduct interface and filter out current product
@@ -280,127 +173,212 @@ const fetchRelatedProducts = (sellerId: string, currentProductId?: string): Prom
     });
 };
 
-    interface PageProps {
-        params?: {
-            productId?: string;
-        };
-    }
+interface PageProps {
+    params?: {
+        productId?: string;
+    };
+}
 
-    const Page: React.FC<PageProps> = ({ params }) => {
-        const [product, setProduct] = useState<Product | null>(null);
-        const [reviews, setReviews] = useState<Review[]>([]);
-        const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
-        const [loading, setLoading] = useState(true);
-        const [error, setError] = useState<string | null>(null);
+const Page: React.FC<PageProps> = ({ params }) => {
+    const [product, setProduct] = useState<Product | null>(null);
+    const [reviews, setReviews] = useState<Review[]>([]);
+    const [relatedProducts, setRelatedProducts] = useState<RelatedProduct[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [loadedFromCache, setLoadedFromCache] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-        const productId = params?.productId || "d22d5f9d-8002-44bf-9f65-a81ff667012c";
 
-        console.log('Page component - productId:', productId);
+    // Use selective store subscriptions to avoid unnecessary re-renders
+    const isCacheValid = useProductDetailStore(state => state.isCacheValid);
+    const getProductDetails = useProductDetailStore(state => state.getProductDetails);
+    const setProductDetails = useProductDetailStore(state => state.setProductDetails);
+    const clearProductCache = useProductDetailStore(state => state.clearProductCache);
+    const isProductLoading = useProductDetailStore(state => state.isProductLoading);
+    const setProductLoading = useProductDetailStore(state => state.setProductLoading);
 
-        useEffect(() => {
-            const loadData = async () => {
-                try {
-                    setLoading(true);
-                    setError(null);
+    const productId = params?.productId || "d22d5f9d-8002-44bf-9f65-a81ff667012c";
 
-                    // First fetch the product data
-                    const productResult = await fetchProduct(productId);
+    useEffect(() => {
+        const loadData = async () => {
+            // Prevent multiple simultaneous loads for the same product
+            if (isProductLoading(productId)) {
+                console.log('⏳ Product already loading, skipping...');
+                return;
+            }
 
-                    if (productResult.error) {
-                        setError(productResult.error);
+            try {
+                // Check if we have valid cached data first
+                if (isCacheValid(productId)) {
+                    const cachedData = getProductDetails(productId);
+                    if (cachedData) {
+                        console.log('✅ Loading from cache for product:', productId);
+                        setProduct(cachedData.product);
+                        setReviews(cachedData.reviews);
+                        setRelatedProducts(cachedData.relatedProducts);
+                        setLoadedFromCache(true);
                         setLoading(false);
                         return;
                     }
-
-                    // Set the product data
-                    setProduct(productResult.product);
-
-                    // Now fetch reviews and related products using the sellerId from the product
-                    const sellerId = productResult.product?.vendor?.id || '';
-
-                    const [reviewsResult, relatedProductsResult] = await Promise.all([
-                        fetchReviews(),
-                        fetchRelatedProducts(sellerId, productId) // Pass current productId to filter it out
-                    ]);
-
-                    setReviews(reviewsResult);
-                    setRelatedProducts(relatedProductsResult);
-
-                } catch (err) {
-                    console.error('Error loading data:', err);
-                    setError('An unexpected error occurred while loading the product.');
-                } finally {
-                    setLoading(false);
                 }
-            };
 
-            loadData();
-        }, [productId]);
+                // Mark as loading
+                setProductLoading(productId, true);
+                setLoading(true);
+                setError(null);
+                setLoadedFromCache(false);
 
-        const handleAddToCart = async (productId: string, options: any) => {
-            console.log('Adding to cart:', productId, options);
-            try {
-                // Implement actual add to cart API call here
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                alert('Product added to cart!');
-            } catch (error) {
-                console.error('Error adding to cart:', error);
-                alert('Failed to add product to cart. Please try again.');
+                console.log('🌐 Loading fresh data for product:', productId);
+
+                // First fetch the product data
+                const productResult = await fetchProduct(productId);
+
+                if (productResult.error) {
+                    setError(productResult.error);
+                    setLoading(false);
+                    setProductLoading(productId, false);
+                    return;
+                }
+
+                // Set the product data
+                setProduct(productResult.product);
+
+                // Now fetch reviews and related products using the sellerId from the product
+                const sellerId = productResult.product?.vendor?.id || '';
+
+                const [reviewsResult, relatedProductsResult] = await Promise.all([
+                    fetchReviews(),
+                    fetchRelatedProducts(sellerId, productId)
+                ]);
+
+                setReviews(reviewsResult);
+                setRelatedProducts(relatedProductsResult);
+
+                // Cache the data for future use (this will also clear the loading state)
+                if (productResult.product) {
+                    setProductDetails(productId, {
+                        product: productResult.product,
+                        reviews: reviewsResult,
+                        relatedProducts: relatedProductsResult,
+                    });
+                    console.log('💾 Data cached for product:', productId);
+                }
+
+            } catch (err) {
+                console.error('Error loading data:', err);
+                setError('An unexpected error occurred while loading the product.');
+                setProductLoading(productId, false);
+            } finally {
+                setLoading(false);
             }
         };
 
-        const handleProductClick = (productId: string) => {
-            console.log('Navigate to:', productId);
-            // Implement navigation to product page
-        };
+        loadData();
+    }, [productId]); // Only productId as dependency
 
-        if (loading) {
-            return (
-                <LandingPageWrapper>
-                    <div className="mx-auto px-4 py-8">
-                        <div className="text-center">
-                            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
-                            <p className="mt-4 text-gray-600">Loading product...</p>
-                        </div>
-                    </div>
-                </LandingPageWrapper>
-            );
+    // Function to force refresh data (clears cache and reloads)
+    const forceRefresh = async () => {
+        clearProductCache(productId);
+        setLoading(true);
+        // Trigger a re-render by updating the effect dependency
+        window.location.reload();
+    };
+
+    const handleAddToCart = async (productId: string, options: any) => {
+        console.log('Adding to cart:', productId, options);
+        try {
+            // Implement actual add to cart API call here
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            alert('Product added to cart!');
+        } catch (error) {
+            console.error('Error adding to cart:', error);
+            alert('Failed to add product to cart. Please try again.');
         }
+    };
 
-        if (error || !product) {
-            return (
-                <LandingPageWrapper>
-                    <div className="mx-auto px-4 py-8">
-                        <div className="text-center">
-                            <h1 className="text-2xl font-bold text-red-600 mb-4">
-                                Product Not Found
-                            </h1>
-                            <p className="text-gray-600">
-                                {error || "The requested product could not be loaded."}
-                            </p>
+    const handleProductClick = (productId: string) => {
+        console.log('Navigate to:', productId);
+        // Implement navigation to product page
+        // Note: This will automatically use cache if available
+    };
+
+    const openModal = () => setIsModalOpen(true);
+    const closeModal = () => setIsModalOpen(false);
+
+    if (loading) {
+        return (
+            <LandingPageWrapper>
+                <div className="mx-auto px-4 py-8">
+                    <div className="text-center">
+                        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-gray-900 mx-auto"></div>
+                        <p className="mt-4 text-gray-600">
+                            Loading product...
+                        </p>
+                    </div>
+                </div>
+            </LandingPageWrapper>
+        );
+    }
+
+    if (error || !product) {
+        return (
+            <LandingPageWrapper>
+                <div className="mx-auto px-4 py-8">
+                    <div className="text-center">
+                        <h1 className="text-2xl font-bold text-red-600 mb-4">
+                            Product Not Found
+                        </h1>
+                        <p className="text-gray-600">
+                            {error || "The requested product could not be loaded."}
+                        </p>
+                        <div className="mt-4 space-x-2">
                             <button
                                 onClick={() => window.location.reload()}
-                                className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
                             >
                                 Try Again
                             </button>
+                            <button
+                                onClick={forceRefresh}
+                                className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-600"
+                            >
+                                Force Refresh
+                            </button>
                         </div>
                     </div>
-                </LandingPageWrapper>
-            );
-        }
-
-        return (
-            <LandingPageWrapper>
-                <ProductDetailsClient
-                    product={product}
-                    reviews={reviews}
-                    relatedProducts={relatedProducts}
-                    onAddToCart={handleAddToCart}
-                    onProductClick={handleProductClick}
-                />
+                </div>
             </LandingPageWrapper>
         );
-    };
+    }
 
-    export default Page;
+    return (
+        <LandingPageWrapper>
+            {/* Optional: Show cache status for debugging */}
+            {process.env.NODE_ENV === 'development' && (
+                <div className="bg-gray-100 p-2 text-sm">
+                    {loadedFromCache ? '✅ Loaded from cache' : '🌐 Loaded from API'} |
+                    <button
+                        onClick={forceRefresh}
+                        className="ml-2 text-blue-600 hover:underline"
+                    >
+                        Force Refresh
+                    </button>
+                </div>
+            )}
+
+            <ProductDetailsClient
+                product={product}
+                reviews={reviews}
+                relatedProducts={relatedProducts}
+                onAddToCart={handleAddToCart}
+                onProductClick={handleProductClick}
+                productId={productId}
+                isModalOpen={isModalOpen}
+                onOpenModal={openModal}
+                onCloseModal={closeModal}
+            />
+        </LandingPageWrapper>
+    );
+};
+
+export default Page;
