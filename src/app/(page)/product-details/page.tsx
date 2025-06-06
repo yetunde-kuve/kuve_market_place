@@ -137,11 +137,11 @@ const fetchProduct = (productId: string): Promise<FetchProductResult> => {
                         originalPrice: productData.actualPrice,
                         isVerified: productData.isVerified,
                         brandName: productData.brandName,
-                        location: productData.location,
+                        location: productData.productLocation,
                         productCode: productData.productCode,
-                        availableQuantity: productData.avilableQuantity,
+                        availableQuantity: productData.availableQuantity,
                         timeOfListing: productData.timeOfListing,
-                        images: productData.defaultImageUrl ? [productData.defaultImageUrl] : ['/img/placeholder.png'],
+                        images: productData?.additionalImages,
                         colors: productData.availableColours && productData.availableColours.length > 0
                             ? productData.availableColours
                             : [
@@ -156,7 +156,7 @@ const fetchProduct = (productId: string): Promise<FetchProductResult> => {
                                 { id: 'xl', size: 'X-Large', available: true },
                             ],
                         description: productData.productDescription || 'No description available',
-                        productDescription: productData.productDescription || 'No description available',
+                        productDescription: productData.additionalDescription,
                         features: [
                             'Premium quality',
                             productData.brandName ? `Brand: ${productData.brandName}` : 'Brand: Unknown',
@@ -210,15 +210,7 @@ const fetchProduct = (productId: string): Promise<FetchProductResult> => {
 
 
 const fetchRelatedProducts = (sellerId: string, currentProductId?: string): Promise<RelatedProduct[]> => {
-    if (!sellerId) {
-        // Return empty array if no sellerId is provided
-        console.log('No sellerId provided for related products');
-        return Promise.resolve([]);
-    }
-
     const mpHttp = new MPHttpUtilNoSecure();
-
-    console.log('Fetching related products for sellerId:', sellerId);
 
     return new Promise<RelatedProduct[]>((resolve) => {
         mpHttp.get(
@@ -226,35 +218,13 @@ const fetchRelatedProducts = (sellerId: string, currentProductId?: string): Prom
             {},
             {},
             (result: any, err: any) => {
-                console.log('=== RELATED PRODUCTS API DEBUG ===');
-                console.log('Error parameter:', err);
-                console.log('Result parameter:', result);
-                console.log('Result type:', typeof result);
-                console.log('Result status:', result?.status);
-                console.log('Result data exists:', !!result?.data);
-                console.log('Items count:', result?.data?.items?.length);
-                console.log('=== END DEBUG ===');
-
                 if (err) {
                     console.error("Error fetching related products:", err);
                     resolve([]);
                     return;
                 }
-
-                if (!result) {
-                    console.error("No result returned from related products API");
-                    resolve([]);
-                    return;
-                }
-
                 // Handle both wrapped and direct response formats
                 const responseData = result.data || result; // Use result.data if it exists, otherwise use result directly
-
-                if (!responseData || !responseData.items) {
-                    console.error("No items in related products API response");
-                    resolve([]);
-                    return;
-                }
 
                 try {
                     // Transform API data to RelatedProduct interface and filter out current product

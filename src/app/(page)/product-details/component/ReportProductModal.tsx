@@ -56,10 +56,13 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
         });
     };
 
-
     useEffect(() => {
         fetchData()
     }, []);
+
+    const report = () => {
+        console.log(reason, description, file);
+    }
 
     return (
         <Backdrop sx={(theme) => ({ zIndex: theme.zIndex.drawer + 1 })} open={isOpen}>
@@ -211,7 +214,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose }) => {
                         {/* Actions */}
                         <div className="sticky bottom-[-100px] z-10 bg-white">
                             <button
-                                // onClick={handleAdd}
+                                onClick={report}
                                 className="w-full bg-[#000222] text-white text-[14px] font-[400] h-[40px] rounded-lg"
                             >
                                 Report Product
